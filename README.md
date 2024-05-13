@@ -16,6 +16,11 @@ All other constants will only have the first character in caps. examples:
 `const MouseStartPosition`  
   
 ### Naming convections:  
+
+### File names:
+The first letter of each word shall be in caps:
+`Colors`
+`AdvisorScreen`
   
 #### Booleans:  
 
