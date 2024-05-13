@@ -1,3 +1,4 @@
+import tw from "twrnc";
 
 export const COLORS = {
 	ACCENT_COLOR: "#658A17",
@@ -7,3 +8,4 @@ export const COLORS = {
 	TEXT_COLOR: "#000000",
 };
 
+export const GRADIENT_ACCENT = tw``;
