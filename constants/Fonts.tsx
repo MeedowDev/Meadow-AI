@@ -10,4 +10,5 @@ export const FONTS = {
 	SNOW_REGULAR_FONT: [tw`w-[175px] h-[59px] text-white text-xs font-semibold`, { color: COLORS.PRIMARY_COLOR }],
 	REGULAR_BOLD_FONT: [tw`text-black text-[15px] font-extrabold`, { color: COLORS.TEXT_COLOR }],
 	HIGHLIGHTED_TEXT_FONT: [tw`text-neutral-700 text-xs font-extrabold`, { color: COLORS.TEXT_COLOR }],
+	SNOW_REGULAR_FONT_TWO: [tw`w-[180px] h-[20px] text-xs font-semibold`, { color: COLORS.TEXT_COLOR }],
 };
