@@ -10,6 +10,7 @@ import {
 } from "../constants/ContainersStyling";
 import FarmersOverlay from "../components/FarmersPoint";
 import InsightOverlay from "../components/Insights";
+import HowTo from "../components/HowTo";
 import { Icon } from "@chakra-ui/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -18,24 +19,30 @@ export default function HomeScreen() {
   return (
     <View style={tw`bg-white relative`}>
           <ScrollView contentContainerStyle={tw`bg-white items-center`}>
-        <InsightOverlay
-          imageUrl={
-            "https://media.istockphoto.com/id/1423388554/photo/fertile-soil-background-for-environmental-theme.jpg?s=1024x1024&w=is&k=20&c=HHOYRxtomLHcHfg5mcCgdOMz9Pf9NeXPOdEA22QGob8="
-          }
-          title={`Learn how to make a quick 
-compost pit with these steps`}
+          <HowTo
+         imageUrl={
+          "https://plus.unsplash.com/premium_photo-1682092016074-b136e1acb26e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+        text={`How to improve farming 
+efficiency in small spaces
+at almost zero costs!`} 
+
         />
-        <View
-        style={[LARGE_CONTAINER_STYLING.SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_INSIGHT]}
-        >
-          <Text style={[FONTS.SNOW_TITLE_INSIGHTS, {marginTop: 15, marginLeft: 30}]}>HOW TO MAKE YOUR VERY 
-COMPOST PIT TODAY</Text>
-      <Text style={[FONTS.REGULAR_FONT,{marginTop: 1, marginLeft:20}]}>Composting is a great way to reduce waste and create nutrient-rich soil for your garden. One way to compost is by creating a compost pit. Here’s how to make one:                                                                                            First, choose a location for your compost pit. Keep in mind that it will be visible, so choose a spot that’s out of the way or where you don’t mind seeing it. Next, dig the pit. It should be about 1 ft deep. Once you’ve dug the pit, level the bottom and mark the border.
-Now it’s time to fill the pit with layers of carbon, nitrogen, and topsoil. Carbon-rich materials include things like dried leaves, straw, and paper. Nitrogen-rich materials include things like food scraps, grass clippings, and coffee grounds. Alternate layers of carbon and nitrogen materials until the pit is full.
-Once the pit is full, turn the compost regularly to help it decompose faster. When the compost is ready, spread it around your garden to enrich the soil.
-If you don’t want to dig a pit, you can also build a compost pile above ground. Simply scatter some twigs or straw on the ground to ensure aeration and drainage, then add layers of green and brown materials just like you would in a compost pit.
-Composting is easy and rewarding. Give it a try and see how it can benefit your garden!</Text>
-        </View>
+        <HowTo
+         imageUrl={
+          "https://images.unsplash.com/photo-1598903763023-fcb03301c845?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+        text={`Get immediate expert advice on what to plant this season for free!`} 
+
+        />
+         <HowTo
+         imageUrl={
+          "https://plus.unsplash.com/premium_photo-1663045287051-cbc311f6d7a8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+        text={`How to improve farming 
+efficiency in small spaces
+at almost zero costs!`} 
+        />
     </ScrollView>
   </View>
   );
