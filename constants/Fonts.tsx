@@ -5,7 +5,7 @@ import { COLORS } from "./Colors";
 export const FONTS = {
 	LARGE_TITLE: [tw`text-neutral-700/opacity-80 text-xl font-extrabold`, { fontFamily: "Inter" }],
 	GREEN_TITLE: [tw`text-[15px] font-extrabold`, { color: COLORS.ACCENT_COLOR }],
-	SNOW_TITLE: [tw`w-[214.57px] h-[34px] text-white text-xl font-extrabold`, { color: COLORS.PRIMARY_COLOR }],
+	SNOW_TITLE: [tw`w-[514.57px] h-[74px] text-white text-xl font-extrabold`, { color: COLORS.PRIMARY_COLOR }],
 	REGULAR_FONT: [tw`text-black text-xs font-normal`, { color: COLORS.TEXT_COLOR }],
 	SNOW_REGULAR_FONT: [tw`w-[175px] h-[59px] text-white text-xs font-semibold`, { color: COLORS.PRIMARY_COLOR }],
 	REGULAR_BOLD_FONT: [tw`text-black text-[15px] font-extrabold`, { color: COLORS.TEXT_COLOR }],
@@ -14,4 +14,5 @@ export const FONTS = {
 	REGULAR_FONT_POINT: [tw`text-black text-xs font-normal`, { color: COLORS.LIGHT_GRAY }],
 	SNOW_REGULAR_FONT_POINT_F: [tw`w-[155px] h-[100px] left-20 top-5 text-white text-xs font-normal`, { color: COLORS.LIGHT_GRAY }],
 	SNOW_REGULAR_FONT_POINT: [tw`w-[190px] h-[80px] top--25 text-white text-xs font-normal`, { color: COLORS.TEXT_COLOR }],
+	SNOW_TITLE_INSIGHTS: [tw`w-[250.57px] h-[44px] text-white text-s font-extrabold`, { color: COLORS.TEXT_COLOR }],
 };

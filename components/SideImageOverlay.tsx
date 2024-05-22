@@ -13,7 +13,7 @@ interface SideImageOverlayProps {
   const SideImageWithOverlay = ({ imageUrl, title,smallerTitle, text }: SideImageOverlayProps ) => {
     return (
       <View style={[LARGE_CONTAINER_STYLING.SMALL_ROUNDED_iMAGE_CONTAINER_STYLING]}>
-          <Image source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_SMALL_CONTAINER_STYLING}/>
+          <Image source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_SMALL_CONTAINER_STYLING_FP}/>
           <View style={OVERLAY_STYLING}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={[FONTS.LARGE_TITLE, {marginTop: -20,paddingTop:-15,paddingBottom:0,marginLeft: 110}]}>{title}</Text>
