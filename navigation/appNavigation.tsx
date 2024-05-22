@@ -1,10 +1,9 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator} from '@react-navigation/native-stack'
 import HomeScreen from "../screens/HomeScreen";
-import WatsonScreen from "../screens/AdvisorScreen";
-import { LogBox } from "react-native";
 import AdvisorScreen from "../screens/AdvisorScreen";
+import { LogBox } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
