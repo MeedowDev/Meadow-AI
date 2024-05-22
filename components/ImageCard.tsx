@@ -12,8 +12,8 @@ interface ImageWithOverlayProps {
 
 const ImageWithOverlay = ({ imageUrl, title, text }: ImageWithOverlayProps) => {
     return (
-        <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING}>
-            <ImageBackground source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING}>
+        <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP}>
+            <ImageBackground source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING_FP}>
                 <View style={OVERLAY_STYLING}>
                     <Text style={[FONTS.SNOW_TITLE, {marginTop: 120, marginLeft: 20}]}>{title}</Text>
                     <Text style={[FONTS.SNOW_REGULAR_FONT, {marginLeft: 23}]}>{text}</Text>
