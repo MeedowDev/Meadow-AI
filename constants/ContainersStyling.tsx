@@ -14,10 +14,13 @@ export const LARGE_CONTAINER_STYLING = {
 
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_HOWTO: [tw`my-3 flex-col w-[95%] h-[210px] bg-grey-100 rounded-[0px] `, {overflow: "hidden"}],
 	IMAGE_IN_SMALL_CONTAINER_STYLING_HOWTO:  [tw`my-1 justify-start top-5 left-1 w-[45%] h-[70%] rounded-[1px]`,{borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
+
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-12 w-[55%] h-[9%] right-0 rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+
 };
 
 export const OVERLAY_STYLING = [tw`bg-black bg-opacity-0 w-full h-full rounded-[30px]`];
 
-export const SMALL_OVERLAY_STYLING = [tw`w-[70%] h-[90%] rounded-[30px]`];
+export const SMALL_OVERLAY_STYLING = [tw`w-full h-full rounded-[30px]`];
 
 export const TOP_PADDING = [tw`p-2`];

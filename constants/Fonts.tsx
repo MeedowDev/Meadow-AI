@@ -15,4 +15,5 @@ export const FONTS = {
 	SNOW_REGULAR_FONT_POINT_F: [tw`w-[155px] h-[100px] left-20 top-5 text-white text-xs font-normal`, { color: COLORS.LIGHT_GRAY }],
 	SNOW_REGULAR_FONT_POINT: [tw`w-[190px] h-[80px] top--25 text-white text-xs font-normal`, { color: COLORS.TEXT_COLOR }],
 	SNOW_TITLE_INSIGHTS: [tw`w-[250.57px] h-[44px] text-white text-s font-extrabold`, { color: COLORS.TEXT_COLOR }],
+	SNOW_TITLE_MENU: [tw`w-[94.57px] h-[54px] text-white text-xs font-extrabold`, { color: COLORS.LIGHT_GRAY }],
 };
