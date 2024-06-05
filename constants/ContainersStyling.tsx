@@ -1,13 +1,14 @@
 import tw from "twrnc";
 import { COLORS } from "./Colors";
 export const LARGE_CONTAINER_STYLING = {
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP: [tw`my-5 w-[95%] h-[200px] left-0 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`my-3 w-[55%] h-[150px] top--2 left-1 bg-white-100 justify-center items-center`, {overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
-	IMAGE_IN_LARGE_CONTAINER_STYLING_FP: [tw`w-[50%] h-{60%} rounded-[40px]`],
-	IMAGE_IN_LARGE_CONTAINER_STYLING_ClickableButtons: [tw`my-2 w-[20%] h-{40%} bottom-3 rounded-[40px]`],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP: [tw`my-2 w-[300px] h-[210px] top--45 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_EMPTY: [tw`my-5 w-[300px] h-[150px] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_CARDWITHTEXT: [tw`my-5 w-[300px] h-[100px] rounded-[30px] bg-white-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`my-3 w-[55%] h-[150px] left-1 bg-green-700 justify-center items-center`, {overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	IMAGE_IN_LARGE_CONTAINER_STYLING_FP: [tw`w-[100%] h-{50%}  rounded-[40px]`],
+	IMAGE_IN_LARGE_CONTAINER_STYLING_ClickableButtons: [tw`my-2 w-[100%] h-{40%} bottom-3 rounded-[40px]`],
 	IMAGE_IN_LARGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`w-[75%] h-{50%}`],
 	LARGE_ROUNDED_STYLING: [tw`my-3 w-[80%] h-[200px] rounded-[40px] justify-center items-center`, { borderWidth: 1, borderColor: COLORS.ACCENT_COLOR }],
-
 
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING: [tw`my-2 flex-col w-[90%] h-[50px] bg-white-100 rounded-[20px] `, {borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`my-6 flex-col w-[310px] h-[180px] bg-white-100 `, {borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
@@ -19,6 +20,7 @@ export const LARGE_CONTAINER_STYLING = {
 	IMAGE_IN_SMALL_CONTAINER_STYLING_HOWTO:  [tw`justify-start top-1 left-1 w-[55%] h-[40%] rounded-[100px]`,{borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-12 w-[55%] h-[9%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_FREEBUTTON: [tw`my-2 w-[20%] flex-row left-45 top--30 h-[8%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ClickableButtons:[tw`my-12 w-[65%] h-[35%] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 
 
@@ -33,7 +35,10 @@ export const LARGE_CONTAINER_STYLING = {
 };
 
 export const OVERLAY_STYLING = [tw`bg-black bg-opacity-0 w-full h-[120%] rounded-[30px]`];
+export const OVERLAY_STYLING_JUST_TEXT= [tw`bg-black bg-opacity-0 w-full bottom-35 h-[20%]`];
+export const OVERLAY_STYLING_FREEBUTTON = [tw`bg-white bg-opacity-100 w-full h-[100%] rounded-[30px]`];
 export const OVERLAY_STYLING_ClickableButtons = [tw`bg-green bg-opacity-10 w-full h-[120%] rounded-[30px]`];
+export const OVERLAY_STYLING_EMPTY = [tw`bg-opacity-10 w-full h-[120%] rounded-[30px]`];
 
 
 export const OVERLAY_STYLING_HOWTO = [tw`bg-black bg-opacity-0 w-[70%] h-full rounded-[30px]`];

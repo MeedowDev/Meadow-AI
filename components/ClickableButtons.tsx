@@ -19,4 +19,3 @@ const ClickableButtons = ({title}: ClickableButtonsProps) => {
 };
 
 export default ClickableButtons;
-
