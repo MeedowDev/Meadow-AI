@@ -4,13 +4,21 @@ import CardWithText from "../components/CardWithText";
 import EmptyCard from "../components/EmptyCard";
 import Freebuttons from "../components/Freebuttons";
 import JustText from "../components/JustText";
-import { View,ScrollView,Text} from "react-native";
+import { View,ScrollView,Text,Button} from "react-native";
 import tw from "twrnc";
 import { FONTS } from "../constants/Fonts";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types'
 
-export default function HomeScreen() {
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
+interface HomeScreenProps {
+  navigation: HomeScreenNavigationProp;
+}
+export default function HomeScreen({ navigation }: HomeScreenProps) {
   return (
-    <View style ={tw`flex-row`}>
+    <View style ={tw`flex-1 mt-5`}>
         <ScrollView contentContainerStyle={tw`bg-white items-center`}>
           <View>
           <CardWithText
@@ -45,7 +53,7 @@ export default function HomeScreen() {
           text="Learn how to make a quick compost pit with these steps"
           />
         </View>
-        <View>
+        <View style={tw` mb-40`}>
           <JustText
             title="Meru News"
           />
@@ -54,6 +62,13 @@ export default function HomeScreen() {
             title="Stakeholders training" 
             text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
           />
+        </View>
+
+        <View  style={tw`absolute bottom-20 w-full items-center`}>
+        <Button
+          title="Go to Menu"
+          onPress={() => navigation.navigate('Menu')}
+        />
         </View>
     </ScrollView>
     </View>
