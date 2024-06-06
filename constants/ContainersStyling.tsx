@@ -1,7 +1,7 @@
 import tw from "twrnc";
 import { COLORS } from "./Colors";
 export const LARGE_CONTAINER_STYLING = {
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP: [tw`my-2 w-[300px] h-[210px] top--45 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP: [tw`my-2 w-[300px] h-[210px] top--40 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_EMPTY: [tw`my-5 w-[300px] h-[150px] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_CARDWITHTEXT: [tw`my-5 w-[300px] h-[100px] rounded-[30px] bg-white-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`my-3 w-[55%] h-[150px] left-1 bg-green-700 justify-center items-center`, {overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
@@ -19,8 +19,8 @@ export const LARGE_CONTAINER_STYLING = {
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_HOWTO: [tw`my-5 flex-col w-[85%] left-15 h-[410px] bg-grey-100 rounded-[0px] `, {overflow: "hidden"}],
 	IMAGE_IN_SMALL_CONTAINER_STYLING_HOWTO:  [tw`justify-start top-1 left-1 w-[55%] h-[40%] rounded-[100px]`,{borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-12 w-[55%] h-[9%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
-	LARGE_ROUNDED_iMAGE_CONTAINER_FREEBUTTON: [tw`my-2 w-[20%] flex-row left-45 top--30 h-[8%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-7 w-[65%] h-[10%] rounded-[30px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_FREEBUTTON: [tw`my-2 w-[20%] flex-row left-45 top--31 h-[7%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ClickableButtons:[tw`my-12 w-[65%] h-[35%] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 
 
