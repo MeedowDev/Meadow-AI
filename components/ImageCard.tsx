@@ -20,6 +20,7 @@ const ImageWithOverlay = ({ imageUrl, title, titleSubtext, text }: ImageWithOver
 	};
 
 	return (
+		//LARGE CONTAINER STYLING
 		<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING}>
 				<ImageBackground source={{ 
                     uri: activelyUsedImageUrl }} 
