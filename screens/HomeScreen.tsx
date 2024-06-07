@@ -19,26 +19,15 @@ export default function HomeScreen() {
 					onlineImage:
 						"https://img.frepik.com/free-photo/happy-cheerful-african-american-farm-worker-holding-crate-full-local-eco-friendly-ripe-leafy-greens-from-sustainable-crop-harvest-entrepreneurial-bio-permaculture-greenhouse-farm_482257-64585.jpg?t=st=1715698450~exp=1715702050~hmac=712ac2c1757f88cef4c5d466f6ec21483e0fcb7b24a357f70f8e14eb551d363d&w=1060",
 				}}
-				title={"Learn how to make a quick compost pit with these steps"}
-				titleSubtext={""}
-				text={""}
+				title={"tomatoes"}
+				titleSubtext={"anasal fi"}
+				text={"A red fruit and vegetable currently doing very well in internal and external markets"}
 			/>
-			<ImageWithOverlay
-				imageUrl={{
-					localImage: "https://img.freepik.com/free-photo/happy-cheerful-african-american-farm-worker-holding-crate-full-local-eco-friendly-ripe-leafy-greens-from-sustainable-crop-harvest-entrepreneurial-bio-permaculture-greenhouse-farm_482257-64585.jpg?t=st=1715698450~exp=1715702050~hmac=712ac2c1757f88cef4c5d466f6ec21483e0fcb7b24a357f70f8e14eb551d363d&w=1060",
-					onlineImage:
-						"https://img.freepik.com/free-photo/happy-cheerful-african-american-farm-worker-holding-crate-full-local-eco-friendly-ripe-leafy-greens-from-sustainable-crop-harvest-entrepreneurial-bio-permaculture-greenhouse-farm_482257-64585.jpg?t=st=1715698450~exp=1715702050~hmac=712ac2c1757f88cef4c5d466f6ec21483e0fcb7b24a357f70f8e14eb551d363d&w=1060",
-				}}
-				title={"Stakeholders training"}
-				titleSubtext={""}
-				text={"Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"}
-			/>
+			<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_CONTENT_CONTAINER_STYLING}>
+				<Text>Hello oworld</Text>
+			</View>
 			<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING}>
-				<Text style={FONTS.LARGE_TITLE}>The is LARGE TITLE</Text>
-				<Text style={FONTS.GREEN_TITLE}>This is GREEN TITLE </Text>
-				<Text style={FONTS.REGULAR_BOLD_FONT}>This is REGULAR BOLD FONT</Text>
-				<Text style={FONTS.HIGHLIGHTED_TEXT_FONT}>This is HIGHLIGHTED FONT</Text>
-				<Text style={FONTS.REGULAR_FONT}>This is REGULAR FONT.</Text>
+				
 			</View>
 			<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_CONTENT_CONTAINER_STYLING}></View>
 			<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING}></View>

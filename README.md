@@ -46,3 +46,6 @@ avoid:
 Use descriptive nouns. examples:
 `const MaxLangth`  
 `var apiUrl`  
+
+
+## Predefined contants and components

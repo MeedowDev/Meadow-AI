@@ -13,7 +13,8 @@ interface ImageWithOverlayProps {
 }
 
 const ImageWithOverlay = ({ imageUrl, title, titleSubtext, text }: ImageWithOverlayProps) => {
-    const [activelyUsedImageUrl, setImageUrl] = useState(imageUrl.onlineImage);
+    const inititalImageUrl = imageUrl.onlineImage? imageUrl.onlineImage : imageUrl.localImage;
+    const [activelyUsedImageUrl, setImageUrl] = useState(inititalImageUrl);
 	const handleImageError = () => {
 		setImageUrl(imageUrl.localImage);
 	};
