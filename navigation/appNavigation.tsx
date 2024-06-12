@@ -6,7 +6,11 @@ import AdvisorScreen from "../screens/AdvisorScreen";
 import MenuScreen from "../screens/MenuScreen";
 import { LogBox } from "react-native";
 import { RootStackParamList } from '../types';
-
+import InsightsScreen from "../screens/InsightsScreen";
+import FarmersPointScreen from "../screens/FarmersPointScreen";
+import NewsScreen from "../screens/NewsScreen";
+import SpecificsScreen from "../screens/SpecificsScreen";
+import BookMarkedScreen from "../screens/BookMarkedScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +34,48 @@ export default function AppNavigation() {
                         headerTitle: "Menu",
                     }}
                     component={MenuScreen}
+                />
+				<Stack.Screen
+                    name="Insights"
+                    options={{
+                        headerTitle: "Insights",
+                    }}
+                    component={InsightsScreen}
+                />
+				<Stack.Screen
+                    name="AdvisorScreen"
+                    options={{
+                        headerTitle: "Advisor",
+                    }}
+                    component={AdvisorScreen}
+                />
+                <Stack.Screen
+                    name="FarmersPointScreen"
+                    options={{
+                        headerTitle: "FarmersPoint",
+                    }}
+                    component={FarmersPointScreen}
+                />
+                <Stack.Screen
+                    name="NewsScreen"
+                    options={{
+                        headerTitle: "NewsScreen",
+                    }}
+                    component={NewsScreen}
+                />
+                <Stack.Screen
+                    name="SpecificsScreen"
+                    options={{
+                        headerTitle: "SpecificsScreen",
+                    }}
+                    component={SpecificsScreen}
+                />
+                <Stack.Screen
+                    name="BookMarkedScreen"
+                    options={{
+                        headerTitle: "BookMarkedScreen",
+                    }}
+                    component={BookMarkedScreen}
                 />
 			</Stack.Navigator>
 		</NavigationContainer>
