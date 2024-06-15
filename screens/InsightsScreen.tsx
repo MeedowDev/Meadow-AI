@@ -1,13 +1,13 @@
 import React from "react";
 import InsightOverlay from "../components/Insights";
-import { View,ScrollView,Text,Button} from "react-native";
+import { View,ScrollView,Text,TouchableOpacity} from "react-native";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
-import Freebuttons from "../components/Freebuttons";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types'
 import JustText from "../components/JustText";
 import ImageAndTextOnSide from "../components/ImageAndTextOnSide";
+import { Ionicons } from '@expo/vector-icons';
 
 
 type InsightsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -20,6 +20,15 @@ export default function InsightsScreen({ navigation }: InsightsScreenProps){
     return(
         <View style ={tw`flex-1 mb-1`}>
             <ScrollView contentContainerStyle={tw`bg-white items-center mb-1`}>
+              <View style={tw`mb--25 bottom-10 left-30`}>
+              <TouchableOpacity
+                  style={tw`p-10`}
+                  onPress={() => navigation.navigate('Menu')}
+                  >
+        <Ionicons name="menu" size={50} color="green" />
+        <Text style={tw`right-3`}></Text>
+      </TouchableOpacity>
+              </View>
                 <View style={tw`mb-0`}>    
                 <AdvisorCardWithText
                 text="Insights are carefully made for you
@@ -52,7 +61,7 @@ Composting is easy and rewarding. Give it a try and see how it can benefit your 
             text=""
           />
         </View>
-        <View style={tw`mb-1`}>
+        <View style={tw``}>
             <ImageAndTextOnSide
             imageUrl="https://media.istockphoto.com/id/1408040779/photo/close-up-view-of-drip-irrigation-pipe-puring-water-into-the-plantation-in-the-orchard.webp?s=1024x1024&w=is&k=20&c=Cr85DUIduoUGeMBgrd4fOSr63ejZgkazbGVm2tX22P0="
             title="How to improve farming 
@@ -60,12 +69,30 @@ efficiency in small spaces
 at almost zero costs!"
             date=""
             />
-
-    <Button
- title="Go to Advisor"
-          onPress={() => navigation.navigate('AdvisorScreen')}
-        />
-        </View>        
+        </View>      
+        <View style={tw`flex-row justify-between`}>
+        <TouchableOpacity
+        style={tw`bg-current right-15 justify-center`}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Ionicons name="home" size={40} color="green" />
+        <Text style={tw``}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`left-6`}
+        onPress={() => navigation.navigate('BookMarkedScreen')}
+      >
+        <Ionicons name="bookmark" size={40} color="green" />
+        <Text style={tw`right-5`}>Bookmarked</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`left-15`}
+        onPress={() => navigation.navigate('Menu')}
+      >
+        <Ionicons name="person" size={40} color="green" />
+        <Text style={tw`right-2`}>Advisory</Text>
+      </TouchableOpacity>
+        </View>      
    </ScrollView>
 </View>
 );
