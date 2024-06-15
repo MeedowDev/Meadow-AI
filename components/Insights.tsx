@@ -9,10 +9,10 @@ interface InsightsOverlayProps {
 
 const InsightOverlay = ({ imageUrl, title }: InsightsOverlayProps) => {
     return (
-        <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FP}>
+        <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_INSIGHTS}>
             <ImageBackground source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING_FP}>
                 <View style={OVERLAY_STYLING}>
-                    <Text style={[FONTS.SNOW_TITLE, {marginTop: 130, marginLeft: 10}]}>{title}</Text>
+                    <Text style={[FONTS.SNOW_TITLE, {marginTop: 125,marginLeft: 10}]}>{title}</Text>
                 </View>
             </ImageBackground>
         </View>
