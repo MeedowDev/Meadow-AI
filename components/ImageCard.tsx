@@ -1,5 +1,6 @@
-import React from "react";
-import { OVERLAY_STYLING, LARGE_CONTAINER_STYLING} from "../constants/ContainersStyling";
+import React, { useState } from "react";
+import tw from "twrnc";
+import { OVERLAY_STYLING, LARGE_CONTAINER_STYLING } from "../constants/ContainersStyling";
 import { FONTS } from "../constants/Fonts";
 
 import { View, Text, ImageBackground } from "react-native";
@@ -9,6 +10,7 @@ interface ImageWithOverlayProps {
     title: string;
     smallerTitle:string;
     text: string;
+
 }
 
 const ImageWithOverlay = ({ imageUrl, title,smallerTitle, text }: ImageWithOverlayProps) => {
@@ -23,6 +25,7 @@ const ImageWithOverlay = ({ imageUrl, title,smallerTitle, text }: ImageWithOverl
             </ImageBackground>
         </View>
     );
+
 };
 
 export default ImageWithOverlay;
