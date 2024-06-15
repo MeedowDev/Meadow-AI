@@ -6,7 +6,7 @@ This document entails basic coding and design patterns to be followed in contrib
   
 Camel case will be used. Examples:    
 `export const primaryColor`  
-`export const secondary color`  
+`export const secondaryColor`  
   
 Shared constants will be in caps. examples:  
 `export const PRIMARY_COLOR`  
