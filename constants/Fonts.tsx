@@ -3,7 +3,7 @@ import tw from "twrnc";
 import { COLORS } from "./Colors";
 
 export const FONTS = {
-	LARGE_TITLE: [tw`text-neutral-700/opacity-80 text-xl font-extrabold`, { fontFamily: "Inter" }],
+	LARGE_TITLE: [tw`text-neutral-700/opacity-80 text-xl font-extrabold`],
 	GREEN_TITLE: [tw`text-[15px] font-extrabold`, { color: COLORS.ACCENT_COLOR }],
 	SNOW_TITLE: [tw`w-[254.57px] h-[80px] text-white text-xl font-extrabold`, { color: COLORS.PRIMARY_COLOR }],
 	SNOW_TITLE_HOWTO: [tw`w-[114.57px] h-[74px] text-black text-xl font-extrabold`, { color: COLORS.LIGHT_GRAY	 }],
