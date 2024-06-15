@@ -1,12 +1,11 @@
 import ImageWithOverlay from "../components/ImageCard";
-import InsightOverlay from "../components/Insights";
 import CardWithText from "../components/CardWithText";
 import EmptyCard from "../components/EmptyCard";
 import Freebuttons from "../components/Freebuttons";
 import JustText from "../components/JustText";
-import { View,ScrollView,Text,Button} from "react-native";
+import { View,ScrollView,TouchableOpacity,Text} from "react-native";
 import tw from "twrnc";
-import { FONTS } from "../constants/Fonts";
+import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types'
 
@@ -18,8 +17,17 @@ interface HomeScreenProps {
 }
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   return (
-    <View style ={tw`flex-1 mt-4`}>
+    <View style ={tw`flex-1 mt-5`}>
         <ScrollView contentContainerStyle={tw`bg-white items-center`}>
+          <View>
+          <TouchableOpacity
+          style={tw`right-30`}
+        onPress={() => navigation.navigate('Menu')}
+      >
+        <Ionicons name="menu" size={50} color="green" />
+        <Text style={tw`right-3`}></Text>
+      </TouchableOpacity>
+          </View>
           <View>
           <CardWithText
             title="Season"
@@ -69,13 +77,29 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
           />
         </View>
-
-        { <View  style={tw`bottom-30 items-center`}>
-        <Button
-          title="Go to Menu"
-          onPress={() => navigation.navigate('Menu')}
-        />
-        </View>}
+        <View style={tw`flex-row bottom-20 left-6 mt--20`}>
+        <TouchableOpacity
+        style={tw`p-10 right-5`}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Ionicons name="home" size={30} color="green" />
+        <Text style={tw``}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`p-10 right-5 bg-current`}
+        onPress={() => navigation.navigate('FarmersPointScreen')}
+      >
+        <Ionicons name="chatbox" size={33} color="green" />
+        <Text style={tw``}>Chat</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`p-10 right-5`}
+        onPress={() => navigation.navigate('AdvisorScreen')}
+      >
+        <Ionicons name="person" size={30} color="green" />
+        <Text style={tw`right-3`}>Advisory</Text>
+      </TouchableOpacity>
+      </View>
     </ScrollView>
     </View>
   );

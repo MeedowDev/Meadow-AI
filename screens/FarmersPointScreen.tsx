@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, ScrollView,Button} from 'react-native';
+import { View, ScrollView,Text,TouchableOpacity} from 'react-native';
 import tw from 'twrnc';
 import FarmersOverlay from '../components/FarmersPoint';
+import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 
@@ -14,8 +15,8 @@ interface FarmersPointScreenProps {
 export default function FarmersPointScreen({ navigation }: FarmersPointScreenProps) {
   return (
     <View style ={tw`flex-1`}>
-      <ScrollView style={tw`p-2`}>
-        <FarmersOverlay
+      <ScrollView style={tw`p-4`}>
+        {/* <FarmersOverlay
         text='My avocadoes are dying😭😭😭Someone please help
 I have literally tried everything, I have
 been generous with firtilizer and water
@@ -25,11 +26,15 @@ sasa hizi ni gani😢'
         index={1}
         name='Njoro Wa Shamba'
         footer='reply Njoroge Bruno'
-        />
-        <Button
- title="News"
-          onPress={() => navigation.navigate('NewsScreen')}
-        />
+        /> */}
+      {/* <TouchableOpacity
+        style={tw`left-23`}
+        onPress={() => navigation.navigate('FarmersPointScreen')}
+      >
+        <Ionicons name="person" size={30} color="green" />
+        <Text style={tw`right-3`}>Farmers</Text>
+      </TouchableOpacity> */}
+      <Text>This page is currently under construction!!!</Text>
       </ScrollView>
     </View>
   );

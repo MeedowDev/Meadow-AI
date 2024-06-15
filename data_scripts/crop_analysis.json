@@ -1,0 +1,92 @@
+[
+	{
+		"crop": "BARLEY",
+		"planting_month": 11,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "CHICKPEAS",
+		"planting_month": 2,
+		"growing_duration_months": 5
+	},
+	{
+		"crop": "CORN",
+		"planting_month": 4,
+		"growing_duration_months": 4
+	},
+	{
+		"crop": "COTTON",
+		"planting_month": 3,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "HAY",
+		"planting_month": 4,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "HAY & HAYLAGE",
+		"planting_month": 4,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "HAYLAGE",
+		"planting_month": 4,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "HEMP",
+		"planting_month": 6,
+		"growing_duration_months": 3
+	},
+	{
+		"crop": "HERBS",
+		"planting_month": 3,
+		"growing_duration_months": 4
+	},
+	{
+		"crop": "LEGUMES",
+		"planting_month": 2,
+		"growing_duration_months": 5
+	},
+	{
+		"crop": "MINT",
+		"planting_month": 4,
+		"growing_duration_months": 4
+	},
+	{
+		"crop": "MUSTARD",
+		"planting_month": 2,
+		"growing_duration_months": 3
+	},
+	{
+		"crop": "PEANUTS",
+		"planting_month": 4,
+		"growing_duration_months": 5
+	},
+	{
+		"crop": "RICE",
+		"planting_month": 5,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "SAFFLOWER",
+		"planting_month": 4,
+		"growing_duration_months": 6
+	},
+	{
+		"crop": "SORGHUM",
+		"planting_month": 5,
+		"growing_duration_months": 4
+	},
+	{
+		"crop": "TRITICALE",
+		"planting_month": 11,
+		"growing_duration_months": 5
+	},
+	{
+		"crop": "WHEAT",
+		"planting_month": 11,
+		"growing_duration_months": 7
+	}
+]

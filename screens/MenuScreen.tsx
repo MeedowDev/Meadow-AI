@@ -1,7 +1,8 @@
 import React from "react";
 import Menu from "../components/MenuButtons";
-import { View,ScrollView,Text,Button} from "react-native";
+import { View,ScrollView,Text,TouchableOpacity} from "react-native";
 import tw from "twrnc";
+import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types'
 
@@ -29,12 +30,6 @@ export default function MenuScreen({ navigation }: MenuScreenProps){
             <Menu
             title="farming insights"
             />
-      <View style={tw`top-10`}>
-      <Button
-          title="Go to Insights"
-          onPress={() => navigation.navigate('Insights')}
-        />
-      </View>
     </ScrollView>
 </View>
     );

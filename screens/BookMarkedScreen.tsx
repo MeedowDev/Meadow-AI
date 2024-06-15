@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, ScrollView,Button} from 'react-native';
+import { View, ScrollView,Text,TouchableOpacity} from 'react-native';
 import tw from 'twrnc';
 import ImageWithOverlay from '../components/ImageCard';
 import TwoButtonsSideBySide from '../components/TwoButtonsSideBySide';
 import JustText from '../components/JustText';
+import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 
@@ -17,6 +18,15 @@ export default function  BookMarkedScreen({ navigation }: BookMarkedScreenProps)
     return(
         <View style={tw`flex-1 items-center`}>
             <ScrollView contentContainerStyle={tw`items-center`}>
+              <View style={tw`left-10 mb--5`}>
+              <TouchableOpacity
+        style={tw`left-20`}
+        onPress={() => navigation.navigate('Menu')}
+      >
+        <Ionicons name="menu" size={50} color="green" />
+        <Text style={tw`left-2`}></Text>
+      </TouchableOpacity>
+              </View>
             <View style={tw`top-40`}>
             <ImageWithOverlay
                  imageUrl='https://media.istockphoto.com/id/171579643/photo/tomato-greenhouse.jpg?s=1024x1024&w=is&k=20&c=kFi-7YRjDfBTcPgSkCdppZVznCUHEfrU_mvjZii5UhI='
@@ -52,6 +62,29 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Transplanting: Transplant the seedlings when they are around 28 days old 2. For best results, transplant the seedlings in the evening when the weather is cool.
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2.'
              />
+                </View>
+                <View style={tw`flex-row right-3`}>
+                <TouchableOpacity
+        style={tw`bg-current right-15`}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Ionicons name="home" size={40} color="green" />
+        <Text style={tw``}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`left-5`}
+        onPress={() => navigation.navigate('AdvisorScreen')}
+      >
+        <Ionicons name="person" size={40} color="green" />
+        <Text style={tw`right-2`}>Advisory</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`left-20`}
+        onPress={() => navigation.navigate('Menu')}
+      >
+        <Ionicons name="chatbox" size={40} color="green" />
+        <Text style={tw`left-2`}>Chat</Text>
+      </TouchableOpacity>
                 </View>              
             </ScrollView>            
         </View>

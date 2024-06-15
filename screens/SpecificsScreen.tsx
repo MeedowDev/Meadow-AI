@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, ScrollView,Button} from 'react-native';
+import { View, ScrollView,Text,TouchableOpacity} from 'react-native';
 import tw from 'twrnc';
 import ImageWithOverlay from '../components/ImageCard';
-import Freebuttons from '../components/Freebuttons';
 import TwoButtonsSideBySide from '../components/TwoButtonsSideBySide';
 import JustText from '../components/JustText';
+import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 
@@ -16,9 +16,18 @@ interface SpecificsScreenProps {
 
 export default function  SpecificsScreen({ navigation }: SpecificsScreenProps) {
     return(
-        <View style={tw`flex-1 items-center`}>
+        <View style={tw`flex-1`}>
             <ScrollView contentContainerStyle={tw`items-center`}>
-                <View style={tw`top-42`}>
+              <View style={tw`left-30 bottom-10 mb--25`}>
+                <TouchableOpacity
+                  style={tw`p-10`}
+                  onPress={() => navigation.navigate('Menu')}
+                  >
+        <Ionicons name="menu" size={50} color="green" />
+        <Text style={tw`right-3`}></Text>
+      </TouchableOpacity>
+              </View>
+                <View style={tw`top-40`}>
             <ImageWithOverlay
                  imageUrl='https://media.istockphoto.com/id/171579643/photo/tomato-greenhouse.jpg?s=1024x1024&w=is&k=20&c=kFi-7YRjDfBTcPgSkCdppZVznCUHEfrU_mvjZii5UhI='
                  title='Tomatoes'
@@ -30,7 +39,7 @@ export default function  SpecificsScreen({ navigation }: SpecificsScreenProps) {
                 <View style={tw`mr-2`}>
         <TwoButtonsSideBySide title='Acquire Tomatoe seeds'/>
       </View>
-      <View style={tw`ml-4`}>
+      <View style={tw`ml-1`}>
         <TwoButtonsSideBySide title='Bookmark to acquire later'/>
       </View>
           </View>
@@ -54,11 +63,28 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2.'
              />
                 </View>
-                <View>
-                <Button
- title="BookMarkedScreen"
-           onPress={() => navigation.navigate('BookMarkedScreen')}
-         />
+                <View style={tw`flex-row justify-between left-2 mb--10`}>
+                <TouchableOpacity
+        style={tw`p-10`}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Ionicons name="home" size={30} color="green" />
+        <Text style={tw``}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`p-10 bg-current`}
+        onPress={() => navigation.navigate('FarmersPointScreen')}
+      >
+        <Ionicons name="chatbox" size={33} color="green" />
+        <Text style={tw``}>Chat</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tw`p-10`}
+        onPress={() => navigation.navigate('AdvisorScreen')}
+      >
+        <Ionicons name="person" size={30} color="green" />
+        <Text style={tw`right-3`}>Advisory</Text>
+      </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
