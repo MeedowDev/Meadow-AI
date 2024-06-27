@@ -1,103 +1,118 @@
-import pandas as pd
-import numpy as np
-import logging
 import os
+import numpy as np
+import pandas as pd
+import logging
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
 # List of CSV files to process (example paths)
 csv_files = [
-    r'Arkansas_Phillips_2020_1.csv',
-    r'Arkansas_Phillips_2020_2.csv',
-    r'Arkansas_Phillips_2020_3.csv',
-    r'Arkansas_Phillips_2020_4.csv',
-    r'Arkansas_Phillips_2020_5.csv',
-    r'Arkansas_Phillips_2020_6.csv',
-    r'Arkansas_Phillips_2020_7.csv',
-    r'Arkansas_Phillips_2020_8.csv',
-    r'Arkansas_Phillips_2020_9.csv',
-    r'Arkansas_Phillips_2020_10.csv',
-    r'Arkansas_Phillips_2020_11.csv',
-    r'Arkansas_Phillips_2020_12.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_1.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_2.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_3.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_4.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_5.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_6.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_7.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_8.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_9.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_10.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_11.csv',
+    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_12.csv',
 ]
 
-# Initialize an empty list to store the results
-results = []
+# Initialize a dictionary to accumulate data for each crop in each region
+region_data = {}
 
-# Iterate through each CSV file
+# Function to determine quarter based on the plant_month , the crops current_month and growing_duration
+def get_quarter(plant_month, current_month, growing_duration):
+    months_per_quarter = growing_duration / 4.0
+    #in this season which months are there?
+    month_in_season = ((current_month - plant_month) % growing_duration) + 1
+    quarter_index = int((month_in_season - 1) // months_per_quarter)
+    quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+    return quarters[quarter_index]
+
+# Iterate through each CSV file and accumulate data for each crop and region
 for csv_file in csv_files:
-    # Extract filename and then log logging
     filename = os.path.splitext(os.path.basename(csv_file))[0]
     logging.info(f'Processing file: {filename}')
 
-    # Read the CSV file
     df = pd.read_csv(csv_file)
 
-    # Iterate over each row in the dataframe
     for idx, row in df.iterrows():
         lon = row['Longitude']
         lat = row['Latitude']
         crop = row['Crop']
         plant_month = row['Plant_Month']
         growing_duration = row['Growing_Duration']
+        region_key = (lon, lat, crop)
 
-        # Calculate the number of months per quarter
-        months_per_quarter = growing_duration / 4.0
+        if region_key not in region_data:
+            region_data[region_key] = {
+                'plant_month': plant_month,
+                'growing_duration': growing_duration,
+                'metrics': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
+                'quarters': {
+                    'Q1': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
+                    'Q2': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
+                    'Q3': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
+                    'Q4': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []}
+                }
+            }
 
-        # Initialize dictionaries to store quarterly data
-        quarters = {
-            'Q1': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
-            'Q2': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
-            'Q3': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
-            'Q4': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []}
-        }
-
-        # Function to determine quarter based on plant_month and growing_duration
-        def get_quarter(plant_month, current_month, growing_duration):
-            month_in_season = ((current_month - plant_month) % growing_duration) + 1
-            quarter_index = int((month_in_season - 1) // months_per_quarter)
-            quarters = ['Q1', 'Q2', 'Q3', 'Q4']
-            return quarters[quarter_index]
-
-        # Iterate through metrics and add values to respective quarters
         for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
-            for month in range(1, 13):
-                quarter = get_quarter(plant_month, month, growing_duration)
-                quarters[quarter][metric].append(row[metric])
+            value = row[metric]
+            if not np.isnan(value):
+                region_data[region_key]['metrics'][metric].append(value)
 
-        # Calculate averages for each quarter
-        row_result = []
-        for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
-            for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
-                if quarters[quarter][metric]:  # Check if there are values to average
-                    avg_value = np.mean(quarters[quarter][metric])
-                else:
-                    avg_value = 'unknown'  # Assign "unknown" if there are no values
-                    logging.warning(f'No valid data for {quarter}({metric}) in region ({lon}, {lat})')
-                row_result.append(avg_value)
+# Distribute unique values across quarters for each region
+for region_key, data in region_data.items():
+    plant_month = data['plant_month']
+    growing_duration = data['growing_duration']
 
-        # Append crop, longitude, and latitude to row_result
-        row_result.append(crop)
+    for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
+        values = data['metrics'][metric]
+        unique_values = list(set(values))
+        quarter_length = growing_duration // 4
+        for i, value in enumerate(unique_values):
+            month_offset = i % growing_duration
+            current_month = (plant_month + month_offset - 1) % 12 + 1
+            quarter = get_quarter(plant_month, current_month, growing_duration)
+            data['quarters'][quarter][metric].append(value)
 
-        # Append row_result to results list
-        results.append(row_result)
+# Calculate averages and compile results for each region
+results = []
+
+for region_key, data in region_data.items():
+    lon, lat, crop = region_key
+    row_result = []
+
+    for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
+        for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
+            quarter_data = data['quarters'][quarter][metric]
+            if quarter_data:
+                avg_value = np.mean(quarter_data)
+            else:
+                avg_value = 'unknown'
+                logging.warning(f'No valid data for {quarter}({metric}) for crop {crop}')
+            row_result.append(avg_value)
+
+    row_result.extend([crop, lon, lat])
+    results.append(row_result)
 
 # Determine columns dynamically based on the number of metrics and quarters
 columns = []
 for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
     for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
         columns.append(f'{quarter}({metric})')
-columns.append('Crop')
+columns.extend(['Crop', 'Longitude', 'Latitude'])
 
-# Create DataFrame from results
+# Create a DataFrame from the results
 results_df = pd.DataFrame(results, columns=columns)
 
-# Replace 'unknown' with empty string before saving to CSV
-results_df.replace('unknown', '', inplace=True)
+# Save the results to a CSV file
+results_df.to_csv('quarterly_averages_by_region.csv', index=False)
 
-# Save results to CSV
-output_file = 'regional_quarterly_averages.csv'
-results_df.to_csv(output_file, index=False)
-
-logging.info(f'Results saved to {output_file}')
+print(f"Results saved to 'quarterly_averages_by_region.csv'.")
