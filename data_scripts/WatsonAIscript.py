@@ -8,19 +8,18 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
 # List of CSV files to process (example paths)
 csv_files = [
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_1.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_2.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_3.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_4.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_5.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_6.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_7.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_8.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_9.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_10.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_11.csv',
-    r'C:\Users\ADMIN\ClevaApp2\ClevagyEnergy\Arkansas_Phillips_2020_12.csv',
-]
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_1.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_2.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_3.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_4.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_5.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_6.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_7.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_8.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_10.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_11.csv',
+    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_12.csv',
+    ]
 
 # Initialize a dictionary to accumulate data for each crop in each region
 region_data = {}
@@ -48,11 +47,12 @@ for csv_file in csv_files:
         plant_month = row['Plant_Month']
         growing_duration = row['Growing_Duration']
         region_key = (lon, lat, crop)
-
+        
+        #added crop in region data to my empty dictionary
         if region_key not in region_data:
             region_data[region_key] = {
-                'plant_month': plant_month,
-                'growing_duration': growing_duration,
+                'Plant_Month': plant_month,
+                'Growing_Duration': growing_duration,
                 'metrics': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
                 'quarters': {
                     'Q1': {'Max_Temperature': [], 'Min_Temperature': [], 'Transpiration': [], 'Wind_Speed': [], 'Humidity': []},
@@ -62,24 +62,26 @@ for csv_file in csv_files:
                 }
             }
 
+        # goes through each and every row data and updates the value of our dictionary  with values in metrics
         for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
             value = row[metric]
             if not np.isnan(value):
                 region_data[region_key]['metrics'][metric].append(value)
 
+
 # Distribute unique values across quarters for each region
 for region_key, data in region_data.items():
-    plant_month = data['plant_month']
-    growing_duration = data['growing_duration']
+    plant_month = data['Plant_Month']
+    growing_duration = data['Growing_Duration']
 
     for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
         values = data['metrics'][metric]
         unique_values = list(set(values))
-        quarter_length = growing_duration // 4
+
+        #We retrieve the values of each metric and compute its unique values
         for i, value in enumerate(unique_values):
-            month_offset = i % growing_duration
-            current_month = (plant_month + month_offset - 1) % 12 + 1
-            quarter = get_quarter(plant_month, current_month, growing_duration)
+            quarter_index = i % 4  # Cycle through quarters
+            quarter = ['Q1', 'Q2', 'Q3', 'Q4'][quarter_index]
             data['quarters'][quarter][metric].append(value)
 
 # Calculate averages and compile results for each region
@@ -89,13 +91,14 @@ for region_key, data in region_data.items():
     lon, lat, crop = region_key
     row_result = []
 
+    #here all my regions and its data are looked into
     for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
         for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
             quarter_data = data['quarters'][quarter][metric]
             if quarter_data:
                 avg_value = np.mean(quarter_data)
             else:
-                avg_value = 'unknown'
+                avg_value = "unknown"
                 logging.warning(f'No valid data for {quarter}({metric}) for crop {crop}')
             row_result.append(avg_value)
 
@@ -104,6 +107,7 @@ for region_key, data in region_data.items():
 
 # Determine columns dynamically based on the number of metrics and quarters
 columns = []
+#dynamically creating quarter names
 for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
     for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
         columns.append(f'{quarter}({metric})')
