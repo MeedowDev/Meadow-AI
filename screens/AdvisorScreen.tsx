@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
@@ -7,6 +7,7 @@ import FilterButton from "../components/FilterButtons";
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
+import { LocationContext } from "../context/locationContext";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -16,11 +17,12 @@ interface AdvisorScreenProps {
 
 export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
   
+  const {userLocation, errorMsg} = useContext(LocationContext);
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
 				<View style={tw`items-center`}>
-					<AdvisorCardWithText text="The following crops would do well in the {avg_temp} temperatures of {timedata.month}. These crops will also do well in {userdata.location()}" />
+					<AdvisorCardWithText text={userLocation ? JSON.stringify(userLocation) : errorMsg || "Location not available"} />
 				</View>
 				<View style={tw`flex-row justify-between`}>
 					<FilterButton label="A-Z" />
