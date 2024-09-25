@@ -18,18 +18,9 @@ interface InsightsScreenProps {
 
 export default function InsightsScreen({ navigation }: InsightsScreenProps){
     return(
-        <View style ={tw`flex-1 mb-1`}>
+        <View style ={tw`flex-1`}>
             <ScrollView contentContainerStyle={tw`bg-white items-center mb-1`}>
-              <View style={tw`mb--25 bottom-10 left-30`}>
-              <TouchableOpacity
-                  style={tw`p-10`}
-                  onPress={() => navigation.navigate('Menu')}
-                  >
-        <Ionicons name="menu" size={50} color="green" />
-        <Text style={tw`right-3`}></Text>
-      </TouchableOpacity>
-              </View>
-                <View style={tw`mb-0`}>    
+                <View>    
                 <AdvisorCardWithText
                 text="Insights are carefully made for you
 based on your location, current climate,
@@ -37,13 +28,13 @@ market and your personal preferences.
 Learn more in user agreement"
                 />  
                 </View>
-                <View style ={tw`mb-0`}>
+                <View>
             <InsightOverlay
             imageUrl="https://media.istockphoto.com/id/1344219758/photo/woman-emptying-food-waste-onto-garden-compost-heap.jpg?s=1024x1024&w=is&k=20&c=iDTv6jV3yEaHeEbUTJ7KmQP55tWgucryiFdXK5aLw2s="
             title="Learn how to make a quick compost pit with these steps"
             />
         </View>
-        <View style={tw`flex-1`}>
+        <View>
             <JustText
             title="HOW TO MAKE YOUR VERY 
 COMPOST PIT TODAY"
@@ -55,13 +46,13 @@ If you don’t want to dig a pit, you can also build a compost pile above ground
 Composting is easy and rewarding. Give it a try and see how it can benefit your garden!"
 />
         </View>
-        <View style={tw`right-25 top-15`}>
+        <View style={tw`top-15 ml-0 w-full`}>
         <JustText
             title="More for you"
             text=""
           />
         </View>
-        <View style={tw``}>
+        <View >
             <ImageAndTextOnSide
             imageUrl="https://media.istockphoto.com/id/1408040779/photo/close-up-view-of-drip-irrigation-pipe-puring-water-into-the-plantation-in-the-orchard.webp?s=1024x1024&w=is&k=20&c=Cr85DUIduoUGeMBgrd4fOSr63ejZgkazbGVm2tX22P0="
             title="How to improve farming 
@@ -70,27 +61,24 @@ at almost zero costs!"
             date=""
             />
         </View>      
-        <View style={tw`flex-row justify-between`}>
+        <View style={tw`flex-row justify-around bg-white p-2 w-full shadow-lg`}>
         <TouchableOpacity
-        style={tw`bg-current right-15 justify-center`}
         onPress={() => navigation.navigate('Home')}
       >
-        <Ionicons name="home" size={40} color="green" />
-        <Text style={tw``}>Home</Text>
+        <Ionicons name="home-outline" size={25} color="green" />
+        <Text>Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={tw`left-6`}
         onPress={() => navigation.navigate('BookMarkedScreen')}
       >
-        <Ionicons name="bookmark" size={40} color="green" />
-        <Text style={tw`right-5`}>Bookmarked</Text>
+        <Ionicons name="bookmark-outline" size={25} color="green" />
+      <Text>Bookmarked</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={tw`left-15`}
-        onPress={() => navigation.navigate('Menu')}
+        onPress={() => navigation.navigate('AdvisorScreen')}
       >
-        <Ionicons name="person" size={40} color="green" />
-        <Text style={tw`right-2`}>Advisory</Text>
+        <Ionicons name="person-outline" size={25} color="green" />
+        <Text>Advisory</Text>
       </TouchableOpacity>
         </View>      
    </ScrollView>

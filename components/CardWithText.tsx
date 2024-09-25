@@ -2,7 +2,7 @@ import React from "react";
 import { OVERLAY_STYLING_EMPTY, LARGE_CONTAINER_STYLING} from "../constants/ContainersStyling";
 import { FONTS } from "../constants/Fonts";
 
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text,TouchableOpacity } from "react-native";
 
 interface CardWithTextProps {
     title: string;
