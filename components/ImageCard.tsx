@@ -10,6 +10,8 @@ interface ImageWithOverlayProps {
     title: string;
     smallerTitle:string;
     text: string;
+    onPress: () => void;
+}
 const ImageWithOverlay = ({ imageUrl, title,smallerTitle, text ,onPress}: ImageWithOverlayProps) => {
     return (
         <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT}>
