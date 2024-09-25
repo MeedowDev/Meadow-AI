@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
+import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -16,13 +17,23 @@ interface AdvisorScreenProps {
 }
 
 export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
-  
-  const {userLocation, errorMsg} = useContext(LocationContext);
+	const { userLocation, errorMsg } = useContext(LocationContext);
+	const [weather, setWeather] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (userLocation) {
+			getWeatherForecastByCoords(userLocation.coords.latitude, userLocation.coords.longitude).then((data) => {
+				setWeather(data);
+			});
+		}
+	}, [userLocation]);
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
 				<View style={tw`items-center`}>
-					<AdvisorCardWithText text={userLocation ? JSON.stringify(userLocation) : errorMsg || "Location not available"} />
+					<AdvisorCardWithText
+						text={userLocation ? weather ?? "Weather data not available" : errorMsg || "Location not available"}
+					/>
 				</View>
 				<View style={tw`flex-row justify-between`}>
 					<FilterButton label="A-Z" />
