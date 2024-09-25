@@ -3,6 +3,7 @@ import { COLORS } from "./Colors";
 export const LARGE_CONTAINER_STYLING = {
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT: [tw`my-5 w-[300px] h-[210px] top--40 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_INSIGHTS: [tw`my-12 w-[300px] h-[210px] rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_EMPTY: [tw`my-5 w-[300px] h-[150px] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_CARDWITHTEXT: [tw`my-2 w-[300px] h-[120px] rounded-[30px] bg-white-500 justify-center items-center`, {borderWidth: 0.8, overflow: "hidden",borderColor: COLORS.SECONDARY_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ADVISORCARDWITHTEXT: [tw`my-3 w-[300px] h-[110px] rounded-[30px] bg-white-500 justify-center items-center`, {borderWidth: 0.9, overflow: "hidden",borderColor: COLORS.SECONDARY_COLOR}],
@@ -55,6 +56,5 @@ export const OVERLAY_STYLING_ACCOUNT = [tw`bg-black bg-opacity-0 w-full h-full r
 
 
 export const SMALL_OVERLAY_STYLING = [tw`w-full h-full rounded-[30px]`];
-
 
 export const TOP_PADDING = [tw`p-2`];

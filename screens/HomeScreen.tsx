@@ -10,7 +10,6 @@ import ApiFetchData from "../components/ApiFetchData";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types'
 
-
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 interface HomeScreenProps {
