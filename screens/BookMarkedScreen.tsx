@@ -18,21 +18,13 @@ export default function  BookMarkedScreen({ navigation }: BookMarkedScreenProps)
     return(
         <View style={tw`flex-1 items-center`}>
             <ScrollView contentContainerStyle={tw`items-center`}>
-              <View style={tw`left-10 mb--5`}>
-              <TouchableOpacity
-        style={tw`left-20`}
-        onPress={() => navigation.navigate('Menu')}
-      >
-        <Ionicons name="menu" size={50} color="green" />
-        <Text style={tw`left-2`}></Text>
-      </TouchableOpacity>
-              </View>
-            <View style={tw`top-40`}>
+            <View style={tw`top-40 mb-5`}>
             <ImageWithOverlay
                  imageUrl='https://media.istockphoto.com/id/171579643/photo/tomato-greenhouse.jpg?s=1024x1024&w=is&k=20&c=kFi-7YRjDfBTcPgSkCdppZVznCUHEfrU_mvjZii5UhI='
                  title='Tomatoes'
                  smallerTitle='(Anasal f1)'
                  text='A red fruit and vegetable currently doing very well in internal and external markets'
+                onPress={() => navigation.navigate('BookMarkedScreen')}
                  />
                 </View>
                 <View style={tw`flex-row justify-between `}>
@@ -63,27 +55,24 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2.'
              />
                 </View>
-                <View style={tw`flex-row right-3`}>
+                <View style={tw`flex-row justify-around bg-white p-2 absolute bottom--2 w-full shadow-lg`}>
                 <TouchableOpacity
-        style={tw`bg-current right-15`}
         onPress={() => navigation.navigate('Home')}
       >
-        <Ionicons name="home" size={40} color="green" />
-        <Text style={tw``}>Home</Text>
+        <Ionicons name="home-outline" size={30} color="green" />
+        <Text >Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={tw`left-5`}
         onPress={() => navigation.navigate('AdvisorScreen')}
       >
-        <Ionicons name="person" size={40} color="green" />
-        <Text style={tw`right-2`}>Advisory</Text>
+        <Ionicons name="person-outline" size={30} color="green" />
+        <Text >Advisory</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={tw`left-20`}
         onPress={() => navigation.navigate('Menu')}
       >
-        <Ionicons name="chatbox" size={40} color="green" />
-        <Text style={tw`left-2`}>Chat</Text>
+        <Ionicons name="chatbubbles-outline" size={30} color="green" />
+        <Text>Chat</Text>
       </TouchableOpacity>
                 </View>              
             </ScrollView>            

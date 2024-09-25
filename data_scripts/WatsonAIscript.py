@@ -4,22 +4,16 @@ import pandas as pd
 import logging
 
 # Set up logging
+
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s')
 
-# List of CSV files to process (example paths)
+# List of my CSV files 
 csv_files = [
     r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_1.csv',
     r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_2.csv',
     r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_3.csv',
     r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_4.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_5.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_6.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_7.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_8.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_10.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_11.csv',
-    r'C:\Users\ADMIN\clevaApp\Carlifonia_Fresno_2020_12.csv',
-    ]
+]
 
 # Initialize a dictionary to accumulate data for each crop in each region
 region_data = {}
@@ -108,7 +102,7 @@ for region_key, data in region_data.items():
 # Determine columns dynamically based on the number of metrics and quarters
 columns = []
 #dynamically creating quarter names
-for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
+for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:    
     for metric in ['Max_Temperature', 'Min_Temperature', 'Transpiration', 'Wind_Speed', 'Humidity']:
         columns.append(f'{quarter}({metric})')
 columns.extend(['Crop', 'Longitude', 'Latitude'])
@@ -119,4 +113,4 @@ results_df = pd.DataFrame(results, columns=columns)
 # Save the results to a CSV file
 results_df.to_csv('quarterly_averages_by_region.csv', index=False)
 
-print(f"Results saved to 'quarterly_averages_by_region.csv'.")
+print(f"Results saved to 'fresno_averages.csv'.")
