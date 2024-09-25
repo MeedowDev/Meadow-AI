@@ -6,6 +6,7 @@ import JustText from "../components/JustText";
 import { View,ScrollView,TouchableOpacity,Text} from "react-native";
 import tw from "twrnc";
 import { Ionicons } from '@expo/vector-icons';
+import ApiFetchData from "../components/ApiFetchData";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types'
 
@@ -16,18 +17,25 @@ interface HomeScreenProps {
   navigation: HomeScreenNavigationProp;
 }
 export default function HomeScreen({ navigation }: HomeScreenProps) {
+  const { input, prediction, loading, error, handleInputChange, handleSubmit } = ApiFetchData();
+
   return (
-    <View style ={tw`flex-1 mt-5`}>
-        <ScrollView contentContainerStyle={tw`bg-white items-center`}>
-          <View>
+    <View style ={tw`flex-1 `}>
+          <View style={tw`flex-row justify-between  bg-white h-20 w-full shadow-lg`}>
           <TouchableOpacity
-          style={tw`right-30`}
+          style={tw`p-5`}
         onPress={() => navigation.navigate('Menu')}
       >
-        <Ionicons name="menu" size={50} color="green" />
-        <Text style={tw`right-3`}></Text>
+        <Ionicons name="menu-outline" size={40} color="green" />
+      </TouchableOpacity>
+      <TouchableOpacity
+          style={tw`p-5`}
+        onPress={() => navigation.navigate('FarmersPointScreen')}
+      >
+        <Ionicons name="person-circle-outline" size={35} color="green" />
       </TouchableOpacity>
           </View>
+        <ScrollView contentContainerStyle={tw`bg-white items-center`}>
           <View>
           <CardWithText
             title="Season"
@@ -43,9 +51,11 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         smallerText="Hass avoca..."
         text2="Tomatoes:"
         smallerText2=" Anasal f1 h..."
+        onPress={() => navigation.navigate('BookMarkedScreen')}
         />
         <Freebuttons
         title="OPEN"/>
+        
         <Freebuttons
         title="OPEN"/>
         </View>
@@ -55,12 +65,14 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
           title="Farming Advisor"
           smallerTitle=""
           text="Get immediate expert advice on what to plant this season for free!"
+        onPress={() => navigation.navigate('AdvisorScreen')}
           />
           <ImageWithOverlay
           imageUrl="https://media.istockphoto.com/id/479440915/photo/compost-with-composted-earth.webp?s=1024x1024&w=is&k=20&c=2jrCMGulru42bQVUDgvHZXSS9AI_ssd1yIKwrCaZkOQ="
           title="Farming Insight"
           smallerTitle=""
           text="Learn how to make a quick compost pit with these steps"
+        onPress={() => navigation.navigate('Insights')}
           />
         </View>
         {<View style={tw`bottom-30 right-20`}>
@@ -75,31 +87,34 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             title="Stakeholders training" 
             smallerTitle=""
             text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
+        onPress={() => navigation.navigate('NewsScreen')}
           />
         </View>
-        <View style={tw`flex-row bottom-20 left-6 mt--20`}>
-        <TouchableOpacity
-        style={tw`p-10 right-5`}
-        onPress={() => navigation.navigate('Home')}
-      >
-        <Ionicons name="home" size={30} color="green" />
-        <Text style={tw``}>Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={tw`p-10 right-5 bg-current`}
-        onPress={() => navigation.navigate('FarmersPointScreen')}
-      >
-        <Ionicons name="chatbox" size={33} color="green" />
-        <Text style={tw``}>Chat</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={tw`p-10 right-5`}
-        onPress={() => navigation.navigate('AdvisorScreen')}
-      >
-        <Ionicons name="person" size={30} color="green" />
-        <Text style={tw`right-3`}>Advisory</Text>
-      </TouchableOpacity>
-      </View>
+        <View style={tw`flex-row justify-around bg-white p-2 absolute bottom--2 w-full shadow-lg`}>
+  <TouchableOpacity
+    style={tw`flex items-center`}
+    onPress={() => navigation.navigate('Home')}
+  >
+    <Ionicons name="home-outline" size={25} color="green" style={tw`shadow`} />
+    <Text style={tw`mt-1 text-black font-light`}>Home</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={tw`flex items-center`}
+    onPress={() => navigation.navigate('FarmersPointScreen')}
+  >
+    <Ionicons name="chatbubbles-outline" size={25} color="green" style={tw`shadow`} />
+    <Text style={tw`mt-1 text-black font-light`}>Chat</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={tw`flex items-center`}
+    onPress={() => navigation.navigate('AdvisorScreen')}
+  >
+    <Ionicons name="person-outline" size={25} color="green" style={tw`shadow`} />
+    <Text style={tw`mt-1 text-black font-light`}>Advisory</Text>
+  </TouchableOpacity>
+</View>
     </ScrollView>
     </View>
   );

@@ -9,5 +9,6 @@ export type RootStackParamList = {
     NewsScreen:undefined;
     SpecificsScreen:undefined;
     BookMarkedScreen:undefined;
+    Prediction:undefined;
   };
   
