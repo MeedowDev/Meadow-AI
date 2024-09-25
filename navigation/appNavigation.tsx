@@ -11,8 +11,9 @@ import NewsScreen from "../screens/NewsScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
 import { HomeIcon, UserIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
-import { LogBox } from "react-native";
+import { LogBox ,TouchableOpacity} from "react-native";
 import { RootStackParamList } from "../types";
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -27,18 +28,18 @@ function TabNavigator() {
 				component={HomeScreen}
 				options={{
 					tabBarLabel: "Home",
-					tabBarIcon: ({ focused, size }) => <HomeIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
+					tabBarIcon: ({ focused,size}) => <HomeIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
 					headerShown: false, // Ensure no header for the Tab screens
 				}}
 			/>
-			<Tab.Screen
-				name="Advisor"
-				component={AdvisorScreen}
-				options={{
-					tabBarLabel: "Advisor",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
-				}}
-			/>
+                <Tab.Screen
+                    name="Advisor"
+                    component={AdvisorScreen}
+                    options={{
+                        tabBarLabel: "Advisor",
+                        tabBarIcon: ({ focused, size,color}) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
+                    }}
+                />
 			<Tab.Screen
 				name="FarmersPoint"
 				component={FarmersPointScreen}
@@ -62,14 +63,8 @@ export default function AppNavigation() {
 						headerTitle: "Menu",
 					}}
 					component={MenuScreen}
-		
-				 <Stack.Screen
-                    name="Menu"
-                    options={{
-                        headerTitle: "Menu",
-                    }}
-                    component={MenuScreen}
-                />
+                    />
+			
 				  <Stack.Screen
             name="Insights"
             component={InsightsScreen}
@@ -160,34 +155,6 @@ export default function AppNavigation() {
     ),
   })}
 />
-				<Stack.Screen
-					name="Insights"
-					options={{
-						headerTitle: "Insights",
-					}}
-					component={InsightsScreen}
-				/>
-				<Stack.Screen
-					name="NewsScreen"
-					options={{
-						headerTitle: "News",
-					}}
-					component={NewsScreen}
-				/>
-				<Stack.Screen
-					name="SpecificsScreen"
-					options={{
-						headerTitle: "Specifics",
-					}}
-					component={SpecificsScreen}
-				/>
-				<Stack.Screen
-					name="BookMarkedScreen"
-					options={{
-						headerTitle: "Bookmarked",
-					}}
-					component={BookMarkedScreen}
-				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
