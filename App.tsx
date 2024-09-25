@@ -25,6 +25,7 @@ export default function App() {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       saveLocation(location);
+	  console.log("Location",location)
     })();
   }, []);
 
