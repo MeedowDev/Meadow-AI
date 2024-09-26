@@ -20,6 +20,8 @@ export async function getWeatherForecast(location: LocationObject) {
 }
 export async function getWeatherForecastByCoords(latitude: number, longitude: number) {
 	// Get today's date and calculate the end date (6 months in the future)
+
+	return "Function confirmed, but not implemented yet";
 	const startDate = new Date();
 	const endDate = new Date();
 	endDate.setMonth(startDate.getMonth() + 6);

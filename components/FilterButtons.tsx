@@ -6,12 +6,13 @@ import { LARGE_CONTAINER_STYLING } from '../constants/ContainersStyling';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 interface FilterButtonProps {
-  label: string;
+	label: string;
+	onPress: () => void;
 }
 
-const FilterButton = ({ label}: FilterButtonProps) => {
+const FilterButton = ({ label, onPress}: FilterButtonProps) => {
   return (
-    <TouchableOpacity style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_FILTERBUTTONS}>
+    <TouchableOpacity style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_FILTERBUTTONS} onPress={()=>onPress()}>
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );

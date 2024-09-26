@@ -39,7 +39,7 @@ export const LARGE_CONTAINER_STYLING = {
 
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_CONTACT: [tw`my-25 w-[25%] h-[7%] rounded-[20px] left--1 bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_FILTERBUTTONS: [tw`my-3 w-[30%] h-7 rounded-[30]  bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_FILTERBUTTONS: [tw`my-3 mx-1 w-[30%] h-7 rounded-[30]  bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 };
 
 export const OVERLAY_STYLING = [tw`bg-black bg-opacity-0 w-full h-[120%] rounded-[30px]`];
