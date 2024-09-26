@@ -25,8 +25,8 @@ export default function  BookMarkedScreen({ navigation }: BookMarkedScreenProps)
                  smallerTitle='(Anasal f1)'
                  text='A red fruit and vegetable currently doing very well in internal and external markets'
                 onPress={() => navigation.navigate('BookMarkedScreen')}
-                 />
-                </View>
+          />
+        </View>
                 <View style={tw`flex-row justify-between `}>
                 <View style={tw`mr-2`}>
         <TwoButtonsSideBySide title='Acquire Tomatoe seeds'/>

@@ -23,11 +23,12 @@ export default function App() {
 				return;
 			}
 
-			let location = await Location.getCurrentPositionAsync({});
-			setLocation(location);
-			saveLocation(location);
-		})();
-	}, []);
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      saveLocation(location);
+	  console.log("Location",location)
+    })();
+  }, []);
 
 	const saveLocation = async (location: Location.LocationObject) => {
 		const newLocation = {
