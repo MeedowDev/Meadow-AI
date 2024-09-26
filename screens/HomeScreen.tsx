@@ -5,18 +5,39 @@ import Freebuttons from "../components/Freebuttons";
 import JustText from "../components/JustText";
 import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import tw from "twrnc";
+import { LocationContext } from "../context/locationContext";
 import { Ionicons } from "@expo/vector-icons";
-import ApiFetchData from "../components/ApiFetchData";
+import { getCurrentWeather} from "../api/RealTimeWeather";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
-
+import { useState,useEffect,useContext } from "react";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
 	navigation: HomeScreenNavigationProp;
 }
 export default function HomeScreen({ navigation }: HomeScreenProps) {
-	const { input, prediction, loading, error, handleInputChange, handleSubmit } = ApiFetchData();
+		const { userLocation } = useContext(LocationContext);
+		const [weather, setWeather] = useState<string | null>(null);
+		const [weatherCondition, setWeatherCondition] = useState<string | null>(null);
+		const [iconUrl, setIconUrl] = useState<string | undefined>(undefined); 
+		const [windSpeed, setWindSpeed] = useState<number | null>(null); // New state for wind speed
+		const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
+	  
+		// Fetch weather data when location is available
+		useEffect(() => {
+		  if (userLocation) {
+			getCurrentWeather(userLocation)
+			  .then((data) => {
+				setWeather(data.current.temp_c);
+				setWeatherCondition(data.current.condition.text);
+				setIconUrl(data.current.condition.icon ? `https:${data.current.condition.icon}` : undefined);
+				setWindSpeed(data.current.wind_mph); // Set wind speed
+				setPressure(data.current.pressure_in); // Set pressure
+			  })
+			  .catch((err) => console.log("Error fetching weather data: ", err));
+		  }
+		}, [userLocation]);
 
 	return (
 		<View style={tw`flex-1 `}>
@@ -30,8 +51,17 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 			</View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
 				<View>
-					<CardWithText title="Season" title2="Today" text="16°C-31°C" text2="Cold/Dry" />
-				</View>
+				<CardWithText
+            	 title="Season"
+				 title2="Today"
+				 text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
+				 text2={weatherCondition || "Loading..."} // Display weather condition or loading message
+				 iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
+				 windSpeed={windSpeed} // Pass the wind speed to CardWithText
+				 pressure={pressure} // Pass the pressure to CardWithText
+          			/>
+
+					</View>
 				<View>
 					<EmptyCard
 						title="Book marked"
@@ -94,4 +124,4 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 			</ScrollView>
 		</View>
 	);
-}
+	}
