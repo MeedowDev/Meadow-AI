@@ -4,10 +4,10 @@ import { FONTS } from '../constants/Fonts'
 import { LARGE_CONTAINER_STYLING, OVERLAY_STYLING, SMALL_OVERLAY_STYLING} from '../constants/ContainersStyling'
 
 interface SideImageOverlayProps {
-  imageUrl: string;
-  smallerTitle:string;
-  title: string;
-  text: string;
+	imageUrl: string;
+	smallerTitle: string;
+	title: string;
+	text: string;
 }
 
   const SideImageWithOverlay = ({ imageUrl, title,smallerTitle, text }: SideImageOverlayProps ) => {

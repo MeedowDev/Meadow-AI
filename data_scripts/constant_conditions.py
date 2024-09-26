@@ -3,7 +3,7 @@ import pandas as pd
 
 # Initialize the Earth Engine module.
 try:
-    ee.Initialize(project='stephmwangi0')
+    ee.Initialize(project='clevaenergy-a')
 except Exception as e:
     ee.Authenticate()
     ee.Initialize()

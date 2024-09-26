@@ -9,6 +9,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
+import handleScoreModel from "../api/watsonxApi";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -35,14 +36,14 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 						text={userLocation ? weather ?? "Weather data not available" : errorMsg || "Location not available"}
 					/>
 				</View>
-				<View style={tw`flex-row justify-between`}>
-					<FilterButton label="A-Z" />
-					<FilterButton label="Success Rate" />
-					<FilterButton label="Price" />
+				<View style={tw`flex-row`}>
+					<FilterButton label="A-Z" onPress={handleScoreModel} />
+					<FilterButton label="Success Rate" onPress={handleScoreModel} />
+					<FilterButton label="Price" onPress={handleScoreModel} />
 				</View>
-				<View style={tw`flex-row justify-between`}>
-					<FilterButton label="Output" />
-					<FilterButton label="Complexity" />
+				<View style={tw`flex-row`}>
+					<FilterButton label="Output" onPress={handleScoreModel} />
+					<FilterButton label="Complexity" onPress={handleScoreModel} />
 				</View>
 				<View style={tw`p-1 mb-4`}>
 					<SideImageWithOverlay
