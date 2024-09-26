@@ -21,13 +21,13 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const { userLocation, errorMsg } = useContext(LocationContext);
 	const [weather, setWeather] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (userLocation) {
-			getWeatherForecastByCoords(userLocation.coords.latitude, userLocation.coords.longitude).then((data) => {
-				setWeather(data);
-			});
-		}
-	}, [userLocation]);
+	// useEffect(() => {
+	// 	if (userLocation) {
+	// 		getWeatherForecastByCoords(userLocation.coords.latitude, userLocation.coords.longitude).then((data) => {
+	// 			setWeather(data);
+	// 		});
+	// 	}
+	// }, [userLocation]);
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
@@ -37,7 +37,14 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					/>
 				</View>
 				<View style={tw`flex-row`}>
-					<FilterButton label="A-Z" onPress={handleScoreModel} />
+					<FilterButton label="A-Z" onPress={() => {
+						if (userLocation) {
+							handleScoreModel(
+								userLocation.coords.latitude,
+								userLocation.coords.longitude
+							);
+						}
+					}} />
 					<FilterButton label="Success Rate" onPress={handleScoreModel} />
 					<FilterButton label="Price" onPress={handleScoreModel} />
 				</View>

@@ -1,6 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { getWeatherForecastByCoords } from "../api/openmeteoApi";
+import { LocationContext } from "../context/locationContext";
 
 const Key = "OnRFCsfVfzrUsXZiItV1lkPFbDPbJbqJ4UfSWFpYj0fL";
+
+export default function handleScoreModel(latitude: number, longitude: number) {
+	getWeatherForecastByCoords(latitude, longitude).then((data) => {
+		console.log("Weather data: ", data);
+	});
+
+	try {
+		scoreModel();
+	} catch (error) {
+		console.error("Error scoring model: ", error);
+	}
+}
+
+const getWeatherInfo = async (latitude: number, longitude: number) => {
+	const weatherData = await getWeatherForecastByCoords(latitude, longitude);
+	return weatherData;
+}
 
 const scoreModel = async () => {
 	console.log("Scoring model");
@@ -8,14 +27,15 @@ const scoreModel = async () => {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
-			Accept: "application/json",
 		},
 		body: new URLSearchParams({
 			grant_type: "urn:ibm:params:oauth:grant-type:apikey",
 			apikey: Key,
 		}),
 	});
-	const { access_token: mltoken } = await tokenResponse.json();
+	const jsonResp = await tokenResponse.json();
+	console.log("token response", jsonResp);
+	const { access_token: mltoken } = await jsonResp;
 
 	const payload_scoring = {
 		input_data: [
@@ -62,19 +82,9 @@ const scoreModel = async () => {
 			},
 			body: JSON.stringify(payload_scoring),
 		}
-	)
+	);
 
 	const predictions = await response.json();
 	console.log(predictions);
 	return JSON.stringify(predictions);
-};
-
-export default function handleScoreModel() {
-	console.log("Handling scoring model");
-	try {
-		scoreModel();
-	}
-	catch (error) {
-		console.error("Error scoring model: ", error);
-	}
 };
