@@ -1,10 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
 import AppNavigation from "./navigation/appNavigation";
 import "react-native-gesture-handler";
-// import tw from "twrnc";
-// import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState, useEffect, createContext } from "react";
 import * as Location from "expo-location";
 import * as FileSystem from "expo-file-system";

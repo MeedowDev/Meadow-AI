@@ -51,17 +51,16 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 			</View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
 				<View>
-				<CardWithText
-            	 title="Season"
-				 title2="Today"
-				 text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
-				 text2={weatherCondition || "Loading..."} // Display weather condition or loading message
-				 iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
-				 windSpeed={windSpeed} // Pass the wind speed to CardWithText
-				 pressure={pressure} // Pass the pressure to CardWithText
-          			/>
-
-					</View>
+					<CardWithText
+						title="Season"
+						title2="Today"
+						text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
+						text2={weatherCondition || "Loading..."} // Display weather condition or loading message
+						iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
+						windSpeed={windSpeed} // Pass the wind speed to CardWithText
+						pressure={pressure} // Pass the pressure to CardWithText
+					/>
+				</View>
 				<View>
 					<EmptyCard
 						title="Book marked"
@@ -77,14 +76,14 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				</View>
 				<View>
 					<ImageWithOverlay
-						imageUrl="https://images.unsplash.com/photo-1539519532614-723937382b86?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						image="coffeeBerries.png"
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"
 						onPress={() => navigation.navigate("AdvisorScreen")}
 					/>
 					<ImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/479440915/photo/compost-with-composted-earth.webp?s=1024x1024&w=is&k=20&c=2jrCMGulru42bQVUDgvHZXSS9AI_ssd1yIKwrCaZkOQ="
+						image="farmerInTeaFarm.png"
 						title="Farming Insight"
 						smallerTitle=""
 						text="Learn how to make a quick compost pit with these steps"
@@ -98,7 +97,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				}
 				<View>
 					<ImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1713057083/photo/happy-orchard-owners-during-autumn-harvest-looking-at-camera.jpg?s=1024x1024&w=is&k=20&c=TY7XBRJbiBkstk1CEpeeX1c-sVWWxuHHHVW8Bg4T3Sg="
+						image="redTomatoes.png"
 						title="Stakeholders training"
 						smallerTitle=""
 						text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
