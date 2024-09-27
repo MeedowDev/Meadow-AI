@@ -23,6 +23,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 		const [iconUrl, setIconUrl] = useState<string | undefined>(undefined); 
 		const [windSpeed, setWindSpeed] = useState<number | null>(null); // New state for wind speed
 		const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
+		const [humidity, setHumidity] = useState<number | null>(null); // New state for humidity
 	  
 		// Fetch weather data when location is available
 		useEffect(() => {
@@ -33,7 +34,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				setWeatherCondition(data.current.condition.text);
 				setIconUrl(data.current.condition.icon ? `https:${data.current.condition.icon}` : undefined);
 				setWindSpeed(data.current.wind_mph); // Set wind speed
-				setPressure(data.current.pressure_in); // Set pressure
+				setPressure(data.current.pressure_mb); // Set pressure
+				setHumidity(data.current.humidity); // Set humidity
 			  })
 			  .catch((err) => console.log("Error fetching weather data: ", err));
 		  }
@@ -51,16 +53,18 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 			</View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
 				<View>
-					<CardWithText
-						title="Season"
-						title2="Today"
-						text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
-						text2={weatherCondition || "Loading..."} // Display weather condition or loading message
-						iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
-						windSpeed={windSpeed} // Pass the wind speed to CardWithText
-						pressure={pressure} // Pass the pressure to CardWithText
-					/>
-				</View>
+				<CardWithText
+            	 title="Season"
+				 title2="Today"
+				 text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
+				 text2={weatherCondition || "Loading..."} // Display weather condition or loading message
+				 iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
+				 windSpeed={windSpeed} // Pass the wind speed to CardWithText
+				 pressure={pressure}// Pass the pressure to CardWithText
+				 humidity={humidity} // Pass the humidity to CardWithText
+          			/>
+
+					</View>
 				<View>
 					<EmptyCard
 						title="Book marked"

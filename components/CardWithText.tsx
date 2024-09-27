@@ -12,6 +12,7 @@ interface CardWithTextProps {
     iconUrl?: string;
     windSpeed?: number | null; // New prop for wind speed
     pressure?: number | null; // New prop for pressure
+    humidity?: number | null; // New prop for pressure
   }
   
   const CardWithText: React.FC<CardWithTextProps> = ({
@@ -22,13 +23,14 @@ interface CardWithTextProps {
     iconUrl,
     windSpeed,
     pressure,
+    humidity,
   }) => {
     return (
       <View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_CARDWITHTEXT}>
         <View style={OVERLAY_STYLING_EMPTY}>
           <Text style={[FONTS.LARGE_TITLE, {marginTop: 20, marginLeft: 40, marginBottom: -28}]}>{title}</Text>
           <Text style={[FONTS.LARGE_TITLE, {marginLeft: 170, marginBottom: 20}]}>{title2}</Text>
-          <Text style={[FONTS.REGULAR_FONT, {marginLeft: 50, top: 20}]}>{text}</Text>
+          <Text style={[FONTS.REGULAR_FONT, {marginLeft: 50, top: 8}]}>{text}</Text>
           <Text style={[FONTS.REGULAR_FONT, {marginLeft: 140, bottom: 10}]}>{text2}</Text>
           
            {/* Container for the icons */}
@@ -50,12 +52,15 @@ interface CardWithTextProps {
   
           {/* Display wind speed */}
           {windSpeed !== null && (
-            <Text style={[FONTS.REGULAR_FONT, {marginLeft: 150}]}>Wind Speed: {windSpeed} mph</Text>
+            <Text style={[FONTS.REGULAR_FONT, {marginLeft: 170}]}>Wind: {windSpeed} mph</Text>
           )}
   
           {/* Display pressure */}
           {pressure !== null && (
-            <Text style={[FONTS.REGULAR_FONT, {marginLeft: 30,bottom:16}]}>Pressure: {pressure} in</Text>
+            <Text style={[FONTS.REGULAR_FONT, {marginLeft: 30,bottom:16}]}>Pressure:{pressure} in</Text>
+          )}
+          {humidity !== null && (
+            <Text style={[FONTS.REGULAR_FONT, {marginLeft: 170,bottom:10}]}>Humidity: {humidity} in</Text>
           )}
         </View>
       </View>
