@@ -61,6 +61,11 @@ for month in range(4, (number_of_months + 1)):
     max_temperature = dataset.select('Tair_f_inst').max()
     min_temperature = dataset.select('Tair_f_inst').min()
 
+
+# Print raw values in Kelvin
+    print(f"Raw Max Temperature (Kelvin): {max_temperature.getInfo()}")
+    print(f"Raw Min Temperature (Kelvin): {min_temperature.getInfo()}")
+
     # Kelvin to Celsius conversion
     temperature = temperature.subtract(273.15)
     max_temperature = max_temperature.subtract(273.15)
@@ -119,3 +124,4 @@ for month in range(4, (number_of_months + 1)):
     df = pd.DataFrame(data)
     df.to_csv(f'Fresno_County_CA_{year}_{month}.csv', index=False)
     logging.info(f'Fresno County, Carlifonia varying data for month {month} saved to CSV.')
+    
