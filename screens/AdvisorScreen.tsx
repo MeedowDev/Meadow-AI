@@ -37,14 +37,14 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					/>
 				</View>
 				<View style={tw`flex-row`}>
-					<FilterButton label="A-Z" onPress={() => {
-						if (userLocation) {
-							handleScoreModel(
-								userLocation.coords.latitude,
-								userLocation.coords.longitude
-							);
-						}
-					}} />
+					<FilterButton
+						label="A-Z"
+						onPress={() => {
+							if (userLocation) {
+								handleScoreModel(userLocation.coords.latitude, userLocation.coords.longitude);
+							}
+						}}
+					/>
 					<FilterButton label="Success Rate" onPress={handleScoreModel} />
 					<FilterButton label="Price" onPress={handleScoreModel} />
 				</View>

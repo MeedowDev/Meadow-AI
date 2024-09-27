@@ -1,16 +1,37 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import { LocationContext } from "../context/locationContext";
 
 const Key = "OnRFCsfVfzrUsXZiItV1lkPFbDPbJbqJ4UfSWFpYj0fL";
 
 export default function handleScoreModel(latitude: number, longitude: number) {
-	getWeatherForecastByCoords(latitude, longitude).then((data) => {
-		console.log("Weather data: ", data);
+	const rawWeatherData = getWeatherInfo(latitude, longitude);
+	var weatherData: any;
+	rawWeatherData.then((data) => {
+		
+		const lenght = data.daily.time.length;
+		const quater = Math.floor(lenght / 4);
+		for (let i = 0; i < 4; i++) {
+			const quaterData = getQuaterMeans(data, quater * i, quater * i + quater - 1);
+			console.log("Quater data: ", quaterData);
+		}
 	});
 
+	//? 6 month growth period
+	function getQuaterMeans(data: any, start: number, end: number) {	
+
+		const QMaxTemperature = data.daily.temperature_2m_max.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
+		const QMinTemperature = data.daily.temperature_2m_min.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
+		const QWindSpeed = data.daily.wind_speed_10m_mean.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
+		const QHumidity = data.daily.relative_humidity_2m_mean.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
+		const elevation = data.elevation;
+		return { QMaxTemperature, QMinTemperature, QWindSpeed, QHumidity, elevation };
+	}
+
 	try {
-		scoreModel();
+		console.log("Scoring model");
+
+		//scoreModel();
 	} catch (error) {
 		console.error("Error scoring model: ", error);
 	}
@@ -19,7 +40,7 @@ export default function handleScoreModel(latitude: number, longitude: number) {
 const getWeatherInfo = async (latitude: number, longitude: number) => {
 	const weatherData = await getWeatherForecastByCoords(latitude, longitude);
 	return weatherData;
-}
+};
 
 const scoreModel = async () => {
 	console.log("Scoring model");
