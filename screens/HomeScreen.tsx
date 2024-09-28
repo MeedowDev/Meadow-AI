@@ -77,7 +77,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<Freebuttons title="OPEN" />
 
 					<Freebuttons title="OPEN" />
-				</View>
+				</View> 
 				<View>
 					<ImageWithOverlay
 						image="coffeeBerries.png"
@@ -108,22 +108,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						onPress={() => navigation.navigate("NewsScreen")}
 					/>
 				</View>
-				<View style={tw`flex-row justify-around bg-white p-2 absolute bottom--2 w-full shadow-lg`}>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Home")}>
-						<Ionicons name="home-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Home</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("FarmersPointScreen")}>
-						<Ionicons name="chatbubbles-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Chat</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("AdvisorScreen")}>
-						<Ionicons name="person-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Advisory</Text>
-					</TouchableOpacity>
-				</View>
+				
 			</ScrollView>
 		</View>
 	);

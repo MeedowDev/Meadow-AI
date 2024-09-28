@@ -2,50 +2,77 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/HomeScreen";
 import AdvisorScreen from "../screens/AdvisorScreen";
 import MenuScreen from "../screens/MenuScreen";
 import InsightsScreen from "../screens/InsightsScreen";
 import FarmersPointScreen from "../screens/FarmersPointScreen";
-import NewsScreen from "../screens/NewsScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
-import { Ionicons } from "@expo/vector-icons";
-import { HomeIcon, UserIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
-import { LogBox, TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../types";
+import { HomeIcon, UserIcon, ChatBubbleLeftIcon } from "react-native-heroicons/outline";
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
+// Simplified Stack Navigator for all screens
+function MainStack() {
+	return (
+		<Stack.Navigator initialRouteName="Home">
+			<Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+			<Stack.Screen name="Menu" component={MenuScreen} />
+			<Stack.Screen
+				name="Insights"
+				component={InsightsScreen}
+				options={({ navigation }) => ({
+					headerTitle: "Insights",
+					headerRight: () => (
+						<TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate("Menu")}>
+							<Ionicons name="menu-outline" size={30} color="green" />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+			<Stack.Screen name="FarmerAAsPoint" component={FarmersPointScreen} />
+			<Stack.Screen name="Specifics" component={SpecificsScreen} />
+			<Stack.Screen name="BookMarked" component={BookMarkedScreen} />
+		</Stack.Navigator>
+	);
+}
 
+// Bottom Tab Navigator with fewer options
 function TabNavigator() {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen
-				name="Home"
-				component={HomeScreen}
+				name="HomeTab"
+				component={MainStack}
 				options={{
 					tabBarLabel: "Home",
-					tabBarIcon: ({ focused, size }) => <HomeIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
-					headerShown: false, // Ensure no header for the Tab screens
+					tabBarIcon: ({ focused, size }) => <HomeIcon color={focused ? "green" : "gray"} size={size} />,
+					headerShown: false,
 				}}
 			/>
 			<Tab.Screen
-				name="Advisor"
+				name="AdvisorTab"
 				component={AdvisorScreen}
-				options={{
-					tabBarLabel: "Advisor",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
-				}}
+				options={({ navigation }) => ({
+					headerTitle: "Your AI Advisor",
+					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? "green" : "gray"} size={size} />,
+					headerRight: () => (
+						<TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate("Menu")}>
+							<Ionicons name="menu-outline" size={30} color="green" />
+						</TouchableOpacity>
+					),
+				})}
 			/>
 			<Tab.Screen
-				name="FarmersPoint"
+				name="ChatTab"
 				component={FarmersPointScreen}
 				options={{
-					tabBarLabel: "FarmersPoint",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
+					tabBarLabel: "Chat",
+					tabBarIcon: ({ focused, size }) => <ChatBubbleLeftIcon color={focused ? "green" : "gray"} size={size} />,
 				}}
 			/>
 		</Tab.Navigator>
@@ -55,113 +82,7 @@ function TabNavigator() {
 export default function AppNavigation() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator>
-				<Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-				<Stack.Screen
-					name="Menu"
-					options={{
-						headerTitle: "Menu",
-					}}
-					component={MenuScreen}
-				/>
-
-				<Stack.Screen
-					name="Insights"
-					component={InsightsScreen}
-					options={({ navigation }) => ({
-						headerTitle: "InsightsScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 20 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				<Stack.Screen
-					name="AdvisorScreen"
-					component={AdvisorScreen}
-					options={({ navigation }) => ({
-						headerTitle: "AdvisorScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				<Stack.Screen
-					name="FarmersPointScreen"
-					component={FarmersPointScreen}
-					options={({ navigation }) => ({
-						headerTitle: "FarmersPointScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				<Stack.Screen
-					name="NewsScreen"
-					component={NewsScreen}
-					options={({ navigation }) => ({
-						headerTitle: "NewsScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				<Stack.Screen
-					name="SpecificsScreen"
-					component={SpecificsScreen}
-					options={({ navigation }) => ({
-						headerTitle: "SpecificsScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				<Stack.Screen
-					name="BookMarkedScreen"
-					component={BookMarkedScreen}
-					options={({ navigation }) => ({
-						headerTitle: "BookMarkedScreen", // Keeps the title as it is
-						headerRight: () => (
-							<TouchableOpacity
-								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
-								onPress={() => navigation.navigate("Menu")}
-							>
-								<Ionicons name="menu-outline" size={30} color="green" />
-							</TouchableOpacity>
-						),
-					})}
-				/>
-				
-			</Stack.Navigator>
+			<TabNavigator />
 		</NavigationContainer>
 	);
 }
-
-const COLORS = {
-	LIGHT_GRAY: "#d3d3d3",
-	SELECTED: "#4CAF50", // Change this to your desired selected color
-};
