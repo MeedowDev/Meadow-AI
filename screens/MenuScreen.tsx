@@ -12,30 +12,15 @@ interface MenuScreenProps {
   navigation: MenuScreenNavigationProp;
 }
 export default function MenuScreen({ navigation }: MenuScreenProps){
-    return(
-        <View style ={tw`flex-1`}>
-            <ScrollView contentContainerStyle={tw`bg-white items-center`}>
-            <Menu
-          title="Home"
-          onPress={() => navigation.navigate('Home')}
-        />
-        <Menu
-          title="Advisor"
-          onPress={() => navigation.navigate('AdvisorScreen')}
-        />
-        <Menu
-          title="Farmers Point"
-          onPress={() => navigation.navigate('FarmersPointScreen')}
-        />
-        <Menu
-          title="News"
-          onPress={() => navigation.navigate('NewsScreen')}
-        />
-        <Menu
-          title="Farming Insights"
-          onPress={() => navigation.navigate('Insights')}
-        />
-    </ScrollView>
-</View>
+    return (
+		<View style={tw`flex-1`}>
+			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
+				<Menu title="Home" onPress={() => navigation.navigate("Home")} />
+				<Menu title="Advisor" onPress={() => navigation.navigate("AdvisorTab")} />
+				<Menu title="Farmers Point" onPress={() => navigation.navigate("FarmersPointScreen")} />
+				<Menu title="News" onPress={() => navigation.navigate("NewsScreen")} />
+				<Menu title="Farming Insights" onPress={() => navigation.navigate("Insights")} />
+			</ScrollView>
+		</View>
     );
 }

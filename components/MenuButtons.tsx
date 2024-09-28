@@ -11,13 +11,11 @@ interface MenuProps {
 
 const Menu = ({title, onPress }: MenuProps) => {
     return (
-		<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU}>
-			<TouchableOpacity onPress={onPress}>
+			<TouchableOpacity style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU} onPress={onPress}>
 				<View style={OVERLAY_STYLING_JUST_TEXT}>
 					<Text style={[FONTS.REGULAR_FONT, { marginTop: 35, marginBottom: 30, textAlign: "center" }]}>{title}</Text>
 				</View>
 			</TouchableOpacity>
-		</View>
     );
 };
 
