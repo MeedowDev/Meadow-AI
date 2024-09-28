@@ -57,4 +57,4 @@ export const OVERLAY_STYLING_ACCOUNT = [tw`bg-black bg-opacity-0 w-full h-full r
 
 export const SMALL_OVERLAY_STYLING = [tw`w-full h-full rounded-[30px]`];
 
-export const TOP_PADDING = [tw`p-2`];
+export const SPACER = [tw`h-8 bg-white`];

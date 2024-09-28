@@ -11,6 +11,7 @@ import { getCurrentWeather } from "../api/RealTimeWeather";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useState, useEffect, useContext } from "react";
+import { SPACER} from "../constants/ContainersStyling";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
@@ -43,15 +44,19 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
 	return (
 		<View style={tw`flex-1 `}>
-			<View style={tw`flex-row justify-between  bg-white h-20 w-full shadow-lg`}>
-				<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("Menu")}>
-					<Ionicons name="menu-outline" size={40} color="green" />
-				</TouchableOpacity>
-				<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("FarmersPointScreen")}>
-					<Ionicons name="person-circle-outline" size={35} color="green" />
-				</TouchableOpacity>
-			</View>
+			<View style={SPACER}></View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
+				<View style={SPACER}></View>
+
+				<View style={tw`flex-row justify-between  bg-white h-20 w-full`}>
+					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("Menu")}>
+						<Ionicons name="menu-outline" size={40} color="green" />
+					</TouchableOpacity>
+					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("FarmersPointScreen")}>
+						<Ionicons name="person-circle-outline" size={35} color="green" />
+					</TouchableOpacity>
+				</View>
+				<View style={SPACER}></View>
 				<View>
 					<CardWithText
 						title="Season"
@@ -100,7 +105,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"
-						onPress={() => navigation.navigate("AdvisorTab")}
+						onPress={() => navigation.navigate("NewsScreen")}
 					/>
 				</View>
 				<View style={tw`bottom-30 right-20`}>

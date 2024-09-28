@@ -10,6 +10,7 @@ import MenuScreen from "../screens/MenuScreen";
 import InsightsScreen from "../screens/InsightsScreen";
 import FarmersPointScreen from "../screens/FarmersPointScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
+import NewsScreen from "../screens/NewsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
 import { HomeIcon, UserIcon, ChatBubbleLeftIcon } from "react-native-heroicons/outline";
 
@@ -34,9 +35,10 @@ function MainStack() {
 					),
 				})}
 			/>
-			<Stack.Screen name="FarmerAAsPoint" component={FarmersPointScreen} />
+			<Stack.Screen name="FarmersPointScreen" component={FarmersPointScreen} />
+			<Stack.Screen name="advisor" component={AdvisorScreen} />
 			<Stack.Screen name="Specifics" component={SpecificsScreen} />
-			<Stack.Screen name="BookMarked" component={BookMarkedScreen} />
+			<Stack.Screen name="NewsScreen" component={NewsScreen} />
 		</Stack.Navigator>
 	);
 }

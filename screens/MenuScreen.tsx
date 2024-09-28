@@ -17,7 +17,7 @@ export default function MenuScreen({ navigation }: MenuScreenProps){
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
 				<Menu title="Home" onPress={() => navigation.navigate("Home")} />
 				<Menu title="Advisor" onPress={() => navigation.navigate("AdvisorTab")} />
-				<Menu title="Farmers Point" onPress={() => navigation.navigate("FarmersPointScreen")} />
+				<Menu title="Farmers Chat" onPress={() => navigation.navigate("FarmersPointScreen")} />
 				<Menu title="News" onPress={() => navigation.navigate("NewsScreen")} />
 				<Menu title="Farming Insights" onPress={() => navigation.navigate("Insights")} />
 			</ScrollView>
