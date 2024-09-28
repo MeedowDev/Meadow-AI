@@ -53,18 +53,17 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 			</View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
 				<View>
-				<CardWithText
-            	 title="Season"
-				 title2="Today"
-				 text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
-				 text2={weatherCondition || "Loading..."} // Display weather condition or loading message
-				 iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
-				 windSpeed={windSpeed} // Pass the wind speed to CardWithText
-				 pressure={pressure}// Pass the pressure to CardWithText
-				 humidity={humidity} // Pass the humidity to CardWithText
-          			/>
-
-					</View>
+					<CardWithText
+						title="Season"
+						title2="Today"
+						text={weather ? `${weather}°C` : "Loading..."} // Display weather or loading message
+						text2={weatherCondition || "Loading..."} // Display weather condition or loading message
+						iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
+						windSpeed={windSpeed} // Pass the wind speed to CardWithText
+						pressure={pressure} // Pass the pressure to CardWithText
+						humidity={humidity} // Pass the humidity to CardWithText
+					/>
+				</View>
 				<View>
 					<EmptyCard
 						title="Book marked"
@@ -77,14 +76,14 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<Freebuttons title="OPEN" />
 
 					<Freebuttons title="OPEN" />
-				</View> 
+				</View>
 				<View>
 					<ImageWithOverlay
 						image="coffeeBerries.png"
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"
-						onPress={() => navigation.navigate("AdvisorScreen")}
+						onPress={() => navigation.navigate("AdvisorTab")}
 					/>
 					<ImageWithOverlay
 						image="farmerInTeaFarm.png"
@@ -108,7 +107,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						onPress={() => navigation.navigate("NewsScreen")}
 					/>
 				</View>
-				
 			</ScrollView>
 		</View>
 	);
