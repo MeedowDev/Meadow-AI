@@ -6,30 +6,32 @@ const Key = "OnRFCsfVfzrUsXZiItV1lkPFbDPbJbqJ4UfSWFpYj0fL";
 
 export default function handleScoreModel(latitude: number, longitude: number) {
 	const rawWeatherData = getWeatherInfo(latitude, longitude);
-	var result: number[] = [];
+	var weatherData: any;
+	rawWeatherData.then((data) => {
+		
+		const lenght = data.daily.time.length;
+		const quater = Math.floor(lenght / 4);
+		for (let i = 0; i < 4; i++) {
+			const quaterData = getQuaterMeans(data, quater * i, quater * i + quater - 1);
+			console.log("Quater data: ", quaterData);
+		}
+	});
 
 	//? 6 month growth period
-	function getQuaterMeans(data: any, start: number, end: number) {
+	function getQuaterMeans(data: any, start: number, end: number) {	
+
 		const QMaxTemperature = data.daily.temperature_2m_max.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
 		const QMinTemperature = data.daily.temperature_2m_min.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
 		const QWindSpeed = data.daily.wind_speed_10m_mean.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
 		const QHumidity = data.daily.relative_humidity_2m_mean.slice(start, end).reduce((a: number, b: number) => a + b) / (end - start);
-		result.push(QMaxTemperature, QMinTemperature, QWindSpeed, QHumidity);
+		const elevation = data.elevation;
+		return { QMaxTemperature, QMinTemperature, QWindSpeed, QHumidity, elevation };
 	}
 
 	try {
 		console.log("Scoring model");
-		rawWeatherData.then((data) => {
-			const lenght = data.daily.time.length;
-			const quater = Math.floor(lenght / 4);
-			for (let i = 0; i < 4; i++) {
-				getQuaterMeans(data, quater * i, quater * i + quater - 1);
-			}
-			result.push(data.elevation);
-			console.log("Result", result);
-		});
 
-		scoreModel(result);
+		//scoreModel();
 	} catch (error) {
 		console.error("Error scoring model: ", error);
 	}
@@ -40,7 +42,8 @@ const getWeatherInfo = async (latitude: number, longitude: number) => {
 	return weatherData;
 };
 
-const scoreModel = async (data: number[]) => {
+const scoreModel = async () => {
+	console.log("Scoring model");
 	const tokenResponse = await fetch("https://iam.cloud.ibm.com/identity/token", {
 		method: "POST",
 		headers: {
@@ -75,9 +78,16 @@ const scoreModel = async (data: number[]) => {
 					"Q4(Min_Temperature)",
 					"Q4(Wind_Speed)",
 					"Q4(Humidity)",
+					"Longitude",
+					"Latitude",
 					"Elevation",
+					"Slope",
 				],
-				values: data,
+				values: [
+					-242.2438171, -448.810614, 2.871808132, 0.005923631, -516.7916646, -84.14896444, 2.985443433, 0.005540452, 29.50833537,
+					-262.5931315, 2.47288998, 0.006444937, -95.20916138, -131.0342194, 2.774173856, 0.005468412, -119.9831461, 36.33636364,
+					74, 0.068226084,
+				],
 			},
 		],
 	};
