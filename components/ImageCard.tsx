@@ -26,7 +26,7 @@ const ImageWithOverlay = ({ image, title, smallerTitle, text, onPress }: ImageWi
 	}
 	return (
 		<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT}>
-			<ImageBackground source={currImage} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING_FP}>
+			<ImageBackground source={{ uri: currImage }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING_FP}>
                 
 				<TouchableOpacity onPress={onPress}>
 					<View style={OVERLAY_STYLING}>

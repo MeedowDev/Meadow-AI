@@ -80,7 +80,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
       </TouchableOpacity>
       <TouchableOpacity
         style={tw`p-10`}
-        onPress={() => navigation.navigate('AdvisorScreen')}
+        onPress={() => navigation.navigate('AdvisorTab')}
       >
         <Ionicons name="person" size={30} color="green" />
         <Text style={tw`right-3`}>Advisory</Text>

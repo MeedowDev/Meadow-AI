@@ -1,6 +1,6 @@
 import SQLite, { SQLiteDatabase,ResultSet} from 'react-native-sqlite-storage';
 
-export const openDatabase = (): Promise<SQLite.SQLiteDatabase> => {
+export const openDatabase = (): Promise<SQLiteDatabase> => {
   return new Promise((resolve, reject) => {
     try {
       console.log('Initializing database...');
@@ -9,18 +9,19 @@ export const openDatabase = (): Promise<SQLite.SQLiteDatabase> => {
           name: 'UserDatabase.db',
           location: 'default',
         },
-        // Success callback
-        () => {
-          console.log('Database opened successfully');
-          resolve(db); // Resolve the promise with the db instance
+        (dbInstance) => {
+          console.log('Database opened successfully:', dbInstance);
+          resolve(db);
         },
-        // Error callback
         (error) => {
           console.error('Error opening database:', error);
-          reject(error); // Reject the promise if an error occurs
+          reject(error);
         }
       );
 
+      // Log the db object to see if it's null
+      console.log('Database object:', db);
+      
       if (!db) {
         console.error('Database object is null after openDatabase');
         throw new Error('Database object is null');

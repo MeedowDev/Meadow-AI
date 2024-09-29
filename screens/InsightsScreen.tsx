@@ -66,7 +66,7 @@ at almost zero costs!"
 						<Ionicons name="bookmark-outline" size={25} color="green" />
 						<Text>Bookmarked</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => navigation.navigate("AdvisorScreen")}>
+					<TouchableOpacity onPress={() => navigation.navigate("BookMarkedScreen")}>
 						<Ionicons name="person-outline" size={25} color="green" />
 						<Text>Advisory</Text>
 					</TouchableOpacity>

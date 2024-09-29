@@ -8,7 +8,6 @@ import HomeScreen from "../screens/HomeScreen";
 import AdvisorScreen from "../screens/AdvisorScreen";
 import MenuScreen from "../screens/MenuScreen";
 import InsightsScreen from "../screens/InsightsScreen";
-import FarmersPointScreen from "../screens/FarmersPointScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import NewsScreen from "../screens/NewsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
@@ -35,7 +34,7 @@ function MainStack() {
 					),
 				})}
 			/>
-			<Stack.Screen name="FarmersPointScreen" component={FarmersPointScreen} />
+			<Stack.Screen name="FarmersPointScreen" component={HomeScreen} />
 			<Stack.Screen name="advisor" component={AdvisorScreen} />
 			<Stack.Screen name="Specifics" component={SpecificsScreen} />
 			<Stack.Screen name="NewsScreen" component={NewsScreen} />
@@ -71,7 +70,7 @@ function TabNavigator() {
 			/>
 			<Tab.Screen
 				name="ChatTab"
-				component={FarmersPointScreen}
+				component={BookMarkedScreen}
 				options={{
 					tabBarLabel: "Chat",
 					tabBarIcon: ({ focused, size }) => <ChatBubbleLeftIcon color={focused ? "green" : "gray"} size={size} />,
