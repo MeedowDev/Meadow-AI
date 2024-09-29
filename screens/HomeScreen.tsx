@@ -2,6 +2,7 @@ import ImageWithOverlay from "../components/ImageCard";
 import CardWithText from "../components/CardWithText";
 import EmptyCard from "../components/EmptyCard";
 import Freebuttons from "../components/Freebuttons";
+import LandingWidget from "../components/landingWidget";
 import JustText from "../components/JustText";
 import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import tw from "twrnc";
@@ -44,20 +45,19 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
 	return (
 		<View style={tw`flex-1 `}>
-			<View style={SPACER}></View>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
-				<View style={SPACER}></View>
+				<LandingWidget temperature="22" weather="Cloudy" season="October 2024, Rainy Season"></LandingWidget>
 
-				<View style={tw`flex-row justify-between  bg-white h-20 w-full`}>
+				{/* <View style={tw`flex-row justify-between  bg-white h-20 w-full`}>
 					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("Menu")}>
 						<Ionicons name="menu-outline" size={40} color="green" />
 					</TouchableOpacity>
 					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("FarmersPointScreen")}>
 						<Ionicons name="person-circle-outline" size={35} color="green" />
 					</TouchableOpacity>
-				</View>
+				</View> */}
 				<View style={SPACER}></View>
-				<View>
+				{/* <View>
 					<CardWithText
 						title="Season"
 						title2="Today"
@@ -68,8 +68,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						pressure={pressure} // Pass the pressure to CardWithText
 						humidity={humidity} // Pass the humidity to CardWithText
 					/>
-				</View>
-				<View>
+				</View> */}
+				{/* <View>
 					<EmptyCard
 						title="Book marked"
 						text="Avocados:"
@@ -81,8 +81,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<Freebuttons title="OPEN" />
 
 					<Freebuttons title="OPEN" />
-				</View>
-				<View>
+				</View> */}
+				<View style={tw` mt-[40%]`}>
 					<ImageWithOverlay
 						image="coffeeBerries.png"
 						title="Farming Advisor"

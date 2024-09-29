@@ -1,7 +1,9 @@
 import AppNavigation from "./navigation/appNavigation";
 import "react-native-gesture-handler";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
+import { ActivityIndicator } from "react-native";
 import * as Location from "expo-location";
+import * as Font from "expo-font";
 import * as FileSystem from "expo-file-system";
 import { LocationProvider } from "./context/locationContext";
 
@@ -9,6 +11,7 @@ const locationFilePath = FileSystem.documentDirectory + "location.json";
 
 export default function App() {
 	const [userLocation, setLocation] = useState<Location.LocationObject | null>(null);
+	const [fontsLoaded, setFontsLoaded] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -18,12 +21,26 @@ export default function App() {
 				return;
 			}
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      saveLocation(location);
-	  console.log("Location",location)
-    })();
-  }, []);
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+			saveLocation(location);
+			console.log("Location", location);
+		})();
+	}, []);
+
+	useEffect(() => {
+		async function loadFonts() {
+			await Font.loadAsync({
+				RubikMonoOne: require("./assets/fonts/RubikMonoOne.ttf"),
+			});
+			setFontsLoaded(true);
+		}
+		loadFonts();
+	}, []);
+
+	if (!fontsLoaded) {
+		return <ActivityIndicator />;
+	}
 
 	const saveLocation = async (location: Location.LocationObject) => {
 		const newLocation = {
