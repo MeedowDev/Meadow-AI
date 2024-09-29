@@ -42,8 +42,8 @@ export const LARGE_CONTAINER_STYLING = {
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_ACCOUNT_FILTERBUTTONS: [tw`my-1 mx-1 w-[30%] h-7 rounded-[30]  bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 };
 
-export const OVERLAY_STYLING = [tw`bg-black bg-opacity-0 w-full h-[120%] rounded-[30px]`];
-export const OVERLAY_STYLING_JUST_TEXT= [tw`bg-black bg-opacity-0 w-full`];
+export const OVERLAY_STYLING = [tw`bg-black bg-opacity-30 w-full h-[120%] rounded-[30px]`];
+export const OVERLAY_STYLING_JUST_TEXT = [tw`bg-black bg-opacity-0 h-[120%] w-full`];
 export const OVERLAY_STYLING_FREEBUTTON = [tw`bg-white bg-opacity-100 w-full h-[100%] rounded-[30px]`];
 export const OVERLAY_STYLING_TWOBUTTONSONTHESIDE = [tw`bg-green-400 bg-opacity-100 w-full h-[100%] rounded-[30px]`];
 export const OVERLAY_STYLING_CLICKABLEBUTTONS = [tw`bg-green bg-opacity-10 w-full h-[120%] rounded-[30px]`];
@@ -57,4 +57,4 @@ export const OVERLAY_STYLING_ACCOUNT = [tw`bg-black bg-opacity-0 w-full h-full r
 
 export const SMALL_OVERLAY_STYLING = [tw`w-full h-full rounded-[30px]`];
 
-export const TOP_PADDING = [tw`p-2`];
+export const SPACER = [tw`h-8 bg-white`];
