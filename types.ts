@@ -10,5 +10,6 @@ export type RootStackParamList = {
     SpecificsScreen:undefined;
     BookMarkedScreen:undefined;
     Prediction:undefined;
+    AccountScreen:undefined;
   };
   

@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity} from "react-native";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
 import SideImageWithOverlay from "../components/SideImageOverlay";
 import FilterButton from "../components/FilterButtons";
-import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
-import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import handleScoreModel from "../api/watsonxApi";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -71,20 +69,6 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 						smallerTitle="Chinese ginger"
 						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
 					/>
-				</View>
-				<View style={tw`flex-row justify-around mt-4 bg-white p-2 w-full shadow-lg`}>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Home")}>
-						<Ionicons name="home-outline" size={25} color="green" />
-						<Text style={tw``}>Home</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Insights")}>
-						<Ionicons name="bar-chart-outline" size={25} color="green" />
-						<Text style={tw``}>Insights</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("NewsScreen")}>
-						<Ionicons name="newspaper-outline" size={25} color="green" />
-						<Text>News</Text>
-					</TouchableOpacity>
 				</View>
 			</ScrollView>
 		</View>

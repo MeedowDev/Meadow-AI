@@ -60,27 +60,7 @@ efficiency in small spaces
 at almost zero costs!"
             date=""
             />
-        </View>      
-        <View style={tw`flex-row justify-around bg-white p-2 w-full shadow-lg`}>
-        <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
-      >
-        <Ionicons name="home-outline" size={25} color="green" />
-        <Text>Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('BookMarkedScreen')}
-      >
-        <Ionicons name="bookmark-outline" size={25} color="green" />
-      <Text>Bookmarked</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('AdvisorScreen')}
-      >
-        <Ionicons name="person-outline" size={25} color="green" />
-        <Text>Advisory</Text>
-      </TouchableOpacity>
-        </View>      
+        </View>            
    </ScrollView>
 </View>
 );

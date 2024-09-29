@@ -22,7 +22,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 		const [weatherCondition, setWeatherCondition] = useState<string | null>(null);
 		const [iconUrl, setIconUrl] = useState<string | undefined>(undefined); 
 		const [windSpeed, setWindSpeed] = useState<number | null>(null); // New state for wind speed
-		const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
 		const [humidity, setHumidity] = useState<number | null>(null); // New state for humidity
 	  
 		// Fetch weather data when location is available
@@ -34,7 +33,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				setWeatherCondition(data.current.condition.text);
 				setIconUrl(data.current.condition.icon ? `https:${data.current.condition.icon}` : undefined);
 				setWindSpeed(data.current.wind_mph); // Set wind speed
-				setPressure(data.current.pressure_mb); // Set pressure
 				setHumidity(data.current.humidity); // Set humidity
 			  })
 			  .catch((err) => console.log("Error fetching weather data: ", err));
@@ -60,8 +58,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				 text2={weatherCondition || "Loading..."} // Display weather condition or loading message
 				 iconUrl={iconUrl} // Pass the icon URL as a prop to CardWithText
 				 windSpeed={windSpeed} // Pass the wind speed to CardWithText
-				 pressure={pressure}// Pass the pressure to CardWithText
-				 humidity={humidity} // Pass the humidity to CardWithText
+				 humidity={humidity ? `${humidity}%` : "Loading..."} // Pass the humidity to CardWithText
           			/>
 
 					</View>
@@ -107,22 +104,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
 						onPress={() => navigation.navigate("NewsScreen")}
 					/>
-				</View>
-				<View style={tw`flex-row justify-around bg-white p-2 absolute bottom--2 w-full shadow-lg`}>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Home")}>
-						<Ionicons name="home-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Home</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("FarmersPointScreen")}>
-						<Ionicons name="chatbubbles-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Chat</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("AdvisorScreen")}>
-						<Ionicons name="person-outline" size={25} color="green" style={tw`shadow`} />
-						<Text style={tw`mt-1 text-black font-light`}>Advisory</Text>
-					</TouchableOpacity>
 				</View>
 			</ScrollView>
 		</View>

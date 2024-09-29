@@ -6,7 +6,7 @@ import HomeScreen from "../screens/HomeScreen";
 import AdvisorScreen from "../screens/AdvisorScreen";
 import MenuScreen from "../screens/MenuScreen";
 import InsightsScreen from "../screens/InsightsScreen";
-import FarmersPointScreen from "../screens/FarmersPointScreen";
+import AccountScreen from "../screens/AccountScreen";
 import NewsScreen from "../screens/NewsScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
@@ -33,18 +33,18 @@ function TabNavigator() {
 				}}
 			/>
 			<Tab.Screen
-				name="Advisor"
+				name="AdvisorTab"
 				component={AdvisorScreen}
 				options={{
 					tabBarLabel: "Advisor",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
+					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size}/>,
 				}}
 			/>
 			<Tab.Screen
-				name="FarmersPoint"
-				component={FarmersPointScreen}
+				name="AccountScreen"
+				component={AccountScreen}
 				options={{
-					tabBarLabel: "FarmersPoint",
+					tabBarLabel: "AccountScreen",
 					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
 				}}
 			/>
@@ -90,16 +90,16 @@ export default function AppNavigation() {
 								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
 								onPress={() => navigation.navigate("Menu")}
 							>
-								<Ionicons name="menu-outline" size={30} color="green" />
+							<Ionicons name="menu-outline" size={30} color="green" />
 							</TouchableOpacity>
 						),
 					})}
 				/>
 				<Stack.Screen
-					name="FarmersPointScreen"
-					component={FarmersPointScreen}
+					name="AccountScreen"
+					component={AccountScreen}
 					options={({ navigation }) => ({
-						headerTitle: "FarmersPointScreen", // Keeps the title as it is
+						headerTitle: "AccountScreen", // Keeps the title as it is
 						headerRight: () => (
 							<TouchableOpacity
 								style={{ marginRight: 10 }} // Adjust margin to fit the spacing

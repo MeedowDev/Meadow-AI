@@ -24,8 +24,8 @@ export default function MenuScreen({ navigation }: MenuScreenProps){
           onPress={() => navigation.navigate('AdvisorScreen')}
         />
         <Menu
-          title="Farmers Point"
-          onPress={() => navigation.navigate('FarmersPointScreen')}
+          title="Account"
+          onPress={() => navigation.navigate('AccountScreen')}
         />
         <Menu
           title="News"

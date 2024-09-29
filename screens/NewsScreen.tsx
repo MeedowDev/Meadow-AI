@@ -71,23 +71,7 @@ Overall, the stakeholders meeting at Kaguru was a success, with all parties comi
             date='11-06-23 - Sunday'
           />
         </View>
-
-      <View style={tw`flex-row justify-around bg-white p-2 w-full shadow-lg`}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Ionicons name="home-outline" size={25} color="green" />
-          <Text>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SpecificsScreen')}>
-          <Ionicons name="document-attach-outline" size={25} color="green" />
-          <Text>Specifics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('AdvisorScreen')}>
-          <Ionicons name="person-outline" size={25} color="green" />
-          <Text>Advisory</Text>
-        </TouchableOpacity>
-      </View>
       </ScrollView>
-
     </View>
   );
 }
