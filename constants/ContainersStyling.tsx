@@ -1,7 +1,7 @@
 import tw from "twrnc";
 import { COLORS } from "./Colors";
 export const LARGE_CONTAINER_STYLING = {
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT: [tw`my-5 w-[300px] h-[210px] top--40 rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT: [tw`my-5 w-[300px] h-[210px] top--40 rounded-[30px] bg-white-100 justify-center items-center`, {overflow: "hidden"}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_INSIGHTS: [tw`my-12 w-[300px] h-[210px] rounded-[30px] bg-white-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 
 	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_EMPTY: [tw`my-5 w-[300px] h-[150px] rounded-[30px] bg-green-500 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],

@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View,Image} from 'react-native'
+import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React, { Component } from 'react'
 import { FONTS } from '../constants/Fonts'
 import { LARGE_CONTAINER_STYLING, OVERLAY_STYLING, SMALL_OVERLAY_STYLING} from '../constants/ContainersStyling'
@@ -8,11 +8,14 @@ interface SideImageOverlayProps {
 	smallerTitle: string;
 	title: string;
 	text: string;
+  onPress: () => void;
 }
 
-  const SideImageWithOverlay = ({ imageUrl, title,smallerTitle, text }: SideImageOverlayProps ) => {
+
+
+  const SideImageWithOverlay = ({ imageUrl, title,smallerTitle, text, onPress }: SideImageOverlayProps ) => {
     return (
-      <View style={[LARGE_CONTAINER_STYLING.SMALL_ROUNDED_iMAGE_CONTAINER_STYLING]}>
+      <TouchableOpacity style={[LARGE_CONTAINER_STYLING.SMALL_ROUNDED_iMAGE_CONTAINER_STYLING]} onPress={onPress}>
           <Image source={{ uri: imageUrl }} style={LARGE_CONTAINER_STYLING.IMAGE_IN_SMALL_CONTAINER_STYLING_FARMERSPOINT}/>
           <View >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -21,7 +24,7 @@ interface SideImageOverlayProps {
             </View>
             <Text style={[FONTS.REGULAR_FONT, {marginTop:-20,marginLeft: 90,fontSize: 11}]}>{text}</Text>
           </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 

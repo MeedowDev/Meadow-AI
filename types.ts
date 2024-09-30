@@ -7,8 +7,8 @@ export type RootStackParamList = {
 	AdvisorTab: undefined;
 	FarmersPointScreen: undefined;
 	NewsScreen: undefined;
-	SpecificsScreen: undefined;
 	BookMarkedScreen: undefined;
 	Prediction: undefined;
+	SpecificsScreen: { cropIndex: number };
 };
   

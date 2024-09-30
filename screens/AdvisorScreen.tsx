@@ -58,18 +58,22 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 						title="GINGER"
 						smallerTitle="Chinese ginger"
 						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
+						//onPress={() => console.log("pressed")}
+						onPress={() => navigation.navigate("SpecificsScreen", {cropIndex: 0})}
 					/>
 					<SideImageWithOverlay
 						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
 						title="GINGER"
 						smallerTitle="Chinese ginger"
 						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
+						onPress={() => console.log("pressed")}
 					/>
 					<SideImageWithOverlay
 						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
 						title="GINGER"
 						smallerTitle="Chinese ginger"
 						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
+						onPress={() => console.log("pressed")}
 					/>
 				</View>
 				{/* <View style={tw`flex-row justify-around mt-4 bg-white p-2 w-full shadow-lg`}>

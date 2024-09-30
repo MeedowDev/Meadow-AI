@@ -37,7 +37,7 @@ function MainStack() {
 			/>
 			<Stack.Screen name="FarmersPointScreen" component={FarmersPointScreen} />
 			<Stack.Screen name="advisor" component={AdvisorScreen} />
-			<Stack.Screen name="Specifics" component={SpecificsScreen} />
+			<Stack.Screen name="SpecificsScreen" component={SpecificsScreen} />
 			<Stack.Screen name="NewsScreen" component={NewsScreen} />
 		</Stack.Navigator>
 	);
