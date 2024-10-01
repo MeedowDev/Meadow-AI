@@ -1,45 +1,28 @@
 import SQLite, { SQLiteDatabase,ResultSet} from 'react-native-sqlite-storage';
 
-export const openDatabase = (): Promise<SQLiteDatabase> => {
-  return new Promise((resolve, reject) => {
-    try {
-      console.log('Initializing database...');
-      const db = SQLite.openDatabase(
-        {
-          name: 'UserDatabase.db',
-          location: 'default',
-        },
-        (dbInstance) => {
-          console.log('Database opened successfully:', dbInstance);
-          resolve(db);
-        },
-        (error) => {
-          console.error('Error opening database:', error);
-          reject(error);
-        }
-      );
+// Enable SQLite debugging
+SQLite.enablePromise(true);
 
-      // Log the db object to see if it's null
-      console.log('Database object:', db);
-      
-      if (!db) {
-        console.error('Database object is null after openDatabase');
-        throw new Error('Database object is null');
-      }
-    } catch (e) {
-      console.error('Exception in openDatabase:', e);
-      reject(e);
+const openDatabase = async () => {
+    try {
+        const db = await SQLite.openDatabase({ name: 'myDatabase.db', location: 'Documents' });
+        console.log('Database opened successfully');
+        return db;
+    } catch (error) {
+        console.error('Database initialization failed:', error);
     }
-  });
 };
+
+// Call the function to open the database
+openDatabase();
   
 export const createTable = (db: SQLite.SQLiteDatabase): Promise<void> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => { 
     db.transaction((tx) => {
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS Users (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
+          name TEXT,  
           contact TEXT,
           location TEXT
         );`,
