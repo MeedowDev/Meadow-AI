@@ -26,6 +26,7 @@ const cropImageMap : { [key: string]: any } = {
     Peas: require("../assets/crops/Peas.png"),
     Rice: require("../assets/crops/Rice.png"),
     Ryegrass: require("../assets/crops/Ryegrass.png"),
+    Rye: require("../assets/crops/Ryegrass.png"),
     Sesame: require("../assets/crops/Sesame.png"),
     Sorghum: require("../assets/crops/Sorgum.png"),
     Soybeans: require("../assets/crops/Soybeans.png"),

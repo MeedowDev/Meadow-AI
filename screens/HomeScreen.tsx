@@ -20,7 +20,7 @@ interface HomeScreenProps {
 }
 export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const { userLocation } = useContext(LocationContext);
-	const [weather, setWeather] = useState<string | null>(null);
+	const [temperature, settemperature] = useState<string | null>(null);
 	const [weatherCondition, setWeatherCondition] = useState<string | null>(null);
 	const [iconUrl, setIconUrl] = useState<string | undefined>(undefined);
 	const [windSpeed, setWindSpeed] = useState<number | null>(null); // New state for wind speed
@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 		if (userLocation) {
 			getCurrentWeather(userLocation)
 				.then((data) => {
-					setWeather(data.current.temp_c);
+					settemperature(data.current.temp_c);
 					setWeatherCondition(data.current.condition.text);
 					setIconUrl(data.current.condition.icon ? `https:${data.current.condition.icon}` : undefined);
 					setWindSpeed(data.current.wind_mph); // Set wind speed
@@ -46,7 +46,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	return (
 		<View style={tw`flex-1 `}>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
-				<LandingWidget temperature="22" weather="Cloudy" season="October 2024, Rainy Season"></LandingWidget>
+				<LandingWidget temperature={temperature ?? "N/A"} weather={weatherCondition ?? "N/A"} season="October 2024, Rainy Season"></LandingWidget>
 
 				{/* <View style={tw`flex-row justify-between  bg-white h-20 w-full`}>
 					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("Menu")}>

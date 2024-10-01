@@ -6,9 +6,14 @@ interface LandingWidgetProps {
 	temperature: string;
 	weather: string;
 	season: string;
+	humidity: string;
+	windSpeed: { speed: number; direction: string };
 }
 
 const LandingWidget = ({ temperature, weather, season }: LandingWidgetProps) => {
+	const currMonth = new Date().getMonth();
+	const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	const currYear = new Date().getFullYear();
 	return (
 		<View style={[tw`h-[30%] w-full`, styles.container]}>
 			<ImageBackground
@@ -16,13 +21,13 @@ const LandingWidget = ({ temperature, weather, season }: LandingWidgetProps) => 
 				style={tw`h-full w-full rounded-b-md`}
 			>
 				<View style={tw`w-full mt-[2rem] justify-start flex-row`}>
-					<Text style={tw`ml-[20px] my-1 text-white text-2xl`}>{season}</Text>
+					<Text style={tw`ml-[20px] my-1 text-white text-2xl`}>{monthNames[currMonth]} {currYear}, Rainy season</Text>
 				</View>
 				<View style={tw`flex-row justify-end mt-10`}>
-					<Text style={[tw`text-5xl text-white`, styles.boldtext]}>{temperature}°C</Text>
+					<Text style={[tw`text-5xl text-white`, styles.boldtext]}>{Math.floor(Number(temperature))}°C</Text>
 				</View>
 				<View style={tw`flex-row justify-end`}>
-					<Text style={tw`text-xl text-white mr-2 mt-[-10]`}>Feels like it is {weather}</Text>
+					<Text style={tw`text-xl text-white mr-2 mt-[-10]`}>Looks like it is {weather}</Text>
 				</View>
 
 				<View style={tw`mt-[5rem] space-y-3`}>
