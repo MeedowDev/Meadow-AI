@@ -1,8 +1,7 @@
 import React from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
-import ImageWithOverlay from "../components/ImageCard";
-import TwoButtonsSideBySide from "../components/TwoButtonsSideBySide";
+import ImageWithOverlayNonclickable from "../components/imageCardNonclickable";
 import JustText from "../components/JustText";
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -24,14 +23,14 @@ type RouteParams = {
 
 export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
   const route = useRoute<RouteProp<RouteParams, 'params'>>();
-  const { cropIndex } = route.params;
+  const { cropIndex, cropName } = route.params;
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`items-center`}>
 				<View style={tw`top-40`}>
-					<ImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/171579643/photo/tomato-greenhouse.jpg?s=1024x1024&w=is&k=20&c=kFi-7YRjDfBTcPgSkCdppZVznCUHEfrU_mvjZii5UhI="
-						title={cropIndex}
+					<ImageWithOverlayNonclickable
+						image={cropName.replace(" ", "")}
+						title={cropName}
 						smallerTitle="(Anasal f1)"
 						text="A red fruit and vegetable currently doing very well in internal and external markets"
 					/>
@@ -45,13 +44,7 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 					</View>
 				</View>
 				<View>
-					<JustText
-						title="WHY TOMATOES?"
-						text="Tomatoes grow well in volcanic soil which is in your location
- Ideal altitudes are 1000-1900m, your location is {userdata.location(‘alt’)}m high
- Low humidities are prefered to prevent fungal diseases. The current season is has very low humidity
- Slightly windy consitions are preferred for good circulation. The current season has good wind speed"
-					/>
+					
 					<JustText
 						title="Tips"
 						text="Field Selection: Consider the previous planted crop and observe at least a 3-season break from tomato, pepper, potato or any other crop from the solanaceous family to avoid disease cycles. Check the irrigation water quality and availability, particularly if you intend to use irrigation. The land should be gently sloping to facilitate drainage 1.

@@ -9,6 +9,8 @@ export type RootStackParamList = {
 	NewsScreen: undefined;
 	BookMarkedScreen: undefined;
 	Prediction: undefined;
-	SpecificsScreen: { cropIndex: number };
+	SpecificsScreen: {
+		cropIndex: number;
+		cropName: string;
+	};
 };
-  

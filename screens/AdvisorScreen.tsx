@@ -52,7 +52,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 			<ScrollView contentContainerStyle={tw`mb-4`}>
 				<View style={tw`items-center`}>
 					<AdvisorCardWithText
-						text={userLocation ? weather ?? "Weather data not available" : errorMsg || "Location not available"}
+						text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results."
 					/>
 				</View>
 				<View style={tw`flex-row`}>
@@ -93,10 +93,10 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 									imageSource={imageUrl}
 									title={cropName}
 									smallerTitle={cropName}
-									text={`Success rate: ${
+									text={`Suitability: ${
 										confidence * 100
 									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
-									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index })}
+									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index, cropName })}
 								/>
 							);
 						})

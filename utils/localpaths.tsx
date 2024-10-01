@@ -1,12 +1,12 @@
 const cropImageMap : { [key: string]: any } = {
     Alfalfa: require("../assets/crops/Alfafa.png"),
     Barley: require("../assets/crops/Barley.png"),
-    BermudaGrass: require("../assets/crops/Bermuda Grass.png"),
+    Bermudagrass: require("../assets/crops/Bermuda Grass.png"),
     Chickpeas: require("../assets/crops/Chickpeas.png"),
     Clover: require("../assets/crops/Clover.png"),
     Corn: require("../assets/crops/Corn.png"),
     Cotton: require("../assets/crops/Cotton.png"),
-    FabaBeans: require("../assets/crops/Faba Beans.png"),
+    Fababeans: require("../assets/crops/Faba Beans.png"),
     Fescue: require("../assets/crops/Fescue.png"),
     Flax: require("../assets/crops/Flax.png"),
     Hay: require("../assets/crops/Hay.png"),
@@ -31,12 +31,12 @@ const cropImageMap : { [key: string]: any } = {
     Soybeans: require("../assets/crops/Soybeans.png"),
     Sugarcane: require("../assets/crops/Sugarcane.png"),
     Sunflower: require("../assets/crops/Sunflower.png"),
-    SweetPotato: require("../assets/crops/Sweet Potatoe.png"),
+    Sweetpotato: require("../assets/crops/Sweet Potatoe.png"),
     Teff: require("../assets/crops/Teff.png"),
-    TimothyHay: require("../assets/crops/Timothy Hay.png"),
+    Timothyhay: require("../assets/crops/Timothy Hay.png"),
     Triticale: require("../assets/crops/Triticale.png"),
-    WaterChestnut: require("../assets/crops/Water Chestnut.png"),
-    WetlandTaro: require("../assets/crops/Wetland Taro.png"),
+    Waterchestnut: require("../assets/crops/Water Chestnut.png"),
+    Wetlandtaro: require("../assets/crops/Wetland Taro.png"),
 };
 
 const homeImageMap: { [key: string]: any } = {
