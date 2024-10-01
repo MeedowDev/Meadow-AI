@@ -84,14 +84,14 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				</View> */}
 				<View style={tw` mt-[40%]`}>
 					<ImageWithOverlay
-						image="coffeeBerries.png"
+						image="coffeeBerries"
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"
 						onPress={() => navigation.navigate("AdvisorTab")}
 					/>
 					<ImageWithOverlay
-						image="farmerInTeaFarm.png"
+						image="farmerInTeaFarm"
 						title="Farming Insight"
 						smallerTitle=""
 						text="Learn how to make a quick compost pit with these steps"
@@ -101,7 +101,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
 				<View>
 					<ImageWithOverlay
-						image="redTomatoes.png"
+						image="redTomatoes"
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"

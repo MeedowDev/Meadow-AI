@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
 import SideImageWithOverlay from "../components/SideImageOverlay";
 import FilterButton from "../components/FilterButtons";
-import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
-import { getWeatherForecastByCoords } from "../api/openmeteoApi";
-import handleScoreModel from "../api/watsonxApi";
+import { getMockScoreModel } from "../api/simWatsonxAPI";
+import { cropImageMap } from "../utils/localpaths";
+
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -20,14 +20,33 @@ interface AdvisorScreenProps {
 export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const { userLocation, errorMsg } = useContext(LocationContext);
 	const [weather, setWeather] = useState<string | null>(null);
+	const [cropData, setCropData] = useState<Array<{ crop: string; confidence: number; relatedCrops: Array<{ crop: string; confidence: number }> }> | null>(
+		null
+	);
+	const [loading, setLoading] = useState(true);
 
-	// useEffect(() => {
-	// 	if (userLocation) {
-	// 		getWeatherForecastByCoords(userLocation.coords.latitude, userLocation.coords.longitude).then((data) => {
-	// 			setWeather(data);
-	// 		});
-	// 	}
-	// }, [userLocation]);
+	useEffect(() => {
+		const fetchCropData = async () => {
+			if (userLocation) {
+				const { latitude, longitude } = userLocation.coords;
+				const response = await getMockScoreModel(latitude, longitude);
+				if (response) {
+					// Assuming response.predictions is an array of crops
+					setCropData(response.predictions);
+					console.log(JSON.stringify(response.predictions, null, 2)); // Log fetched data
+				}
+			}
+			setLoading(false);
+		};
+
+		fetchCropData();
+	}, [userLocation]);
+
+
+	if (loading) {
+		return <Text style={tw`text-center`}>Loading crop data...</Text>;
+	}
+
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
@@ -37,59 +56,54 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					/>
 				</View>
 				<View style={tw`flex-row`}>
+					{/* Filter buttons */}
 					<FilterButton
 						label="A-Z"
-						onPress={() => {
+						onPress={async () => {
 							if (userLocation) {
-								handleScoreModel(userLocation.coords.latitude, userLocation.coords.longitude);
+								const result = await getMockScoreModel(
+									userLocation.coords.latitude,
+									userLocation.coords.longitude
+								);
+								console.log(JSON.stringify(result, null, 2));
 							}
 						}}
 					/>
-					<FilterButton label="Success Rate" onPress={handleScoreModel} />
-					<FilterButton label="Price" onPress={handleScoreModel} />
+					<FilterButton label="Success Rate" onPress={() => {}} />
+					<FilterButton label="Price" onPress={() => {}} />
 				</View>
 				<View style={tw`flex-row`}>
-					<FilterButton label="Output" onPress={handleScoreModel} />
-					<FilterButton label="Complexity" onPress={handleScoreModel} />
+					<FilterButton label="Output" onPress={() => {}} />
+					<FilterButton label="Complexity" onPress={() => {}} />
 				</View>
+
+				{/* Dynamically render SideImageWithOverlay components */}
 				<View style={tw`p-1 mb-4`}>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-						//onPress={() => console.log("pressed")}
-						onPress={() => navigation.navigate("SpecificsScreen", {cropIndex: 0})}
-					/>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-						onPress={() => console.log("pressed")}
-					/>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-						onPress={() => console.log("pressed")}
-					/>
+					{cropData && cropData.length > 0 ? (
+						cropData.map((crop, index) => {
+							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
+							const confidence = crop.confidence;
+							
+							// Use require to dynamically set the image path
+							const imageUrl = cropImageMap[cropName];
+
+							return (
+								<SideImageWithOverlay
+									key={index} // Use index as the key
+									imageSource={imageUrl}
+									title={cropName}
+									smallerTitle={cropName}
+									text={`Success rate: ${
+										confidence * 100
+									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
+									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index })}
+								/>
+							);
+						})
+					) : (
+						<Text>No crops available.</Text> // Fallback if no crops are found
+					)}
 				</View>
-				{/* <View style={tw`flex-row justify-around mt-4 bg-white p-2 w-full shadow-lg`}>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Home")}>
-						<Ionicons name="home-outline" size={25} color="green" />
-						<Text style={tw``}>Home</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("Insights")}>
-						<Ionicons name="bar-chart-outline" size={25} color="green" />
-						<Text style={tw``}>Insights</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`flex items-center`} onPress={() => navigation.navigate("NewsScreen")}>
-						<Ionicons name="newspaper-outline" size={25} color="green" />
-						<Text>News</Text>
-					</TouchableOpacity>
-				</View> */}
 			</ScrollView>
 		</View>
 	);

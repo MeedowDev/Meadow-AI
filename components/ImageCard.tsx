@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import tw from "twrnc";
 import { OVERLAY_STYLING, LARGE_CONTAINER_STYLING } from "../constants/ContainersStyling";
 import { FONTS } from "../constants/Fonts";
-
+import { homeImageMap } from "../utils/localpaths";
 import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 
-const imageMap: { [key: string]: string } = {
-	"coffeeBerries.png": require("../assets/images/coffeeBerries.png"),
-	"farmer.png": require("../assets/images/farmer.png"),
-	"farmerInTeaFarm.png": require("../assets/images/farmerInTeaFarm.png"),
-	"redTomatoes.png": require("../assets/images/redTomatoes.png"),
-};
 interface ImageWithOverlayProps {
 	image: string;
 	title: string;
@@ -19,7 +13,7 @@ interface ImageWithOverlayProps {
 	onPress: () => void;
 }
 const ImageWithOverlay = ({ image, title, smallerTitle, text, onPress }: ImageWithOverlayProps) => {
-	const currImage = imageMap[image];
+	const currImage = homeImageMap[image];
 	if (!currImage) {
 		console.log("Image", image);
 		console.error(`${image} not found in image map. Please add it to the imageMap object in ImageWithOverlay.tsx`);
