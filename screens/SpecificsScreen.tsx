@@ -33,6 +33,7 @@ export default function  SpecificsScreen({ navigation }: SpecificsScreenProps) {
                  title='Tomatoes'
                  smallerTitle='(Anasal f1)'
                  text='A red fruit and vegetable currently doing very well in internal and external markets'
+                 onPress={() => navigation.navigate('Menu')}
                  />
                 </View>
                 <View style={tw`flex-row justify-between `}>
@@ -80,7 +81,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
       </TouchableOpacity>
       <TouchableOpacity
         style={tw`p-10`}
-        onPress={() => navigation.navigate('AdvisorTab')}
+        onPress={() => navigation.navigate('AdvisorScreen')}
       >
         <Ionicons name="person" size={30} color="green" />
         <Text style={tw`right-3`}>Advisory</Text>
