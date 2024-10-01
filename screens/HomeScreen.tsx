@@ -2,17 +2,15 @@ import ImageWithOverlay from "../components/ImageCard";
 import CardWithText from "../components/CardWithText";
 import EmptyCard from "../components/EmptyCard";
 import Freebuttons from "../components/Freebuttons";
-import LandingWidget from "../components/landingWidget";
 import JustText from "../components/JustText";
 import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import tw from "twrnc";
 import { LocationContext } from "../context/locationContext";
 import { Ionicons } from "@expo/vector-icons";
-import { getCurrentWeather } from "../api/RealTimeWeather";
+import { getCurrentWeather} from "../api/RealTimeWeather";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
-import { useState, useEffect, useContext } from "react";
-import { SPACER} from "../constants/ContainersStyling";
+import { useState,useEffect,useContext } from "react";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
@@ -46,7 +44,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	return (
 		<View style={tw`flex-1 `}>
 			<ScrollView contentContainerStyle={tw`bg-white items-center`}>
-				<LandingWidget temperature={temperature ?? "N/A"} weather={weatherCondition ?? "N/A"} season="October 2024, Rainy Season"></LandingWidget>
+				<LandingWidget temperature="22" weather="Cloudy" season="October 2024, Rainy Season"></LandingWidget>
 
 				{/* <View style={tw`flex-row justify-between  bg-white h-20 w-full`}>
 					<TouchableOpacity style={tw`p-5`} onPress={() => navigation.navigate("Menu")}>
@@ -81,14 +79,14 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<Freebuttons title="OPEN" />
 
 					<Freebuttons title="OPEN" />
-				</View> */}
-				<View style={tw` mt-[40%]`}>
+				</View>
+				<View>
 					<ImageWithOverlay
 						image="coffeeBerries"
 						title="Farming Advisor"
 						smallerTitle=""
 						text="Get immediate expert advice on what to plant this season for free!"
-						onPress={() => navigation.navigate("AdvisorTab")}
+						onPress={() => navigation.navigate("AdvisorScreen")}
 					/>
 					<ImageWithOverlay
 						image="farmerInTeaFarm"
@@ -98,20 +96,21 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 						onPress={() => navigation.navigate("Insights")}
 					/>
 				</View>
-
+				{
+					<View style={tw`bottom-30 right-20`}>
+						<JustText title="Meru News" text="" />
+					</View>
+				}
 				<View>
 					<ImageWithOverlay
 						image="redTomatoes"
 						title="Farming Advisor"
 						smallerTitle=""
-						text="Get immediate expert advice on what to plant this season for free!"
+						text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
 						onPress={() => navigation.navigate("NewsScreen")}
 					/>
-				</View>
-				<View style={tw`bottom-30 right-20`}>
-					<JustText title="Meru News" text="" />
 				</View>
 			</ScrollView>
 		</View>
 	);
-}
+	}

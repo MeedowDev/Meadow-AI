@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
 import SideImageWithOverlay from "../components/SideImageOverlay";

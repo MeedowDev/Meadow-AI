@@ -6,11 +6,11 @@ import { homeImageMap } from "../utils/localpaths";
 import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 
 interface ImageWithOverlayProps {
-	image: string;
-	title: string;
-	smallerTitle: string;
-	text: string;
-	onPress: () => void;
+    image: string;
+    title: string;
+    smallerTitle:string;
+    text: string;
+    onPress: () => void;
 }
 const ImageWithOverlay = ({ image, title, smallerTitle, text, onPress }: ImageWithOverlayProps) => {
 	const currImage = homeImageMap[image];
