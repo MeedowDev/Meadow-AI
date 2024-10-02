@@ -19,7 +19,7 @@ const cropImageMap : { [key: string]: any } = {
     Lupins: require("../assets/crops/Lupins.png"),
     Maize: require("../assets/crops/Maize.png"),
     Millet: require("../assets/crops/millet.png"),
-    MungBeans: require("../assets/crops/Mung Beans.png"),
+    Mungbeans: require("../assets/crops/Mung Beans.png"),
     Oats: require("../assets/crops/Oats.png"),
     Orchardgrass: require("../assets/crops/Orchardgrass.png"),
     Peanuts: require("../assets/crops/Peanuts.png"),

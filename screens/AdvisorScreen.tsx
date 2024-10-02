@@ -10,7 +10,8 @@ import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
-import { addDataToDB, getAllData } from "../db/update";
+import { updateLocationData } from "../db/update";
+import { fetchLocationData } from "../db/fetch";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -26,6 +27,19 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		null
 	);
 	const [loading, setLoading] = useState(true);
+	const longitude = String(userLocation?.coords.longitude);
+	const latitude = String(userLocation?.coords.latitude);
+
+	const formatedDate = (date: Date | string): string => {
+		const d = typeof date === "string" ? new Date(date) : date; // Convert string to Date object if needed
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+		const day = String(d.getDate()).padStart(2, "0");
+
+		return `${year}-${month}-${day}`;
+	};
+
+	const date = formatedDate(new Date());
 
 	useEffect(() => {
 		const fetchCropData = async () => {
@@ -56,14 +70,15 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 				</View>
 				<View style={tw`flex-row`}>
 					{/* Filter buttons, Currently test buttons 😅😅 */}
+					<FilterButton label="A-Z" onPress={async () => {}} />
 					<FilterButton
-						label="A-Z"
-						onPress={async () => {
-							addDataToDB();
-							getAllData();
+						label="Success Rate"
+						onPress={() => {
+							if (userLocation?.coords.latitude && userLocation?.coords.longitude) {
+								fetchLocationData();
+							}
 						}}
 					/>
-					<FilterButton label="Success Rate" onPress={() => {}} />
 					<FilterButton label="Price" onPress={() => {}} />
 				</View>
 				<View style={tw`flex-row`}>

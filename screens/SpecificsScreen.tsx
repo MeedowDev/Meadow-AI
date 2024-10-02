@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import ImageWithOverlayNonclickable from "../components/imageCardNonclickable";
 import JustText from "../components/JustText";
-import { Ionicons } from "@expo/vector-icons";
+import NotificationPanel from "../components/headsUpModal";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { COLORS } from "../constants/Colors";
@@ -16,14 +16,19 @@ interface SpecificsScreenProps {
 }
 
 type RouteParams = {
-  params: {
-	cropIndex: string;
-  };
+	params: {
+		cropIndex: string;
+		cropName: string;
+	};
 };
 
 export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
-  const route = useRoute<RouteProp<RouteParams, 'params'>>();
-  const { cropIndex, cropName } = route.params;
+	const [isPanelVisible, setPanelVisible] = useState(false);
+	const route = useRoute<RouteProp<RouteParams, "params">>();
+	const { cropIndex, cropName } = route.params;
+	const togglePanel = () => {
+		setPanelVisible(!isPanelVisible);
+	};
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`items-center`}>
@@ -35,16 +40,23 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 						text="A red fruit and vegetable currently doing very well in internal and external markets"
 					/>
 				</View>
-				<View style={tw`flex flex-row  w-[300px] my-5 justify-between`}>
-					<View style={[tw`h-[40px] border justify-center p-3 w-[45%] rounded-3xl`, { borderColor: COLORS.ACCENT_COLOR }]}>
-						<Text style={tw`text-center`}>Acquire Crop Seeds</Text>
-					</View>
-					<View style={[tw`h-[40px] justify-center p-3 w-[45%] rounded-3xl`, { backgroundColor: COLORS.ACCENT_COLOR }]}>
-						<Text style={tw`text-center text-white`}>Bookmark Crop Seeds</Text>
+				<View style={tw`flex flex-col  w-[300px] my-5 justify-between`}>
+					<TouchableOpacity onPress={togglePanel}>
+						<View
+							style={[
+								tw`h-[40px] justify-center p-3 w-[100%] m-1 rounded-3xl`,
+								{ backgroundColor: COLORS.ACCENT_COLOR },
+							]}
+						>
+							<Text style={tw`text-center text-white`}>Plant {cropName} this season?</Text>
+						</View>
+					</TouchableOpacity>
+
+					<View style={[tw`h-[40px] border justify-center p-3 w-[100%] m-1 rounded-3xl`, { borderColor: COLORS.ACCENT_COLOR }]}>
+						<Text style={tw`text-center`}>Bookmark {cropName} for Another season</Text>
 					</View>
 				</View>
 				<View>
-					
 					<JustText
 						title="Tips"
 						text="Field Selection: Consider the previous planted crop and observe at least a 3-season break from tomato, pepper, potato or any other crop from the solanaceous family to avoid disease cycles. Check the irrigation water quality and availability, particularly if you intend to use irrigation. The land should be gently sloping to facilitate drainage 1.
@@ -57,7 +69,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2."
 					/>
 				</View>
-				
+				<NotificationPanel isVisible={isPanelVisible} onClose={togglePanel} />
 			</ScrollView>
 		</View>
 	);
