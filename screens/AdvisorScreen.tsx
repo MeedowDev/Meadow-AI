@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity} from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
@@ -10,7 +10,7 @@ import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
-
+import { addDataToDB, getAllData } from "../db/update";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -21,6 +21,7 @@ interface AdvisorScreenProps {
 export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const { userLocation, errorMsg } = useContext(LocationContext);
 	const [weather, setWeather] = useState<string | null>(null);
+
 	const [cropData, setCropData] = useState<Array<{ crop: string; confidence: number; relatedCrops: Array<{ crop: string; confidence: number }> }> | null>(
 		null
 	);
@@ -43,7 +44,6 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		fetchCropData();
 	}, [userLocation]);
 
-
 	if (loading) {
 		return <Text style={tw`text-center`}>Loading crop data...</Text>;
 	}
@@ -52,22 +52,15 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
 				<View style={tw`items-center`}>
-					<AdvisorCardWithText
-						text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results."
-					/>
+					<AdvisorCardWithText text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results." />
 				</View>
 				<View style={tw`flex-row`}>
-					{/* Filter buttons */}
+					{/* Filter buttons, Currently test buttons 😅😅 */}
 					<FilterButton
 						label="A-Z"
 						onPress={async () => {
-							if (userLocation) {
-								const result = await getMockScoreModel(
-									userLocation.coords.latitude,
-									userLocation.coords.longitude
-								);
-								console.log(JSON.stringify(result, null, 2));
-							}
+							addDataToDB();
+							getAllData();
 						}}
 					/>
 					<FilterButton label="Success Rate" onPress={() => {}} />
@@ -84,7 +77,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 						cropData.map((crop, index) => {
 							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
 							const confidence = crop.confidence;
-							
+
 							// Use require to dynamically set the image path
 							const imageUrl = cropImageMap[cropName];
 

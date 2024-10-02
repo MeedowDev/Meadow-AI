@@ -10,18 +10,20 @@ interface LandingWidgetProps {
 	windSpeed: { speed: number; direction: string };
 }
 
-const LandingWidget = ({ temperature, weather, season }: LandingWidgetProps) => {
+const LandingWidget = ({ temperature, weather, season, humidity, windSpeed }: LandingWidgetProps) => {
 	const currMonth = new Date().getMonth();
 	const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	const currYear = new Date().getFullYear();
 	return (
-		<View style={[tw`h-[30%] w-full`, styles.container]}>
+		<View style={[tw`h-[9.2rem] w-full`, styles.container]}>
 			<ImageBackground
-				source={require("../assets/images/planting_season.jpg")} // Replace with your image path
+				source={require("../assets/images/harvesting_season.jpg")} // Replace with your image path
 				style={tw`h-full w-full rounded-b-md`}
 			>
 				<View style={tw`w-full mt-[2rem] justify-start flex-row`}>
-					<Text style={tw`ml-[20px] my-1 text-white text-2xl`}>{monthNames[currMonth]} {currYear}, Rainy season</Text>
+					<Text style={tw`ml-[20px] my-1 text-white text-2xl`}>
+						{monthNames[currMonth]} {currYear}, Rainy season
+					</Text>
 				</View>
 				<View style={tw`flex-row justify-end mt-10`}>
 					<Text style={[tw`text-5xl text-white`, styles.boldtext]}>{Math.floor(Number(temperature))}°C</Text>
@@ -30,30 +32,7 @@ const LandingWidget = ({ temperature, weather, season }: LandingWidgetProps) => 
 					<Text style={tw`text-xl text-white mr-2 mt-[-10]`}>Looks like it is {weather}</Text>
 				</View>
 
-				<View style={tw`mt-[5rem] space-y-3`}>
-					<ScrollView horizontal={true} contentContainerStyle={{ paddingHorizontal: 15 }} showsHorizontalScrollIndicator={false}>
-						<View style={tw`flex justify-center items-center w-24l py-4 mr-4 rounded-3xl bg-white`}>
-							<Image source={require("../assets/icons/heavyrain.png")} style={tw`h-11 w-11`} />
-							<Text style={tw`text-black text-opacity-80`}>Probability of Precipitation</Text>
-							<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>17&#176;</Text>
-						</View>
-						<View style={tw`flex justify-center items-center w-24 bg-white rounded-3xl py-4 mr-4`}>
-							<Image source={require("../assets/icons/moderaterain.png")} style={tw`h-11 w-11`} />
-							<Text style={tw`text-black text-opacity-80`}>Average Humidity</Text>
-							<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>20&#176;</Text>
-						</View>
-						<View style={tw`flex justify-center items-center w-24 bg-white rounded-3xl py-4 mr-4`}>
-							<Image source={require("../assets/icons/cloud.png")} style={tw`h-11 w-11`} />
-							<Text style={tw`text-black text-opacity-80`}>Wind Speed</Text>
-							<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>23&#176;</Text>
-						</View>
-						<View style={tw`flex justify-center items-center w-24 bg-white rounded-3xl py-4 mr-4`}>
-							<Image source={require("../assets/icons/partlycloudy.png")} style={tw`h-11 w-11`} />
-							<Text style={tw`text-black text-opacity-80`}>UV</Text>
-							<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>23&#176;</Text>
-						</View>
-					</ScrollView>
-				</View>
+				
 			</ImageBackground>
 		</View>
 	);
@@ -64,9 +43,9 @@ export default LandingWidget;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "black",
-		borderBottomRightRadius: 35,
-		borderBottomLeftRadius: 35,
-        overflow: "hidden",
+		// borderBottomRightRadius: 35,
+		// borderBottomLeftRadius: 35,
+		overflow: "hidden",
 		opacity: 0.7,
 	},
 	boldtext: {

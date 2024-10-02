@@ -11,7 +11,7 @@ import NewsScreen from "../screens/NewsScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { HomeIcon, UserIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
+import { HomeIcon, UserIcon, CpuChipIcon, GlobeAltIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
 import { LogBox, TouchableOpacity } from "react-native";
 import { RootStackParamList } from "../types";
 
@@ -49,7 +49,7 @@ function TabNavigator() {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen
-				name="Home"
+				name="HomeTab"
 				component={HomeScreen}
 				options={{
 					tabBarLabel: "Home",
@@ -62,7 +62,7 @@ function TabNavigator() {
 				component={AdvisorScreen}
 				options={{
 					tabBarLabel: "Advisor",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size}/>,
+					tabBarIcon: ({ focused, size }) => <CpuChipIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
 				}}
 			/>
 			<Tab.Screen
@@ -168,7 +168,7 @@ export default function AppNavigation() {
 				<Stack.Screen
 					name="BookMarkedScreen"
 					component={BookMarkedScreen}
-					options={({ navigation }) => ({
+					options={({ navigation }) => ({ 
 						headerTitle: "BookMarkedScreen", // Keeps the title as it is
 						headerRight: () => (
 							<TouchableOpacity

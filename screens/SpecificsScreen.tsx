@@ -57,20 +57,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2."
 					/>
 				</View>
-				<View style={tw`flex-row justify-between left-2 mb--10`}>
-					<TouchableOpacity style={tw`p-10`} onPress={() => navigation.navigate("Home")}>
-						<Ionicons name="home" size={30} color="green" />
-						<Text style={tw``}>Home</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`p-10 bg-current`} onPress={() => navigation.navigate("FarmersPointScreen")}>
-						<Ionicons name="chatbox" size={33} color="green" />
-						<Text style={tw``}>Chat</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={tw`p-10`} onPress={() => navigation.navigate("AdvisorScreen")}>
-						<Ionicons name="person" size={30} color="green" />
-						<Text style={tw`right-3`}>Advisory</Text>
-					</TouchableOpacity>
-				</View>
+				
 			</ScrollView>
 		</View>
 	);
