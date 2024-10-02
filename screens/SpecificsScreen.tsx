@@ -3,7 +3,7 @@ import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import ImageWithOverlayNonclickable from "../components/imageCardNonclickable";
 import JustText from "../components/JustText";
-import NotificationPanel from "../components/headsUpModal";
+import NotificationPanel from "../components/Modal";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { COLORS } from "../constants/Colors";
@@ -69,7 +69,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
  Spacing: Anna F1 tomatoes require a spacing of between 45x60 cm and 60x60 cm depending on the number of stems/shoots you want your plant to have 2."
 					/>
 				</View>
-				<NotificationPanel isVisible={isPanelVisible} onClose={togglePanel} />
+				<NotificationPanel isVisible={isPanelVisible} cropName={cropName} onClose={togglePanel} />
 			</ScrollView>
 		</View>
 	);

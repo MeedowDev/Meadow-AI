@@ -2,12 +2,12 @@ import * as SQLite from "expo-sqlite";
 
 async function setupDatabase() {
 
-	const checkListMap: Map<string, boolean> = new Map([
-		["locationData", false],
-		["userData", false],
-		["bookedSeeds", false],
-		["growingCrop", false],
-	]);
+    const checkList = {
+		locationData: false,
+		userData: false,
+		bookedSeeds: false,
+		growingCrop: false,
+    };
 
 	const db = await SQLite.openDatabaseAsync("db.db");
 
@@ -28,7 +28,9 @@ async function setupDatabase() {
                 );
             `
 				)
-				.then(() => checkListMap.set("locationData", true)),
+				.then(() => {
+					checkList.locationData = true;
+				}),
 
 			// Create userData table
 			db
@@ -42,7 +44,9 @@ async function setupDatabase() {
                 );
             `
 				)
-				.then(() => checkListMap.set("userData", true)),
+				.then(() => {
+					checkList.userData = true;
+				}),
 
 			// Create bookedSeeds table
 			db
@@ -56,7 +60,9 @@ async function setupDatabase() {
                 );
             `
 				)
-				.then(() => checkListMap.set("bookedSeeds", true)),
+				.then(() => {
+					checkList.bookedSeeds = true;
+				}),
 
 			// Create growingCrop table
 			db
@@ -70,15 +76,17 @@ async function setupDatabase() {
                 );
             `
 				)
-				.then(() => checkListMap.set("growingCrop", true)),
+				.then(() => {
+					checkList.growingCrop = true;
+				}),
 		]);
 
 		console.log("All tables successfully created!");
 	} catch (error) {
 		console.error("Error creating tables:", error);
 		console.log("The following tables could not be created:");
-		for (const [key, value] of checkListMap) {
-			if (!value) {
+		for (const key in checkList) {
+			if (!checkList[key as keyof typeof checkList]) {
 				console.log(key);
 			}
 		}
