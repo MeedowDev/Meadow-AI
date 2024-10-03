@@ -12,20 +12,45 @@ import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
 import MapScreen from "../screens/MapScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { HomeIcon, UserIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
+import { HomeIcon, UserIcon, CpuChipIcon, GlobeAltIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
 import { LogBox, TouchableOpacity } from "react-native";
 import { RootStackParamList } from "../types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
-LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
+// Simplified Stack Navigator for all screens
+function MainStack() {
+	return (
+		<Stack.Navigator initialRouteName="Home">
+			<Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+			<Stack.Screen name="Menu" component={MenuScreen} />
+			<Stack.Screen
+				name="Insights"
+				component={InsightsScreen}
+				options={({ navigation }) => ({
+					headerTitle: "Insights",
+					headerRight: () => (
+						<TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate("Menu")}>
+							<Ionicons name="menu-outline" size={30} color="green" />
+						</TouchableOpacity>
+					),
+				})}
+			/>
+			<Stack.Screen name="FarmersPointScreen" component={FarmersPointScreen} />
+			<Stack.Screen name="advisor" component={AdvisorScreen} />
+			<Stack.Screen name="SpecificsScreen" component={SpecificsScreen} />
+			<Stack.Screen name="NewsScreen" component={NewsScreen} />
+		</Stack.Navigator>
+	);
+}
 
+// Bottom Tab Navigator with fewer options
 function TabNavigator() {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen
-				name="Home"
+				name="HomeTab"
 				component={HomeScreen}
 				options={{
 					tabBarLabel: "Home",
@@ -38,7 +63,7 @@ function TabNavigator() {
 				component={AdvisorScreen}
 				options={{
 					tabBarLabel: "Advisor",
-					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size}/>,
+					tabBarIcon: ({ focused, size }) => <CpuChipIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
 				}}
 			/>
 			<Tab.Screen
@@ -144,7 +169,7 @@ export default function AppNavigation() {
 				<Stack.Screen
 					name="BookMarkedScreen"
 					component={BookMarkedScreen}
-					options={({ navigation }) => ({
+					options={({ navigation }) => ({ 
 						headerTitle: "BookMarkedScreen", // Keeps the title as it is
 						headerRight: () => (
 							<TouchableOpacity

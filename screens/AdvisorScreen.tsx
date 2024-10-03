@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity} from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
@@ -8,7 +8,10 @@ import FilterButton from "../components/FilterButtons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
-import handleScoreModel from "../api/watsonxApi";
+import { getMockScoreModel } from "../api/simWatsonxAPI";
+import { cropImageMap } from "../utils/localpaths";
+import { updateLocationData } from "../db/update";
+import { fetchLocationData } from "../db/fetch";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -20,54 +23,95 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const { userLocation, errorMsg } = useContext(LocationContext);
 	const [weather, setWeather] = useState<string | null>(null);
 
-	// useEffect(() => {
-	// 	if (userLocation) {
-	// 		getWeatherForecastByCoords(userLocation.coords.latitude, userLocation.coords.longitude).then((data) => {
-	// 			setWeather(data);
-	// 		});
-	// 	}
-	// }, [userLocation]);
+	const [cropData, setCropData] = useState<Array<{ crop: string; confidence: number; relatedCrops: Array<{ crop: string; confidence: number }> }> | null>(
+		null
+	);
+	const [loading, setLoading] = useState(true);
+	const longitude = String(userLocation?.coords.longitude);
+	const latitude = String(userLocation?.coords.latitude);
+
+	const formatedDate = (date: Date | string): string => {
+		const d = typeof date === "string" ? new Date(date) : date; // Convert string to Date object if needed
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+		const day = String(d.getDate()).padStart(2, "0");
+
+		return `${year}-${month}-${day}`;
+	};
+
+	const date = formatedDate(new Date());
+
+	useEffect(() => {
+		const fetchCropData = async () => {
+			if (userLocation) {
+				const { latitude, longitude } = userLocation.coords;
+				const response = await getMockScoreModel(latitude, longitude);
+				if (response) {
+					// Assuming response.predictions is an array of crops
+					setCropData(response.predictions);
+					console.log(JSON.stringify(response.predictions, null, 2)); // Log fetched data
+				}
+			}
+			setLoading(false);
+		};
+
+		fetchCropData();
+	}, [userLocation]);
+
+	if (loading) {
+		return <Text style={tw`text-center`}>Loading crop data...</Text>;
+	}
+
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
 				<View style={tw`items-center`}>
-					<AdvisorCardWithText
-						text={userLocation ? weather ?? "Weather data not available" : errorMsg || "Location not available"}
-					/>
+					<AdvisorCardWithText text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results." />
 				</View>
 				<View style={tw`flex-row`}>
+					{/* Filter buttons, Currently test buttons 😅😅 */}
+					<FilterButton label="A-Z" onPress={async () => {}} />
 					<FilterButton
-						label="A-Z"
+						label="Success Rate"
 						onPress={() => {
-							if (userLocation) {
-								handleScoreModel(userLocation.coords.latitude, userLocation.coords.longitude);
+							if (userLocation?.coords.latitude && userLocation?.coords.longitude) {
+								fetchLocationData();
 							}
 						}}
 					/>
-					<FilterButton label="Success Rate" onPress={handleScoreModel} />
+					<FilterButton label="Price" onPress={() => {}} />
 				</View>
 				<View style={tw`flex-row`}>
-					<FilterButton label="Output" onPress={handleScoreModel} />
+					<FilterButton label="Output" onPress={() => {}} />
+					<FilterButton label="Complexity" onPress={() => {}} />
 				</View>
+
+				{/* Dynamically render SideImageWithOverlay components */}
 				<View style={tw`p-1 mb-4`}>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-					/>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-					/>
-					<SideImageWithOverlay
-						imageUrl="https://media.istockphoto.com/id/1449280400/photo/turmeric-tree-and-a-little-visible-trunk-on-the-ground-fresh-turmeric-photo.jpg?s=1024x1024&w=is&k=20&c=nYx3tWL2minHlcNmlIaLxHHzVXvxUCgrrd-dJfiSiFk="
-						title="GINGER"
-						smallerTitle="Chinese ginger"
-						text={`success rate: 82%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nprice per kg: 515.22 ksh`}
-					/>
+					{cropData && cropData.length > 0 ? (
+						cropData.map((crop, index) => {
+							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
+							const confidence = crop.confidence;
+
+							// Use require to dynamically set the image path
+							const imageUrl = cropImageMap[cropName];
+
+							return (
+								<SideImageWithOverlay
+									key={index} // Use index as the key
+									imageSource={imageUrl}
+									title={cropName}
+									smallerTitle={cropName}
+									text={`Suitability: ${
+										confidence * 100
+									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
+									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index, cropName })}
+								/>
+							);
+						})
+					) : (
+						<Text>No crops available.</Text> // Fallback if no crops are found
+					)}
 				</View>
 			</ScrollView>
 		</View>

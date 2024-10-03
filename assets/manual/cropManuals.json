@@ -1,0 +1,89 @@
+{
+    "cropManuals": [
+        {
+            "crop": {
+                "name": "Tomatoes",
+                "variety": "Anasal f1"
+            },
+            "desciption": {
+                "Justification": ["Tomatoes grow well in volcanic soil which is in your location", "Ideal altitudes are 1000-1900m, Your location's altitude falls within this range", "Low humidities are prefered to prevent fungal diseases. The current season is has very low humidity"]
+            }
+        },
+        {
+            "crop": "Wheat",
+            "manual": "assets/manual/wheatManual.pdf"
+        },
+        {
+            "crop": "Maize",
+            "manual": "assets/manual/maizeManual.pdf"
+        },
+        {
+            "crop": "Barley",
+            "manual": "assets/manual/barleyManual.pdf"
+        },
+        {
+            "crop": "Soybean",
+            "manual": "assets/manual/soybeanManual.pdf"
+        },
+        {
+            "crop": "Sugarcane",
+            "manual": "assets/manual/sugarcaneManual.pdf"
+        },
+        {
+            "crop": "Potato",
+            "manual": "assets/manual/potatoManual.pdf"
+        },
+        {
+            "crop": "Tomato",
+            "manual": "assets/manual/tomatoManual.pdf"
+        },
+        {
+            "crop": "Onion",
+            "manual": "assets/manual/onionManual.pdf"
+        },
+        {
+            "crop": "Cotton",
+            "manual": "assets/manual/cottonManual.pdf"
+        },
+        {
+            "crop": "Tea",
+            "manual": "assets/manual/teaManual.pdf"
+        },
+        {
+            "crop": "Coffee",
+            "manual": "assets/manual/coffeeManual.pdf"
+        },
+        {
+            "crop": "Rubber",
+            "manual": "assets/manual/rubberManual.pdf"
+        },
+        {
+            "crop": "Jute",
+            "manual": "assets/manual/juteManual.pdf"
+        },
+        {
+            "crop": "Tobacco",
+            "manual": "assets/manual/tobaccoManual.pdf"
+        },
+        {
+            "crop": "Pulses",
+            "manual": "assets/manual/pulsesManual.pdf"
+        },
+        {
+            "crop": "Oilseeds",
+            "manual": "assets/manual/oilseedsManual.pdf"
+        },
+        {
+            "crop": "Fruits",
+            "manual": "assets/manual/fruitsManual.pdf"
+        },
+        {
+            "crop": "Vegetables",
+            "manual": "assets/manual/vegetablesManual.pdf"
+        },
+        {
+            "crop": "Spices",
+            "manual": "assets/manual/spicesManual.pdf"
+        }
+    ]
+}
