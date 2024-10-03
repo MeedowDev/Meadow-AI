@@ -1,71 +1,88 @@
-import SQLite, { SQLiteDatabase,ResultSet} from 'react-native-sqlite-storage';
+import { enablePromise, openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage';
 
-// Enable SQLite debugging
-SQLite.enablePromise(true);
+// Enable promise-based SQLite transactions
+enablePromise(true);
 
-const openDatabase = async () => {
-    try {
-        const db = await SQLite.openDatabase({ name: 'myDatabase.db', location: 'Documents' });
-        console.log('Database opened successfully');
-        return db;
-    } catch (error) {
-        console.error('Database initialization failed:', error);
+const tableName = 'users';
+
+// User data model
+export type User = {
+  id: number;
+  name: string;
+  contact: string;
+  location: string;
+};
+
+// Get DB connection
+export const getDBConnection = async (): Promise<SQLiteDatabase> => {
+  return openDatabase({ name: 'user-data.db', location: 'default' });
+};
+
+export const createTable = async (db: SQLiteDatabase) => {
+  try {
+    const query = `CREATE TABLE IF NOT EXISTS ${tableName} (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      contact TEXT NOT NULL,
+      location TEXT NOT NULL
+    );`;
+    await db.executeSql(query);
+    console.log('Table created successfully!');
+  } catch (error) {
+    console.error('Error creating table: ', error);
+    throw Error('Failed to create table!');
+  }
+};
+
+
+// Get all users from the database
+export const getUsers = async (db: SQLiteDatabase): Promise<User[]> => {
+  try {
+    const users: User[] = [];
+    const results = await db.executeSql(`SELECT id, name, contact, location FROM ${tableName}`);
+
+    // Check if the results array is valid and contains rows
+    if (results && results.length > 0) {
+      const result = results[0]; // Get the first result set (there should only be one)
+
+      if (result && result.rows.length > 0) {
+        for (let index = 0; index < result.rows.length; index++) {
+          const item = result.rows.item(index);
+
+          // Ensure the item is not null
+          if (item) {
+            users.push({
+              id: item.id,
+              name: item.name,
+              contact: item.contact,
+              location: item.location,
+            });
+          }
+        }
+      }
     }
+    
+    return users;
+  } catch (error) {
+    console.error('Error getting users: ', error);
+    throw new Error('Failed to retrieve users from the database.');
+  }
 };
 
-// Call the function to open the database
-openDatabase();
-  
-export const createTable = (db: SQLite.SQLiteDatabase): Promise<void> => {
-  return new Promise((resolve, reject) => { 
-    db.transaction((tx) => {
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS Users (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,  
-          contact TEXT,
-          location TEXT
-        );`,
-        [],
-        () => {
-          console.log('Table created successfully');
-          resolve();
-        },
-        (tx, error) => {
-          console.error('Error creating table:', error);
-          reject(error);
-        }
-      );
-    },
-    (transactionError) => {
-      console.error('Transaction error:', transactionError);
-      reject(transactionError);
-    });
-  });
+// Save a new user to the database
+export const saveUser = async (db: SQLiteDatabase, user: User) => {
+  const insertQuery = `INSERT INTO ${tableName} (name, contact, location) VALUES (?, ?, ?)`;
+  return db.executeSql(insertQuery, [user.name, user.contact, user.location]);
 };
 
-// Insert user data into Users table
-export const insertUser = (
-  db: SQLiteDatabase,
-  name: string,
-  contact: string,
-  location: string
-): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    // Perform a transaction on the database
-    db.transaction((tx) => {
-      tx.executeSql(
-        `INSERT INTO Users (name, contact, location) VALUES (?, ?, ?);`,
-        [name, contact, location],
-        (transaction, results: ResultSet) => {
-          console.log('User added successfully');
-          resolve(); // Resolve on success
-        },
-        (transaction, error: any) => {
-          console.error('Error inserting user:', error);
-          reject(error); // Reject on error
-        }
-      );
-    });
-  });
+// Delete a user from the database
+export const deleteUser = async (db: SQLiteDatabase, id: number) => {
+  const deleteQuery = `DELETE FROM ${tableName} WHERE id = ?`;
+  await db.executeSql(deleteQuery, [id]);
+};
+
+// Drop the users table (for debugging or resetting the database)
+export const dropTable = async (db: SQLiteDatabase) => {
+  const query = `DROP TABLE IF EXISTS ${tableName}`;
+  await db.executeSql(query);
 };

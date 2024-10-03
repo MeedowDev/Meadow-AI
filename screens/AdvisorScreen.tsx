@@ -45,11 +45,9 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 						}}
 					/>
 					<FilterButton label="Success Rate" onPress={handleScoreModel} />
-					<FilterButton label="Price" onPress={handleScoreModel} />
 				</View>
 				<View style={tw`flex-row`}>
 					<FilterButton label="Output" onPress={handleScoreModel} />
-					<FilterButton label="Complexity" onPress={handleScoreModel} />
 				</View>
 				<View style={tw`p-1 mb-4`}>
 					<SideImageWithOverlay

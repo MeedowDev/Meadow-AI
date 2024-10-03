@@ -11,5 +11,6 @@ export type RootStackParamList = {
     BookMarkedScreen:undefined;
     Prediction:undefined;
     AccountScreen:undefined;
+    MapScreen:undefined;
   };
   

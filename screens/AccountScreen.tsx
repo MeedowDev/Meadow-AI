@@ -1,5 +1,6 @@
 import SQLite, { SQLiteDatabase,ResultSet} from 'react-native-sqlite-storage';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback} from 'react';
+import { User,createTable,getUsers,getDBConnection,saveUser } from '../components/DatabaseLocal';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import tw from 'twrnc'; // Tailwind CSS import
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -12,101 +13,96 @@ interface  AccountScreenProps {
 	navigation: AccountScreenNavigationProp;
 }
 
-export default function AccountScreen({ navigation }: AccountScreenProps) {
-    const [name, setName] = useState('');
-    const [contact, setContact] = useState('');
-    const [location, setLocation] = useState('');
+const AccountScreen = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [newName, setNewName] = useState('');
+  const [newContact, setNewContact] = useState('');
+  const [newLocation, setNewLocation] = useState('');
 
-    // Function to open the database
-    const openDatabase = async () => {
-        const db = await SQLite.openDatabase({ name: 'myDatabase.db', location: 'default' });
-        return db;
-    };
+  const loadUserData = useCallback(async () => {
+    try {
+      const db = await getDBConnection();
+      await createTable(db);  // Ensure table is created
+      const storedUsers = await getUsers(db);  // Get users from DB
+      setUsers(storedUsers);
+    } catch (error) {
+      console.error('Error loading user data: ', error);
+    }
+  }, []);
 
-    // Initialize database and create table
-    const initDb = async () => {
-        const db = await openDatabase();
-        db.transaction(tx => {
-            tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Contact TEXT, Location TEXT);',
-                [],
-                () => {
-                    console.log('Table created successfully');
-                },
-                error => {
-                    console.log('Error creating table', error);
-                }
-            );
-        });
-    };
+  const addUser = async () => {
+    if (!newName.trim() || !newContact.trim() || !newLocation.trim()) {
+      Alert.alert('Error', 'All fields must be filled.');
+      return;
+    }
 
-    // Call initDb when component mounts
-    useEffect(() => {
-        initDb();
-    }, []);
+    try {
+      const newUser: User = {
+        id: users.length + 1,
+        name: newName,
+        contact: newContact,
+        location: newLocation,
+      };
+      const db = await getDBConnection();
+      await saveUser(db, newUser);
+      setUsers([...users, newUser]);
+      setNewName('');
+      setNewContact('');
+      setNewLocation('');
+    } catch (error) {
+      console.error('Error saving user: ', error);
+    }
+  };
 
-    const handleSignUp = async () => {
-        if (name.length === 0 || contact.length === 0 || location.length === 0) {
-            Alert.alert('Warning!', 'Please fill all fields.');
-            return;
-        }
+  useEffect(() => {
+    loadUserData();
+  }, [loadUserData]);
 
-        const db = await openDatabase();
-        db.transaction(tx => {
-            tx.executeSql(
-                'INSERT INTO Users (Name, Contact, Location) VALUES (?, ?, ?)',
-                [name, contact, location],
-                () => {
-                    Alert.alert('Success!', 'Your data has been saved.');
-                    // Optionally navigate to another screen
-                    // navigation.navigate('SomeOtherScreen');
-                },
-                error => {
-                    console.log('Error saving data', error);
-                }
-            );
-        });
-    };
+  return (
+    <View style={tw`flex-1 items-center justify-center p-4 bg-white`}>
+      {/* Input Fields and Save Button */}
+      <TextInput
+        placeholder='Enter your name'
+        value={newName}
+        onChangeText={setNewName}
+        style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
+      />
+      <TextInput
+        placeholder='Enter your contact'
+        value={newContact}
+        onChangeText={setNewContact}
+        style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
+        keyboardType='phone-pad'
+      />
+      <TextInput
+        placeholder='Enter your location'
+        value={newLocation}
+        onChangeText={setNewLocation}
+        style={tw`w-full border border-gray-300 rounded-lg p-4 mb-6`}
+      />
+      <TouchableOpacity
+        onPress={addUser}
+        style={tw`w-full bg-green-500 rounded-lg p-4`}
+      >
+        <Text style={tw`text-white text-center text-xl`}>Sign Up</Text>
+      </TouchableOpacity>
 
-    return (
-      <View style={tw`flex-1 items-center justify-center p-4 bg-white`}>
-        <Image
-          source={{
-            uri: 'https://images.unsplash.com/photo-1600013227786-329ab1958371?q=80&w=1535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          }} // Replace with your image URL
-          style={tw`w-30 h-0 mb-6 rounded-full`}
-          resizeMode='cover'
-        />
-        <Text style={tw`text-2xl font-semibold text-center mb-6`}>Welcome back</Text>
-  
-        <TextInput
-          placeholder='Enter your name'
-          value={name}
-          onChangeText={setName}
-          style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
-        />
-  
-        <TextInput
-          placeholder='Enter your contact'
-          value={contact}
-          onChangeText={setContact}
-          style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
-          keyboardType='phone-pad'
-        />
-  
-        <TextInput
-          placeholder='Enter your location'
-          value={location}
-          onChangeText={setLocation}
-          style={tw`w-full border border-gray-300 rounded-lg p-4 mb-6`}
-        />
-  
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={tw`w-full bg-green-500 rounded-lg p-4`}
-        >
-          <Text style={tw`text-white text-center text-xl`}>Sign Up</Text>
-        </TouchableOpacity>
+      {/* Display Users */}
+      <View style={tw`mt-6 w-full`}>
+        {users.length > 0 ? (
+          users.map((user) => (
+            <View key={user.id} style={tw`border-b border-gray-300 py-4`}>
+              <Text style={tw`text-lg`}>{user.name}</Text>
+              <Text>{user.contact}</Text>
+              <Text>{user.location}</Text>
+            </View>
+          ))
+        ) : (
+          <Text style={tw`text-lg text-center`}>No users available</Text>
+        )}
       </View>
-    );
-} 
+    </View>
+  );
+};
+
+export default AccountScreen;
