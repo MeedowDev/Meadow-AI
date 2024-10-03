@@ -6,12 +6,22 @@ import { LocationContext } from '../context/locationContext';
 import axios from 'axios';
 import { getDistance } from 'geolib';
 
+
+// Define a type for nearby shops
+interface Shop {
+  id: number;
+  latitude: number;
+  longitude: number;
+  title: string;
+  distance: number;
+}
+
 export default function MapScreen() {
   const { userLocation, errorMsg } = useContext(LocationContext);
-  const [nearbyShops, setNearbyShops] = useState([]);
-  const [selectedShop, setSelectedShop] = useState(null);
-  const [routeCoordinates, setRouteCoordinates] = useState([]);
-  const [distanceToShop, setDistanceToShop] = useState(null);
+  const [nearbyShops, setNearbyShops] = useState<Shop[]>([]); // Explicitly type state as an array of Shop
+  const [selectedShop, setSelectedShop] = useState<Shop | null>(null); // Explicitly type state as Shop or null
+  const [routeCoordinates, setRouteCoordinates] = useState<{ latitude: number; longitude: number }[]>([]); // Explicitly type route coordinates
+  const [distanceToShop, setDistanceToShop] = useState<number | null>(null); // Explicitly type state as number or null
 
   // Simulate fetching nearby shops
   useEffect(() => {
@@ -53,7 +63,7 @@ export default function MapScreen() {
   }, [userLocation, selectedShop]);
 
   // Fetch route from OSRM service
-  const fetchRoute = async (destination) => {
+  const fetchRoute = async (destination: Shop) => {
     if (userLocation && destination) {
       try {
         const origin = `${userLocation.coords.longitude},${userLocation.coords.latitude}`;
@@ -63,7 +73,7 @@ export default function MapScreen() {
         );
 
         if (response.data.routes.length) {
-          const coordinates = response.data.routes[0].geometry.coordinates.map(([longitude, latitude]) => ({
+          const coordinates = response.data.routes[0].geometry.coordinates.map(([longitude, latitude]: [number, number]) => ({
             latitude,
             longitude,
           }));
@@ -131,7 +141,7 @@ export default function MapScreen() {
           {routeCoordinates.length > 0 && (
             <Polyline
               coordinates={routeCoordinates}
-              strokeColor={distanceToShop <= 1000 ? 'green' : 'blue'} // Highlight based on distance
+              strokeColor={distanceToShop && distanceToShop <= 1000 ? 'green' : 'blue'} // Highlight based on distance
               strokeWidth={3}
             />
           )}
@@ -143,7 +153,7 @@ export default function MapScreen() {
         <View style={tw`absolute bottom-10 left-5 right-5 bg-white p-4 rounded-lg shadow-lg`}>
           <Text style={tw`text-lg font-bold text-gray-700`}>{selectedShop.title}</Text>
           <Text style={tw`text-gray-600`}>
-            Distance from your location: {(distanceToShop / 1000).toFixed(2)} km
+            Distance from your location: {(distanceToShop ?? 0 / 1000).toFixed(2)} km
           </Text>
         </View>
       )}

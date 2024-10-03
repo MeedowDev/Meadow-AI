@@ -4,6 +4,7 @@ import tw, { style } from "twrnc";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 interface NotificationPanelProps {
 	isVisible: boolean;
@@ -18,11 +19,13 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 	const [location, setLocation] = useState("");
 	const [showLoginForm, setShowLoginForm] = useState(false); // To toggle login form visibility
 	const [action, setAction] = useState(""); // To store the action to be performed after login
+	const navigation = useNavigation();  // Correctly getting the navigation object
 
 	const handleCheckLogin = async () => {
 		await checkLoginStatus();
 		if (isLoggedIn) {
 			console.log("User is logged in");
+			navigation.navigate("MapScreen");  // Navigate to MapScreen if logged in
 		} else {
 			console.log("User is not logged in");
 			setShowLoginForm(true);
