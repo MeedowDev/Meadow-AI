@@ -35,6 +35,10 @@ export default function MenuScreen({ navigation }: MenuScreenProps){
           title="Farming Insights"
           onPress={() => navigation.navigate('Insights')}
         />
+        <Menu
+          title="Maps"
+          onPress={() => navigation.navigate('MapScreen')}
+        />
     </ScrollView>
 </View>
     );

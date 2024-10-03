@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-nativ
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
 import { bookSeed } from "../db/update";
+import { useNavigation } from "@react-navigation/native";
 
 interface NotificationPanelProps {
 	isVisible: boolean;
@@ -21,11 +22,14 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 	const [action, setAction] = useState(""); // To store the action to be performed after login
 	const [isSigningIn, setIsSigningIn] = useState(false);
 
+	const navigation = useNavigation();  // Correctly getting the navigation object
 
 	const handleCheckLogin = async () => {
 		await checkLoginStatus();
 		if (isLoggedIn) {
 			console.log("User is logged in");
+			navigation.navigate("MapScreen");  // Navigate to MapScreen if logged in
+
 			return true;
 		} else {
 			console.log("User is not logged in");

@@ -22,7 +22,7 @@ export const LARGE_CONTAINER_STYLING = {
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_HOWTO: [tw`my-5 flex-col w-[85%] left-15 h-[410px] bg-grey-100 rounded-[0px] `, {overflow: "hidden"}],
 	IMAGE_IN_SMALL_CONTAINER_STYLING_HOWTO:  [tw`justify-start top-1 left-1 w-[55%] h-[40%] rounded-[100px]`,{borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 
-	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-7 w-[65%] h-[10%] rounded-[30px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
+	LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_MENU: [tw`my-5 w-[65%] h-[10%] rounded-[30px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_FREEBUTTON: [tw`my-2 w-[19%] flex-row left-45 top--29 h-[6%] rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 	LARGE_ROUNDED_iMAGE_CONTAINER_TWOBUTTONSONTHESIDE: [tw`my-1 w-[105%] h-10 rounded-[20px] bg-black-100 justify-center items-center`, {borderWidth: 1, overflow: "hidden",borderColor: COLORS.ACCENT_COLOR}],
 

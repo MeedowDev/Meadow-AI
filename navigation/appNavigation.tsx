@@ -10,6 +10,7 @@ import AccountScreen from "../screens/AccountScreen";
 import NewsScreen from "../screens/NewsScreen";
 import SpecificsScreen from "../screens/SpecificsScreen";
 import BookMarkedScreen from "../screens/BookMarkedScreen";
+import MapScreen from "../screens/MapScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { HomeIcon, UserIcon, CpuChipIcon, GlobeAltIcon } from "react-native-heroicons/outline"; // Adjust the imports as needed
 import { LogBox, TouchableOpacity } from "react-native";
@@ -180,7 +181,21 @@ export default function AppNavigation() {
 						),
 					})}
 				/>
-				
+				<Stack.Screen
+					name="MapScreen"
+					component={MapScreen}
+					options={({ navigation }) => ({
+						headerTitle: "MapScreen", // Keeps the title as it is
+						headerRight: () => (
+							<TouchableOpacity
+								style={{ marginRight: 10 }} // Adjust margin to fit the spacing
+								onPress={() => navigation.navigate("Menu")}
+							>
+								<Ionicons name="menu-outline" size={30} color="green" />
+							</TouchableOpacity>
+						),
+					})}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
