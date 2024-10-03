@@ -21,13 +21,16 @@ const ImageWithOverlayNonclickable = ({ image, title, smallerTitle, text }: Imag
 		<View style={LARGE_CONTAINER_STYLING.LARGE_ROUNDED_iMAGE_CONTAINER_STYLING_FARMERSPOINT}>
 			<ImageBackground source={currImage} style={LARGE_CONTAINER_STYLING.IMAGE_IN_LARGE_CONTAINER_STYLING_FP}>
 				<View style={OVERLAY_STYLING}>
-					<Text style={[FONTS.SNOW_TITLE, { marginTop: 120, marginBottom: -30, marginLeft: 20, fontFamily: "RubikMonoOne"  }]}>{title}</Text>
+					<Text style={[FONTS.SNOW_TITLE, { marginTop: 120, marginBottom: -30, marginLeft: 20, fontFamily: "RubikMonoOne" }]}>
+						{title}
+					</Text>
 					{smallerTitle && (
 						<Text style={[FONTS.SNOW_REGULAR_FONT_TWO, { marginTop: -40, marginLeft: 110, fontSize: 7 }]}>
 							{smallerTitle}
 						</Text>
 					)}
-					<Text style={[FONTS.SNOW_REGULAR_FONT, { marginLeft: 20, marginBottom: -20 }]}>{text}</Text>
+					
+					<Text style={[FONTS.SNOW_REGULAR_FONT, { marginLeft: 20, marginBottom: -20 }, tw`w-[50%] text-black`]}>{text}</Text>
 				</View>
 			</ImageBackground>
 		</View>

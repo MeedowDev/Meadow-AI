@@ -4,7 +4,6 @@ import tw, { style } from "twrnc";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
-import { updateUserData } from "../db/update";
 
 interface NotificationPanelProps {
 	isVisible: boolean;
