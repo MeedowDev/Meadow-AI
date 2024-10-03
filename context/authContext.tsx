@@ -3,107 +3,111 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { updateUserData } from "../db/update";
 import { fetchUserDataByEmail } from "../db/fetch";
 import * as SecureStore from "expo-secure-store";
-
-interface AuthContextType {
-	isLoggedIn: boolean;
-	checkLoginStatus: () => Promise<void>;
-	login: (Name: string, Email: string, Location: string) => Promise<void>;
-	logout: () => Promise<void>;
-	signin: (Email: string) => Promise<void>;
-	signup: (Name: string, Email: string, Location: string) => Promise<void>;
+// Define a User Data Type
+interface UserData {
+    Email: string;
+    Name: string;
+    Location: string;
+    id: number;
 }
 
+// Define AuthContextType
+interface AuthContextType {
+    isLoggedIn: boolean;
+    user: UserData | null;
+    logout: () => Promise<void>;
+    signup: (Name: string, Email: string, Location: string) => Promise<void>;
+    signin: (Email: string) => Promise<void>;
+    checkLoginStatus: () => Promise<void>;
+}
+
+// Update AuthContext to include user data
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState<UserData | null>(null); // State to hold the user data
 
-	const checkLoginStatus = async () => {
-		const sessionId = await SecureStore.getItemAsync("userSession");
-		setIsLoggedIn(!!sessionId); // Set isLoggedIn based on whether sessionId exists
-	};
+    const checkLoginStatus = async () => {
+        const sessionId = await SecureStore.getItemAsync("userSession");
+        setIsLoggedIn(!!sessionId); // Set isLoggedIn based on whether sessionId exists
+    };
 
-	const login = async (Name: string, Email: string, Location: string) => {
-		console.warn("Login method is being phased out. Use signin or signup instead.");
-		try {
-			// Call the function to update user data
-			await updateUserData(Name, Email, Location);
+    const clearSession = async () => {
+        await SecureStore.deleteItemAsync("userSession");
+        await SecureStore.deleteItemAsync("userEmail");
+		setIsLoggedIn(false);
+        setUser(null); // Clear user data on logout
+    }
 
-			// Generate a session ID and store it
-			const sessionId = generateSessionId(); // Implement this function to create a unique session ID
-			await SecureStore.setItemAsync("userSession", sessionId); // Save session ID in SecureStore
+    const startSession = async (email: string) => {
+        const sessionId = generateSessionId();
+        await SecureStore.setItemAsync("userSession", sessionId);
+        await SecureStore.setItemAsync("userEmail", email);
+    }
 
-			setIsLoggedIn(true); // Update the logged-in status
-		} catch (error) {
-			console.error("Login failed:", error);
-			throw error; // Re-throw the error for further handling if needed
-		}
-	};
+    const fetchAndSetUser = async (email: string) => {
+        const userData = await fetchUserDataByEmail(email);
+        if (userData && typeof userData === 'object' && 'Email' in userData && 'Name' in userData && 'Location' in userData && 'id' in userData) {
+			console.log("Fetched and set user data:", userData);
+            setUser(userData as UserData); // Store user data in state
+        }
+    };
 
-	const signin = async (Email: string) => {
-		try {
-			// Fetch the user data by email
-			const userData = await fetchUserDataByEmail(Email);
+    const signin = async (Email: string) => {
+        try {
+            await fetchAndSetUser(Email); // Fetch user data
+            await startSession(Email);
+            setIsLoggedIn(true);
+            console.log("Signin successful!");
+        } catch (error) {
+            console.error("Signin failed:", error);
+        }
+    };
 
-			if (userData) {
-				// If user exists, generate a session ID and store it
-				const sessionId = generateSessionId();
-				await SecureStore.setItemAsync("userSession", sessionId);
+    const signup = async (Name: string, Email: string, Location: string) => {
+        try {
+            await updateUserData(Name, Email, Location);
+            await startSession(Email);
+            await fetchAndSetUser(Email); // Fetch user data after signup
+            setIsLoggedIn(true);
+            console.log("Signup successful!");
+        } catch (error) {
+            console.error("Signup failed:", error);
+        }
+    };
 
-				setIsLoggedIn(true); // Set user as logged in
-				console.log("Signin successful!");
-			} else {
-				console.error("User not found!");
-			}
-		} catch (error) {
-			console.error("Signin failed:", error);
-			throw error;
-		}
-	};
+    const logout = async () => {
+        try {
+            await clearSession(); // Clear session data
+            setIsLoggedIn(false);
+            setUser(null); // Clear user data on logout
+            console.log("User logged out successfully.");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
 
-	const logout = async () => {
-		try {
-			// Remove session data
-			await SecureStore.deleteItemAsync("userSession");
-			setIsLoggedIn(false); // Update the logged-in status
-			console.log("User logged out successfully.");
-		} catch (error) {
-			console.error("Logout failed:", error);
-		}
-	};
+    useEffect(() => {
+        checkLoginStatus(); // Check login status on initial render
+    }, []);
 
-	const signup = async (Name: string, Email: string, Location: string) => {
-		try {
-			// Insert the user data
-			await updateUserData(Name, Email, Location);
-
-			// Generate a session ID and store it
-			const sessionId = generateSessionId();
-			await SecureStore.setItemAsync("userSession", sessionId);
-
-			setIsLoggedIn(true); // Set user as logged in
-			console.log("Signup successful!");
-		} catch (error) {
-			console.error("Signup failed:", error);
-			throw error;
-		}
-	};
-
-	useEffect(() => {
-		checkLoginStatus(); // Check login status on initial render
-	}, []);
-
-	return <AuthContext.Provider value={{ isLoggedIn, logout, signup, signin, checkLoginStatus, login }}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ isLoggedIn, user, logout, signup, signin, checkLoginStatus }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = () => {
-	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error("useAuth must be used within an AuthProvider");
-	}
-	return context;
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 };
 
+// Function to generate a session ID
 function generateSessionId() {
-	return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }

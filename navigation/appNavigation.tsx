@@ -69,7 +69,7 @@ function TabNavigator() {
 				name="AccountScreen"
 				component={AccountScreen}
 				options={{
-					tabBarLabel: "AccountScreen",
+					tabBarLabel: "Account",
 					tabBarIcon: ({ focused, size }) => <UserIcon color={focused ? COLORS.SELECTED : COLORS.LIGHT_GRAY} size={size} />,
 				}}
 			/>
@@ -124,7 +124,7 @@ export default function AppNavigation() {
 					name="AccountScreen"
 					component={AccountScreen}
 					options={({ navigation }) => ({
-						headerTitle: "AccountScreen", // Keeps the title as it is
+						headerTitle: "Account", // Keeps the title as it is
 						headerRight: () => (
 							<TouchableOpacity
 								style={{ marginRight: 10 }} // Adjust margin to fit the spacing

@@ -4,6 +4,7 @@ import tw, { style } from "twrnc";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
+import { bookSeed } from "../db/update";
 
 interface NotificationPanelProps {
 	isVisible: boolean;
@@ -12,30 +13,44 @@ interface NotificationPanelProps {
 }
 
 const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelProps) => {
-	const { isLoggedIn, login, checkLoginStatus } = useAuth();
+	const { isLoggedIn, logout, signup, signin, checkLoginStatus, user } = useAuth();
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [location, setLocation] = useState("");
 	const [showLoginForm, setShowLoginForm] = useState(false); // To toggle login form visibility
 	const [action, setAction] = useState(""); // To store the action to be performed after login
+	const [isSigningIn, setIsSigningIn] = useState(false);
+
 
 	const handleCheckLogin = async () => {
 		await checkLoginStatus();
 		if (isLoggedIn) {
 			console.log("User is logged in");
+			return true;
 		} else {
 			console.log("User is not logged in");
 			setShowLoginForm(true);
+			return false
 		}
 	};
 
 	const handleSignup = async () => {
-		await login(username, email, location);
+		await signup(username, email, location);
 		setShowLoginForm(false); // Hide the form after signup
 	};
 	const closeForm = () => {
 		setShowLoginForm(false);
 	};
+
+	const handleBookSeed = async () => {
+		await handleCheckLogin();
+		if (!user?.id) {
+			console.log("User id", user?.id);
+			return;
+		}
+		await bookSeed(cropName, user?.id);
+		onClose();
+	}
 	return (
 		<Modal
 			isVisible={isVisible}
@@ -61,16 +76,75 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 
 				{showLoginForm ? (
 					<>
-						<Text style={[styles.title, tw`mt-4`]}>Please Login to {action}</Text>
-						<TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} />
-						<TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
-						<TextInput style={styles.input} placeholder="Location " value={location} onChangeText={setLocation} />
-						<TouchableOpacity
-							style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center my-3`}
-							onPress={handleSignup}
-						>
-							<Text style={[styles.buttonText, tw`text-white`]}>Complete signup and complete action</Text>
-						</TouchableOpacity>
+						<View>
+							{isSigningIn ? (
+								<>
+									<Text style={[styles.title, tw`mt-4`]}>Please Login to {action}</Text>
+									<View style={tw`flex flex-row mb-2`}>
+										<Text>I case you dont have an account </Text>
+										<TouchableOpacity onPress={() => setIsSigningIn(false)}>
+											<Text style={tw`text-blue-600 underline`}>
+												Click here to create your account
+											</Text>
+										</TouchableOpacity>
+									</View>
+
+									<TextInput
+										style={styles.input}
+										placeholder="Email"
+										value={email}
+										onChangeText={setEmail}
+									/>
+
+									<TouchableOpacity
+										style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center my-3`}
+										onPress={handleSignup}
+									>
+										<Text style={[styles.buttonText, tw`text-white`]}>
+											Enter your account and complete action
+										</Text>
+									</TouchableOpacity>
+								</>
+							) : (
+								<>
+									<Text style={[styles.title, tw`mt-4`]}>Please Login to {action}</Text>
+									<View style={tw`flex flex-row mb-2`}>
+										<Text>Already have an account? </Text>
+										<TouchableOpacity onPress={() => setIsSigningIn(true)}>
+											<Text style={tw`text-blue-600 underline`}>
+												Click here to login into your account
+											</Text>
+										</TouchableOpacity>
+									</View>
+									<TextInput
+										style={styles.input}
+										placeholder="Username"
+										value={username}
+										onChangeText={setUsername}
+									/>
+									<TextInput
+										style={styles.input}
+										placeholder="Email"
+										value={email}
+										onChangeText={setEmail}
+									/>
+									<TextInput
+										style={styles.input}
+										placeholder="Location "
+										value={location}
+										onChangeText={setLocation}
+									/>
+									<TouchableOpacity
+										style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center my-3`}
+										onPress={handleSignup}
+									>
+										<Text style={[styles.buttonText, tw`text-white`]}>
+											Create a new account and complete action
+										</Text>
+									</TouchableOpacity>
+								</>
+							)}
+						</View>
 					</>
 				) : (
 					<View style={tw`flex flex-row justify-between my-[2rem]`}>
@@ -78,7 +152,8 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save crop and acquire its seeds");
-								handleCheckLogin();
+								handleBookSeed();
+
 							}}
 						>
 							<Text style={[styles.buttonText, tw`text-white`]}>Save crop and acquire seeds</Text>
@@ -87,7 +162,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[white] border border-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save the crop in your account");
-								handleCheckLogin();
+								handleBookSeed();
 							}}
 						>
 							<Text style={styles.buttonText}>Only save crop</Text>

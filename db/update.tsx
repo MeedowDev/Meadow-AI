@@ -121,5 +121,34 @@ async function updateGrowingCrop(cropName: string, userId: number) {
 	}
 }
 
-// Exporting all functions
-export { updateLocationData, updateUserData, updateBookedSeeds, updateGrowingCrop };
+/**
+ * Books a crop for the current user by inserting it into the bookedSeeds table.
+ *
+ * @param {string} seedName - The name of the seed to be booked.
+ * @param {number} userId - The ID of the user booking the crop.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function bookSeed(seedName: string, userId: number) {
+    // Preconditions
+    if (!seedName || !userId) {
+        throw new Error("Seed name and user ID must be provided.");
+    }
+
+	const db = await SQLite.openDatabaseAsync("db.db");
+
+	try {
+		// Insert the seed booking record into the database
+		const result = await db.runAsync(
+			"INSERT INTO bookedSeeds (SeedName, userId) VALUES (?, ?)", 
+			[seedName, userId]
+		);
+		console.log("Seed booked successfully!");
+	} catch (error) {
+		console.error("Error booking seed:", error);
+		throw error; // Re-throw the error for further handling
+	}
+}
+
+
+export { updateLocationData, updateUserData, updateBookedSeeds, updateGrowingCrop, bookSeed };

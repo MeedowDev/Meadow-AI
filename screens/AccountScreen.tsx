@@ -1,12 +1,13 @@
 import SQLite, { SQLiteDatabase, ResultSet } from "react-native-sqlite-storage";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet } from "react-native";
 import tw from "twrnc"; // Tailwind CSS import
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useAuth } from "../context/authContext";
-import { fetchAllUserData } from "../db/fetch";
+import { fetchAllUserData, fetchCurrentUserData } from "../db/fetch";
 import { COLORS } from "../constants/Colors";
+import { checkTableExists, checkUserDataExists, checkLocationDataExists, checkBookedSeedsExists, checkGrowingCropExists } from "../db/dbChecks";
 
 type AccountScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -20,7 +21,24 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 	const [contact, setContact] = useState("");
 	const [location, setLocation] = useState("");
 	const [email, setEmail] = useState(""); // Replace with actual user data
-	const [bookedCrops, setBookedCrops] = useState(["Corn", "Tomatoes", "Wheat"]); // Replace with actual data
+	const [bookedCrops, setBookedCrops] = useState(["Corn", "Tomatoes", "Wheat"]);
+	const [singingIn, setSigningIn] = useState(false);
+
+	const { user } = useAuth();
+
+	const [userData, setUserData] = useState<{ name?: string; email?: string; location?: string } | null>(null);
+
+	const fetchUserData = async () => {
+		const data = await fetchCurrentUserData();
+		if (data && "name" in data) {
+			console.log("User data:", (data as { name: string }).name);
+			setUserData(data as { name: string; email: string; location: string });
+		}
+	};
+
+	useEffect(() => {
+		fetchUserData();
+	}, []);
 
 	const handleUpdateDetails = () => {
 		// Handle updating user details logic here
@@ -32,12 +50,12 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		console.log("Updated Location:", location);
 	};
 
-	const handleLogout =  () => {
+	const handleLogout = () => {
 		Alert.alert("Log out?", "We will retain your data and preferences", [
 			{ text: "Cancel", style: "cancel" },
 			{
 				text: "log out",
-				onPress: async  () => {
+				onPress: async () => {
 					await logout();
 				},
 			},
@@ -50,7 +68,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		} catch (error) {
 			console.error("Login failed:", error);
 		}
-	}
+	};
 
 	const handleSignUp = async () => {
 		try {
@@ -58,18 +76,16 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		} catch (error) {
 			console.error("Login failed:", error);
 		}
-	}
-	const viewUsers = async () => {
-		try {
-			const users = await fetchAllUserData();
-			console.log("Users data:", users);
-		} catch (error) {
-			console.error("Error fetching users:", error);
-		}
-	}
-
-	
-
+	};
+	const testFunction = () => {
+		fetchUserData();
+		// try {
+		// 	await fetchCurrentUserData();
+		// 	console.log("User data fetched successfully!");
+		// } catch (error) {
+		// 	console.error("Error fetching users:", error);
+		// }
+	};
 
 	const handleDeleteAccount = () => {
 		//! Not yet implemented
@@ -85,11 +101,11 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		<View style={tw`flex-1 items-center bg-white`}>
 			{isLoggedIn ? (
 				<ScrollView style={tw`flex-1 p-5 w-full bg-gray-100`}>
-					<Text style={tw`text-2xl font-bold mb-5 text-center`}>Welcome to Your Farmer's Account!</Text>
+					<Text style={tw`text-2xl font-bold mb-5 text-center`}>Welcome back {user?.Name}</Text>
 
 					{/* Booked Crops Section */}
 					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
-						<Text style={tw`text-xl font-semibold mb-3`}>Booked Crops</Text>
+						<Text style={tw`text-xl font-semibold mb-3`}>Bookmarked Crops</Text>
 						{bookedCrops.length === 0 ? (
 							<Text style={tw`text-gray-500`}>No crops booked yet.</Text>
 						) : (
@@ -113,14 +129,14 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 					{/* Farm Location Section */}
 					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
 						<Text style={tw`text-xl font-semibold mb-3`}>Farm Location</Text>
-						<Text style={tw`text-lg text-gray-500 mb-2`}>Kalimoni, Juja</Text>
+						<Text style={tw`text-lg text-gray-500 mb-2`}>{user?.Location}</Text>
 						<TextInput
 							style={tw`border border-gray-300 rounded-lg p-3 bg-white mb-3`}
 							value={location}
 							onChangeText={setLocation}
 							placeholder="Change your farm location"
 						/>
-						<TouchableOpacity style={tw`bg-blue-500 px-4 py-3 rounded-lg`} onPress={handleUpdateLocation}>
+						<TouchableOpacity style={tw`bg-blue-500 px-4 py-3 rounded-lg`} onPress={testFunction}>
 							<Text style={tw`text-white text-center`}>Update Location</Text>
 						</TouchableOpacity>
 					</View>
@@ -128,14 +144,14 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 					{/* User Details Section */}
 					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
 						<Text style={tw`text-xl font-semibold mb-3`}>Your Details</Text>
-						<Text style={tw`text-lg text-gray-500 mb-2`}>Name: Farmer's Name</Text>
+						<Text style={tw`text-lg text-gray-500 mb-2`}>Name: {user?.Name}</Text>
 						<TextInput
 							style={tw`border border-gray-300 rounded-lg p-3 bg-white mb-3`}
 							value={name}
 							onChangeText={setName}
 							placeholder="Not your name? Change it here"
 						/>
-						<Text style={tw`text-lg text-gray-500 mb-2`}>Email: Farmer@happylife.com</Text>
+						<Text style={tw`text-lg text-gray-500 mb-2`}>Email: {user?.Email}</Text>
 						<TextInput
 							style={tw`border border-gray-300 rounded-lg p-3 bg-white mb-3`}
 							value={email}
@@ -165,36 +181,93 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 					</View>
 				</ScrollView>
 			) : (
-				<View style={tw`flex-1 items-center w-full justify-center p-5 bg-white`}>
-					<Text style={tw`text-2xl font-semibold text-center mb-6`}>Welcome to ClevaEnergy</Text>
+				<View style={tw`flex-1 items-center w-full h-full justify-center p-5 bg-white`}>
+					<Text style={tw`text-2xl font-semibold text-center mb-[6rem]`}>Welcome to ClevaEnergy</Text>
+					<View style={tw`flex w-full justify-center items-center`}>
+						{!singingIn ? (
+							<View style={tw`w-full`}>
+								<View style={tw`flex flex-row w-[100%] justify-center my-3`}>
+									<Text style={tw`text-center`}>Already have an account? </Text>
+									<TouchableOpacity
+										onPress={() => {
+											setSigningIn(true);
+										}}
+									>
+										<Text style={[styles.buttonText, tw`text-[#778B4C]`]}>
+											Login into your ClevaEnergy Account
+										</Text>
+									</TouchableOpacity>
+								</View>
 
-					<TextInput
-						placeholder="Enter your name"
-						value={name}
-						onChangeText={setName}
-						style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
-					/>
+								<TextInput
+									placeholder="Enter your email"
+									value={email}
+									onChangeText={setEmail}
+									style={tw`w-full my-[5rem] border border-gray-300 rounded-lg p-4 mb-4`}
+									keyboardType="email-address"
+								/>
+								<TouchableOpacity
+									style={tw`w-full mt-1 bg-green-500 rounded-3xl p-4 bg-[#778B4C]`}
+									onPress={handleSignIn}
+								>
+									<Text style={tw`text-white text-center text-xl`}>Log into your account</Text>
+								</TouchableOpacity>
+							</View>
+						) : (
+							<View style={tw`w-full`}>
+								<View style={tw`flex flex-row w-[100%] justify-center my-3`}>
+									<Text style={tw`text-center`}>Already have an account? </Text>
+									<TouchableOpacity
+										onPress={() => {
+											setSigningIn(false);
+										}}
+									>
+										<Text style={[styles.buttonText, tw`text-[#778B4C]`]}>
+											Login into your ClevaEnergy Account
+										</Text>
+									</TouchableOpacity>
+								</View>
 
-					<TextInput
-						placeholder="Enter your email"
-						value={email}
-						onChangeText={setEmail}
-						style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
-						keyboardType="email-address"
-					/>
+								<TextInput
+									placeholder="Enter your name"
+									value={name}
+									onChangeText={setName}
+									style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
+								/>
 
-					<TextInput
-						placeholder="Enter your location"
-						value={location}
-						onChangeText={setLocation}
-						style={tw`w-full border border-gray-300 rounded-lg p-4 mb-6`}
-					/>
+								<TextInput
+									placeholder="Enter your email"
+									value={email}
+									onChangeText={setEmail}
+									style={tw`w-full border border-gray-300 rounded-lg p-4 mb-4`}
+									keyboardType="email-address"
+								/>
 
-					<TouchableOpacity style={tw`w-full bg-green-500 rounded-lg p-4`} onPress={viewUsers}>
-						<Text style={tw`text-white text-center text-xl`}>Sign Up</Text>
-					</TouchableOpacity>
+								<TextInput
+									placeholder="Enter your location"
+									value={location}
+									onChangeText={setLocation}
+									style={tw`w-full border border-gray-300 rounded-lg p-4 mb-6`}
+								/>
+
+								<TouchableOpacity
+									style={tw`w-full bg-green-500 rounded-3xl p-4 bg-[#778B4C]`}
+									onPress={handleSignUp}
+								>
+									<Text style={tw`text-white text-center text-xl`}>Create new account</Text>
+								</TouchableOpacity>
+							</View>
+						)}
+					</View>
 				</View>
 			)}
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	buttonText: {
+		color: "#658A17",
+		textAlign: "center",
+	},
+});

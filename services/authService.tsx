@@ -1,9 +1,9 @@
 import { setSession, getSession, clearSession } from "./sessionManager";
 
 const AuthService = {
-	login: async (userId: string) => {
-		const sessionId = generateSessionId(userId); // A simple function to generate sessionId
-		await setSession(sessionId);
+	login: async (userId: string, email:string) => {
+		const sessionId = generateSessionId(userId); 
+		await setSession(sessionId, email);
 		return sessionId;
 	},
 
