@@ -6,8 +6,10 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useAuth } from "../context/authContext";
 import { fetchBookedSeedsForUser } from "../db/fetch";
+import { ScissorsIcon } from "react-native-heroicons/outline";
 import { COLORS } from "../constants/Colors";
 import { Snackbar } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
 
 type AccountScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -28,10 +30,6 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
 	const onToggleSnackBar = () => setVisible(!visible);
 	const onDismissSnackBar = () => setVisible(false);
-
-
-
-
 
 	const handleUpdateDetails = () => {
 		// Handle updating user details logic here
@@ -60,7 +58,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 			const success = await signin(email);
 			if (!success) {
 				ToastAndroid.show("The email you provided does not exist, Please create an account", ToastAndroid.LONG);
-			} 
+			}
 		} catch (error) {
 			console.error("Login failed:", error);
 		}
@@ -73,6 +71,10 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 			console.error("Login failed:", error);
 		}
 	};
+
+	const handleCancelCrop = () => {};
+	const handleCancelSeed = () => {};
+
 	const testFunction = () => {
 		console.log("Seeds:", bookedSeeds);
 		console.log("Crops:", crops);
@@ -112,11 +114,19 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 									style={tw`flex flex-row justify-between items-center py-2 border-b border-gray-200`}
 								>
 									<Text style={tw`text-lg`}>{seed.SeedName}</Text>
-									<TouchableOpacity
-										style={[tw`px-4 py-2 rounded-lg`, { backgroundColor: COLORS.ACCENT_COLOR }]}
-									>
-										<Text style={tw`text-white`}>Acquire Seeds</Text>
-									</TouchableOpacity>
+									<View style={tw`flex flex-row items-center justify-between`}>
+										<TouchableOpacity
+											style={[
+												tw`px-4 py-2 rounded-lg`,
+												{ backgroundColor: COLORS.ACCENT_COLOR },
+											]}
+										>
+											<Text style={tw`text-white`}>Acquire Seeds</Text>
+										</TouchableOpacity>
+										<TouchableOpacity style={tw`px-3`}>
+											<Ionicons name="trash-outline" size={20} color="red" />
+										</TouchableOpacity>
+									</View>
 								</View>
 							))
 						)}
@@ -134,10 +144,8 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 									style={tw`flex flex-row justify-between items-center py-2 border-b border-gray-200`}
 								>
 									<Text style={tw`text-lg`}>{crop.cropName}</Text>
-									<TouchableOpacity
-										style={tw`px-4 py-2 rounded-lg bg-red-600`}
-									>
-										<Text style={tw`text-white`}>Remove</Text>
+									<TouchableOpacity style={tw`px-3`}>
+										<Ionicons name="trash-outline" size={20} color="red" />
 									</TouchableOpacity>
 								</View>
 							))

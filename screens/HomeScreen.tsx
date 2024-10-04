@@ -13,6 +13,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useState, useEffect, useContext } from "react";
 import StackedVerticalCard from "../components/stackedVerticalCard";
+import WeatherCard from "../components/weatherCard";
 import { SPACER } from "../constants/ContainersStyling";
 import VerticalCard from "../components/verticalCard";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -47,20 +48,17 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
 	return (
 		<View style={tw`flex-1 `}>
-			<ImageBackground
-				style={tw`h-full w-full rounded-b-md`}
-				blurRadius={5}
-			>
+
 				<ScrollView contentContainerStyle={tw`items-center`}>
-					<LandingWidget
+					{/* <LandingWidget
 						temperature={temperature ?? "NAN"}
 						weather={weatherCondition ?? "NaN"}
 						season="Open Metero Response"
 						humidity={humidity ?? "NaN"}
-					></LandingWidget>
+					></LandingWidget> */}
 
 					{/* Adding this Block. From here */}
-					<View style={tw`mt-[5rem] h-[10rem] mt-[2.5rem] space-y-3`}>
+					{/* <View style={tw`mt-[5rem] h-[10rem] mt-[2.5rem] space-y-3`}>
 						<ScrollView
 							horizontal={true}
 							contentContainerStyle={{ paddingHorizontal: 15 }}
@@ -97,11 +95,22 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 								<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>23&#176;</Text>
 							</View>
 						</ScrollView>
-					</View>
+					</View> */}
 					{/* All the way to here */}
 
 					{/* Makes this block of code disappear. From here */}
-					<View style={tw`flex mt-[-5rem] h-[30rem] flex-row`}>
+
+					<View style={tw`mt-[5rem] mb-4`}>
+						<WeatherCard
+							temperature={temperature ?? "NAN"}
+							weather={weatherCondition ?? "NaN"}
+							season="Open Metero Response"
+							humidity={humidity ?? "NaN"}
+							windSpeed={windSpeed ?? 0} // Pass wind speed
+							pressure={pressure ?? 0} // Pass pressure
+						/>
+					</View>
+					<View style={tw`flex  h-[15rem] mx-4 flex-row`}>
 						<View style={tw`p-1 flex w-[50%]`}>
 							<VerticalCard
 								image="grey"
@@ -135,7 +144,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					</View>
 					{/* to here */}
 				</ScrollView>
-			</ImageBackground>
 		</View>
 	);
 }

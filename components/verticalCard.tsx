@@ -41,7 +41,7 @@ export default VerticalCard;
 
 const styles = StyleSheet.create({
 	rounded: {
-		borderRadius: 30,
+		borderRadius: 20,
         overflow: "hidden"
 	},
 	boldtext: {
