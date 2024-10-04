@@ -4,7 +4,6 @@ import tw, { style } from "twrnc";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
-import { bookSeed } from "../db/update";
 import { useNavigation } from "@react-navigation/native";
 
 interface NotificationPanelProps {
@@ -18,17 +17,17 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [location, setLocation] = useState("");
-	const [showLoginForm, setShowLoginForm] = useState(false); // To toggle login form visibility
+	const [showLoginForm, setShowLoginForm] = useState(false); 
 	const [action, setAction] = useState(""); // To store the action to be performed after login
 	const [isSigningIn, setIsSigningIn] = useState(false);
 
-	const navigation = useNavigation();  // Correctly getting the navigation object
+	const navigation = useNavigation<any>();  
 
 	const handleCheckLogin = async () => {
 		await checkLoginStatus();
-		if (isLoggedIn) {
+		if (isLoggedIn ) {
 			console.log("User is logged in");
-			navigation.navigate("MapScreen");  // Navigate to MapScreen if logged in
+			navigation.navigate("MapScreen"); 
 
 			return true;
 		} else {
@@ -40,21 +39,13 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 
 	const handleSignup = async () => {
 		await signup(username, email, location);
-		setShowLoginForm(false); // Hide the form after signup
+		setShowLoginForm(false); 
 	};
 	const closeForm = () => {
 		setShowLoginForm(false);
 	};
 
-	const handleBookSeed = async () => {
-		await handleCheckLogin();
-		if (!user?.id) {
-			console.log("User id", user?.id);
-			return;
-		}
-		await bookSeed(cropName, user?.id);
-		onClose();
-	}
+
 	return (
 		<Modal
 			isVisible={isVisible}
@@ -68,8 +59,8 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 				onClose();
 				closeForm();
 			}}
-			animationIn="slideInUp" // Animation for modal appearing
-			animationOut="slideOutDown" // Animation for modal disappearing
+			animationIn="slideInUp" 
+			animationOut="slideOutDown"
 		>
 			<View style={styles.panel}>
 				<Text style={styles.title}>Will you be planting this crop this season?</Text>

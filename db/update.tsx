@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import { isSeedBookedByUser } from "./fetch";
 
 /**
  * Inserts location data into the database.
@@ -47,6 +48,7 @@ async function updateLocationData(Longitude: string, Latitude: string, Date: str
 
 
 
+//TODO: Ensure that no two users can have the same email
 /**
  * Inserts user data into the database.
  * 
@@ -129,12 +131,16 @@ async function updateGrowingCrop(cropName: string, userId: number) {
  *
  * @throws {Error} If the database operation fails.
  */
-async function bookSeed(seedName: string, userId: number) {
+async function bookSeed(seedName: string, userId: number): Promise<string> {
     // Preconditions
     if (!seedName || !userId) {
         throw new Error("Seed name and user ID must be provided.");
     }
 
+	const seedBooked = await isSeedBookedByUser(userId, seedName);
+	if (seedBooked) {
+		return "You have already booked this seed.";
+	}
 	const db = await SQLite.openDatabaseAsync("db.db");
 
 	try {
@@ -144,9 +150,10 @@ async function bookSeed(seedName: string, userId: number) {
 			[seedName, userId]
 		);
 		console.log("Seed booked successfully!");
+		return "success";
 	} catch (error) {
 		console.error("Error booking seed:", error);
-		throw error; // Re-throw the error for further handling
+		return "internal error";
 	}
 }
 

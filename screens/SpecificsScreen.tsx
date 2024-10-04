@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, ToastAndroid } from "react-native";
 import tw from "twrnc";
 import ImageWithOverlayNonclickable from "../components/imageCardNonclickable";
 import JustText from "../components/JustText";
@@ -8,6 +8,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { COLORS } from "../constants/Colors";
 import { useRoute, RouteProp } from "@react-navigation/native";
+import { bookSeed } from "../db/update";
+import { useAuth } from "../context/authContext";
+import SignInSignUpModal from "../components/accountModal";
 
 type SpecificsScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -24,10 +27,30 @@ type RouteParams = {
 
 export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 	const [isPanelVisible, setPanelVisible] = useState(false);
+	const [isAccountModalVisible, setAccountModalVisible] = useState(false);
 	const route = useRoute<RouteProp<RouteParams, "params">>();
 	const { cropIndex, cropName } = route.params;
+	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin, user, updateBookedSeedsContext } = useAuth();
+
 	const togglePanel = () => {
 		setPanelVisible(!isPanelVisible);
+	};
+	const toggleAccountModal = () => {
+		setAccountModalVisible(!isAccountModalVisible);
+	};
+
+	const handleBookSeed = async () => {
+		await checkLoginStatus();
+		if (!user?.id) {
+			console.log("User id", user?.id);
+			toggleAccountModal();
+			return;
+		}
+		const booked = await bookSeed(cropName, user.id);
+		if (booked === "success") {
+		await updateBookedSeedsContext();} else {
+			ToastAndroid.show(booked, ToastAndroid.SHORT);
+		}
 	};
 	return (
 		<View style={tw`flex-1`}>
@@ -52,9 +75,12 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 						</View>
 					</TouchableOpacity>
 
-					<View style={[tw`h-[40px] border justify-center p-3 w-[100%] m-1 rounded-3xl`, { borderColor: COLORS.ACCENT_COLOR }]}>
+					<TouchableOpacity
+						onPress={handleBookSeed}
+						style={[tw`h-[40px] border justify-center p-3 w-[100%] m-1 rounded-3xl`, { borderColor: COLORS.ACCENT_COLOR }]}
+					>
 						<Text style={tw`text-center`}>Bookmark {cropName} for Another season</Text>
-					</View>
+					</TouchableOpacity>
 				</View>
 				<View>
 					<JustText
@@ -70,6 +96,7 @@ Seed Requirement: Anna F1 is sold in seed counts and is available in leading sto
 					/>
 				</View>
 				<NotificationPanel isVisible={isPanelVisible} cropName={cropName} onClose={togglePanel} />
+				<SignInSignUpModal isVisible={isAccountModalVisible} onClose={toggleAccountModal} />
 			</ScrollView>
 		</View>
 	);

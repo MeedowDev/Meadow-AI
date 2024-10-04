@@ -1,13 +1,13 @@
 import SQLite, { SQLiteDatabase, ResultSet } from "react-native-sqlite-storage";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet, ToastAndroid } from "react-native";
 import tw from "twrnc"; // Tailwind CSS import
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useAuth } from "../context/authContext";
-import { fetchAllUserData, fetchCurrentUserData } from "../db/fetch";
+import { fetchBookedSeedsForUser } from "../db/fetch";
 import { COLORS } from "../constants/Colors";
-import { checkTableExists, checkUserDataExists, checkLocationDataExists, checkBookedSeedsExists, checkGrowingCropExists } from "../db/dbChecks";
+import { Snackbar } from "react-native-paper";
 
 type AccountScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -16,29 +16,23 @@ interface AccountScreenProps {
 }
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin } = useAuth();
+	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin, bookedSeeds } = useAuth();
 	const [name, setName] = useState("");
 	const [contact, setContact] = useState("");
 	const [location, setLocation] = useState("");
 	const [email, setEmail] = useState(""); // Replace with actual user data
 	const [bookedCrops, setBookedCrops] = useState(["Corn", "Tomatoes", "Wheat"]);
 	const [singingIn, setSigningIn] = useState(false);
+	const [visible, setVisible] = useState(false);
 
 	const { user } = useAuth();
 
-	const [userData, setUserData] = useState<{ name?: string; email?: string; location?: string } | null>(null);
+	const onToggleSnackBar = () => setVisible(!visible);
+	const onDismissSnackBar = () => setVisible(false);
 
-	const fetchUserData = async () => {
-		const data = await fetchCurrentUserData();
-		if (data && "name" in data) {
-			console.log("User data:", (data as { name: string }).name);
-			setUserData(data as { name: string; email: string; location: string });
-		}
-	};
 
-	useEffect(() => {
-		fetchUserData();
-	}, []);
+
+
 
 	const handleUpdateDetails = () => {
 		// Handle updating user details logic here
@@ -64,7 +58,10 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
 	const handleSignIn = async () => {
 		try {
-			await signin(email);
+			const success = await signin(email);
+			if (!success) {
+				ToastAndroid.show("The email you provided does not exist, Please create an account", ToastAndroid.LONG);
+			} 
 		} catch (error) {
 			console.error("Login failed:", error);
 		}
@@ -78,7 +75,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		}
 	};
 	const testFunction = () => {
-		fetchUserData();
+		console.log("Seeds:", bookedSeeds);
 		// try {
 		// 	await fetchCurrentUserData();
 		// 	console.log("User data fetched successfully!");
@@ -106,18 +103,17 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 					{/* Booked Crops Section */}
 					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
 						<Text style={tw`text-xl font-semibold mb-3`}>Bookmarked Crops</Text>
-						{bookedCrops.length === 0 ? (
-							<Text style={tw`text-gray-500`}>No crops booked yet.</Text>
+						{bookedSeeds && bookedSeeds.length === 0 ? (
+							<Text style={tw`text-gray-500`}>Once you bookmark crops, they will appear here.</Text>
 						) : (
-							bookedCrops.map((crop, index) => (
+							(bookedSeeds ?? []).map((seed, index) => (
 								<View
 									key={index}
 									style={tw`flex flex-row justify-between items-center py-2 border-b border-gray-200`}
 								>
-									<Text style={tw`text-lg`}>{crop}</Text>
-									{/* TODO: Add a remove crop button */}
+									<Text style={tw`text-lg`}>{seed.SeedName}</Text>
 									<TouchableOpacity
-										style={[tw` px-4 py-2 rounded-lg`, { backgroundColor: COLORS.ACCENT_COLOR }]}
+										style={[tw`px-4 py-2 rounded-lg`, { backgroundColor: COLORS.ACCENT_COLOR }]}
 									>
 										<Text style={tw`text-white`}>Acquire Seeds</Text>
 									</TouchableOpacity>

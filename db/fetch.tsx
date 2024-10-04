@@ -103,6 +103,39 @@ async function fetchAllUserData(): Promise<Array<object>> {
 }
 
 /**
+ * Checks if an email is already associated with another user in the database.
+ *
+ * @param {string} email - The email to check for existence in the user table.
+ * @returns {boolean} - Returns true if the email is already taken, false otherwise.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function isEmailTaken(email: string): Promise<boolean> {
+    // Preconditions
+    if (!email) {
+        throw new Error("Email must be provided.");
+    }
+
+    const db = await SQLite.openDatabaseAsync("db.db");
+
+    try {
+        // Fetch all user data
+        const users = await db.getAllAsync("SELECT * FROM userData");
+
+        // Check if any user has the provided email
+		const isTaken = users.some((user: any) => user.Email === email);
+
+        return isTaken;
+    } catch (error) {
+        console.error("Error checking if email is taken:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+
+
+
+/**
  * Fetches the current user's data from the database based on their email.
  *
  * This function retrieves the email of the currently logged-in user
@@ -159,7 +192,70 @@ async function fetchCurrentUserData(): Promise<object | null> {
 	}
 }
 
+/**
+ * Fetches all booked seeds for the currently logged-in user.
+ *
+ * @param {number} userId - The ID of the user to fetch booked seeds for.
+ * @returns {Array<object>} - An array of booked seeds.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function fetchBookedSeedsForUser(userId: number): Promise<Array<object>> {
+    // Preconditions
+    if (!userId) {
+        throw new Error("User ID must be provided.");
+    }
+
+	const db = await SQLite.openDatabaseAsync("db.db");
+
+	try {
+		// Fetch booked seeds where the userId matches the current user
+		const results = await db.getAllAsync(
+			"SELECT * FROM bookedSeeds WHERE userId = ?",
+			[userId]
+		);
+
+		console.log("Booked seeds fetched successfully:", results);
+		return results as Array<object> || []; // Return results or an empty array
+	} catch (error) {
+		console.error("Error fetching booked seeds:", error);
+		throw error; // Re-throw the error for further handling
+	}
+}
+
+/**
+ * Checks if a specific seed is already booked by the user.
+ *
+ * @param {number} userId - The ID of the user to check against.
+ * @param {string} cropName - The name of the seed (crop) to check.
+ * @returns {Promise<boolean>} - Returns true if the seed is booked, otherwise false.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function isSeedBookedByUser(userId: number, cropName: string): Promise<boolean> {
+    // Preconditions
+    if (!userId || !cropName) {
+        throw new Error("User ID and crop name must be provided.");
+    }
+
+    const db = await SQLite.openDatabaseAsync("db.db");
+
+    try {
+        // Query the booked seeds for the specified user and crop name
+        const results = await db.getAllAsync(
+            "SELECT * FROM bookedSeeds WHERE userId = ? AND SeedName = ?",
+            [userId, cropName]
+        );
+
+        // Return true if there are any results (seed is booked), otherwise false
+        return results.length > 0;
+    } catch (error) {
+        console.error("Error checking booked seed:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
 
 
 
-export { fetchLocationData, fetchAllUserData, fetchCurrentUserData, fetchUserData, fetchFarmData, fetchUserDataByEmail };
+
+export { fetchLocationData, fetchBookedSeedsForUser, fetchAllUserData, fetchCurrentUserData, fetchUserData, fetchFarmData, fetchUserDataByEmail, isSeedBookedByUser };
