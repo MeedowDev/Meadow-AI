@@ -257,5 +257,76 @@ async function isSeedBookedByUser(userId: number, cropName: string): Promise<boo
 
 
 
+/**
+ * Fetches all crops grown by the currently logged-in user.
+ *
+ * @param {number} userId - The ID of the user to fetch booked seeds for.
+ * @returns {Array<object>} - An array of crops grown by the user.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function fetchGrowingCropsForUser(userId: number): Promise<Array<object>> {
+    // Preconditions
+    if (!userId) {
+        throw new Error("User ID must be provided.");
+    }
 
-export { fetchLocationData, fetchBookedSeedsForUser, fetchAllUserData, fetchCurrentUserData, fetchUserData, fetchFarmData, fetchUserDataByEmail, isSeedBookedByUser };
+	const db = await SQLite.openDatabaseAsync("db.db");
+
+	try {
+		// Fetch grown crops where the userId matches the current user
+		const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ?", [userId]);
+
+		console.log("Grown crops fetched successfully:", results);
+		return results as Array<object> || []; // Return results or an empty array
+	} catch (error) {
+		console.error("Error fetching grown crops:", error);
+		throw error; // Re-throw the error for further handling
+	}
+}
+
+
+/**
+ * Checks if a specific crops is already grown by the user.
+ *
+ * @param {number} userId - The ID of the user to check against.
+ * @param {string} cropName - The name of the crop to check.
+ * @returns {Promise<boolean>} - Returns true if the seed is booked, otherwise false.
+ *
+ * @throws {Error} If the database operation fails.
+ */
+async function isCropGrowByUser(userId: number, cropName: string): Promise<boolean> {
+    // Preconditions
+    if (!userId || !cropName) {
+        throw new Error("User ID and crop name must be provided.");
+    }
+
+    const db = await SQLite.openDatabaseAsync("db.db");
+
+    try {
+        // Query the booked seeds for the specified user and crop name
+        const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ? AND cropName = ?", [userId, cropName]);
+
+        // Return true if there are any results (seed is booked), otherwise false
+        return results.length > 0;
+    } catch (error) {
+        console.error("Error checking booked seed:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+
+
+
+export {
+	fetchLocationData,
+	fetchBookedSeedsForUser,
+	fetchGrowingCropsForUser,
+	fetchAllUserData,
+	fetchCurrentUserData,
+	fetchUserData,
+	fetchFarmData,
+	fetchUserDataByEmail,
+	isSeedBookedByUser,
+	isCropGrowByUser,
+};

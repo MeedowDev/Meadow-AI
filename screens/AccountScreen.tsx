@@ -16,12 +16,11 @@ interface AccountScreenProps {
 }
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin, bookedSeeds } = useAuth();
+	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin, bookedSeeds, crops } = useAuth();
 	const [name, setName] = useState("");
 	const [contact, setContact] = useState("");
 	const [location, setLocation] = useState("");
 	const [email, setEmail] = useState(""); // Replace with actual user data
-	const [bookedCrops, setBookedCrops] = useState(["Corn", "Tomatoes", "Wheat"]);
 	const [singingIn, setSigningIn] = useState(false);
 	const [visible, setVisible] = useState(false);
 
@@ -76,6 +75,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 	};
 	const testFunction = () => {
 		console.log("Seeds:", bookedSeeds);
+		console.log("Crops:", crops);
 		// try {
 		// 	await fetchCurrentUserData();
 		// 	console.log("User data fetched successfully!");
@@ -116,6 +116,28 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 										style={[tw`px-4 py-2 rounded-lg`, { backgroundColor: COLORS.ACCENT_COLOR }]}
 									>
 										<Text style={tw`text-white`}>Acquire Seeds</Text>
+									</TouchableOpacity>
+								</View>
+							))
+						)}
+					</View>
+
+					{/* Saved crops */}
+					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
+						<Text style={tw`text-xl font-semibold mb-3`}>Crops in your farm this season</Text>
+						{bookedSeeds && bookedSeeds.length === 0 ? (
+							<Text style={tw`text-gray-500`}>Once you bookmark crops, they will appear here.</Text>
+						) : (
+							(crops ?? []).map((crop, index) => (
+								<View
+									key={index}
+									style={tw`flex flex-row justify-between items-center py-2 border-b border-gray-200`}
+								>
+									<Text style={tw`text-lg`}>{crop.cropName}</Text>
+									<TouchableOpacity
+										style={tw`px-4 py-2 rounded-lg bg-red-600`}
+									>
+										<Text style={tw`text-white`}>Remove</Text>
 									</TouchableOpacity>
 								</View>
 							))

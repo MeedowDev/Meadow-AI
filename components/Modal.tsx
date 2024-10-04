@@ -1,10 +1,11 @@
 // NotificationPanel.js
 import React, { useState } from "react";
 import tw, { style } from "twrnc";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ToastAndroid } from "react-native";
 import Modal from "react-native-modal";
 import { useAuth } from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
+import { saveCrop } from "../db/update";
 
 interface NotificationPanelProps {
 	isVisible: boolean;
@@ -13,7 +14,7 @@ interface NotificationPanelProps {
 }
 
 const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelProps) => {
-	const { isLoggedIn, logout, signup, signin, checkLoginStatus, user } = useAuth();
+	const { isLoggedIn, logout, signup, signin, checkLoginStatus, updateGrowingCropsContext, user } = useAuth();
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [location, setLocation] = useState("");
@@ -36,6 +37,25 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 			return false
 		}
 	};
+
+	const handleCropSave = async () => {
+		await checkLoginStatus();
+		if (!user?.id) {
+			console.log("User id", user?.id);
+			setShowLoginForm(true);
+			return;
+		}
+		const registerCrop = await saveCrop(cropName, user.id);
+		if (registerCrop === "success") {
+			await updateGrowingCropsContext();
+			ToastAndroid.show(
+				"Success! We've registered youll be growing this crop! You will be receiving updates on how to grow it.",
+				ToastAndroid.LONG
+			);
+		} else {
+			ToastAndroid.show(registerCrop, ToastAndroid.SHORT);
+		}
+	}
 
 	const handleSignup = async () => {
 		await signup(username, email, location);
@@ -147,7 +167,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save crop and acquire its seeds");
-								handleBookSeed();
+								handleCropSave();
 
 							}}
 						>
@@ -157,7 +177,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[white] border border-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save the crop in your account");
-								handleBookSeed();
+								handleCropSave();
 							}}
 						>
 							<Text style={styles.buttonText}>Only save crop</Text>

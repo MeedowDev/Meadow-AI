@@ -1,7 +1,7 @@
 // AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { updateUserData } from "../db/update";
-import { fetchUserDataByEmail, fetchBookedSeedsForUser } from "../db/fetch";
+import { fetchUserDataByEmail, fetchBookedSeedsForUser, fetchGrowingCropsForUser } from "../db/fetch";
 import * as SecureStore from "expo-secure-store";
 // Define a User Data Type
 interface UserData {
@@ -16,10 +16,12 @@ interface AuthContextType {
 	isLoggedIn: boolean;
 	user: UserData | null;
 	bookedSeeds: object[] | null;
+	crops: object[] | null;
 	logout: () => Promise<void>;
 	signup: (Name: string, Email: string, Location: string) => Promise<void>;
 	signin: (Email: string) => Promise<boolean>;
 	updateBookedSeedsContext: () => Promise<void>;
+	updateGrowingCropsContext: () => Promise<void>;
 	checkLoginStatus: () => Promise<void>;
 }
 
@@ -29,7 +31,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [user, setUser] = useState<UserData | null>(null); // State to hold the user data
-	const [bookedSeeds, setBookedSeeds] = useState<object[] | null>(null); // State to hold the booked seeds
+	const [bookedSeeds, setBookedSeeds] = useState<object[] | null>(null);
+	const [crops, setCrops] = useState<object[] | null>(null);
 
 	const checkLoginStatus = async () => {
 		const sessionId = await SecureStore.getItemAsync("userSession");
@@ -40,6 +43,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		if (user) {
 			const seeds = await fetchBookedSeedsForUser(user.id);
 			setBookedSeeds(seeds);
+		} else {
+			console.error("User data not found!");
+		}
+	};
+	const updateGrowingCropsContext = async () => {
+		console.log("Updating growing crops context");
+		if (user) {
+			const allCrops = await fetchGrowingCropsForUser(user.id);
+			setCrops(allCrops);
 		} else {
 			console.error("User data not found!");
 		}
@@ -75,10 +87,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 				return false; // Stop further execution if user doesn't exist
 			}
 			const seeds = await fetchBookedSeedsForUser((userData as UserData).id); // Fetch booked seeds for the user
+			const crops = await fetchGrowingCropsForUser((userData as UserData).id); // Fetch crops for the user
 			console.log("Fetched booked seeds:", seeds);
 			setUser(userData as UserData); // Set the fetched user data to state
 			await startSession(Email);
 			setBookedSeeds(seeds);
+			setCrops(crops);
 			setIsLoggedIn(true);
 
 			console.log("Signin successful!");
@@ -117,7 +131,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ isLoggedIn, user, logout, signup, signin, checkLoginStatus, bookedSeeds, updateBookedSeedsContext }}>
+		<AuthContext.Provider
+			value={{
+				isLoggedIn,
+				user,
+				logout,
+				signup,
+				signin,
+				checkLoginStatus,
+				bookedSeeds,
+				crops,
+				updateBookedSeedsContext,
+				updateGrowingCropsContext,
+			}}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
