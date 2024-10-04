@@ -38,7 +38,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 		}
 	};
 
-	const handleCropSave = async () => {
+	const handleCropSave = async (navigate: boolean) => {
 		await checkLoginStatus();
 		if (!user?.id) {
 			console.log("User id", user?.id);
@@ -52,6 +52,9 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 				"Success! We've registered youll be growing this crop! You will be receiving updates on how to grow it.",
 				ToastAndroid.LONG
 			);
+			if (navigate) {
+				navigation.navigate("MapScreen", { crop: cropName });
+			}
 		} else {
 			ToastAndroid.show(registerCrop, ToastAndroid.SHORT);
 		}
@@ -167,7 +170,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save crop and acquire its seeds");
-								handleCropSave();
+								handleCropSave(true);
 
 							}}
 						>
@@ -177,7 +180,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 							style={tw`bg-[white] border border-[#778B4C] h-15 rounded-3xl justify-center items-center w-[48%]`}
 							onPress={() => {
 								setAction("save the crop in your account");
-								handleCropSave();
+								handleCropSave(false);
 							}}
 						>
 							<Text style={styles.buttonText}>Only save crop</Text>

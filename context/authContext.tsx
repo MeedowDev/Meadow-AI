@@ -78,6 +78,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		}
 	};
 
+	const attemptResumeSession = async () => {
+		try {
+			const email = await SecureStore.getItemAsync("userEmail");
+			if (email) {
+				console.log("Attempting to resume session for:", email);
+				const userData = await fetchUserDataByEmail(email);
+				if (userData) {
+					const seeds = await fetchBookedSeedsForUser((userData as UserData).id);
+					const crops = await fetchGrowingCropsForUser((userData as UserData).id);
+
+					setUser(userData as UserData);
+					setBookedSeeds(seeds);
+					setCrops(crops);
+					setIsLoggedIn(true);
+					console.log("Session resumed successfully!");
+				} else {
+					console.error("No user found for stored email.");
+				}
+			} else {
+				console.log("No saved session found.");
+			}
+		} catch (error) {
+			console.error("Error resuming session:", error);
+		}
+	};
+	useEffect(() => {
+		attemptResumeSession(); // Check and restore session on app launch
+	}, []);
+
+
 	const signin = async (Email: string): Promise<boolean> => {
 		try {
 			const userData = await fetchUserDataByEmail(Email); // Fetch user data directly
