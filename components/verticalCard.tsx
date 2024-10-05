@@ -20,19 +20,19 @@ const VerticalCard = ({ image, title, smallerTitle, text, onPress }: VerticalCar
 	}
 	return (
 		<View style={[tw`h-[100%]`, styles.rounded]}>
-			<ImageBackground source={currImage} style={tw`h-[100%] w-[100%]`}>
-				<TouchableOpacity onPress={onPress}>
-					<View style={tw``}>
-						<Text style={[FONTS.SNOW_TITLE, { marginTop: 120, marginBottom: -30, marginLeft: 20 }]}>{title}</Text>
+			<TouchableOpacity onPress={onPress}>
+				<ImageBackground source={currImage} style={tw`h-[100%] w-[100%] bg-[#91C788]`}>
+					<View style={tw`h-[100%]  flex flex-col justify-center`}>
+						<Text style={tw`font-bold text-lg text-white m-5`}>{title}</Text>
 						{smallerTitle && (
 							<Text style={[FONTS.SNOW_REGULAR_FONT_TWO, { marginTop: -40, marginLeft: 110, fontSize: 7 }]}>
 								{smallerTitle}
 							</Text>
 						)}
-						<Text style={[FONTS.SNOW_REGULAR_FONT, { marginLeft: 20, marginBottom: -20 }]}>{text}</Text>
+						<Text style={tw`font-bold text-white mx-5 mb-2`}>{text}</Text>
 					</View>
-				</TouchableOpacity>
-			</ImageBackground>
+				</ImageBackground>
+			</TouchableOpacity>
 		</View>
 	);
 };

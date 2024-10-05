@@ -4,6 +4,7 @@ import { OVERLAY_STYLING, LARGE_CONTAINER_STYLING } from "../constants/Container
 import { FONTS } from "../constants/Fonts";
 import { homeImageMap } from "../utils/localpaths";
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface StackedVerticalCardProps {
 	image: string;
@@ -20,19 +21,22 @@ const StackedVerticalCard = ({ image, title, smallerTitle, text, onPress }: Stac
 	}
 	return (
 		<View style={[tw`m-auto mb-1% h-[100%] w-[100%]`, styles.rounded]}>
-			<ImageBackground source={currImage} style={tw`h-[100%] w-[100%]`}>
-				<TouchableOpacity onPress={onPress}>
-					<View style={tw``}>
-						<Text style={[FONTS.SNOW_TITLE, { marginTop: 120, marginBottom: -30, marginLeft: 20 }]}>{title}</Text>
-						{smallerTitle && (
-							<Text style={[FONTS.SNOW_REGULAR_FONT_TWO, { marginTop: -40, marginLeft: 110, fontSize: 7 }]}>
-								{smallerTitle}
-							</Text>
-						)}
-						<Text style={[FONTS.SNOW_REGULAR_FONT, { marginLeft: 20, marginBottom: -20 }]}>{text}</Text>
-					</View>
-				</TouchableOpacity>
-			</ImageBackground>
+			<TouchableOpacity onPress={onPress} style={tw`[100%] w-[100%] bg-black`}>
+				<ImageBackground source={currImage} style={tw`h-[100%] w-[100%] flex flex-col justify-center`}>
+					<LinearGradient
+						// Gradient at 229 degrees
+						// Adjust the colors array to make the darkest point fairly translucent
+						colors={["rgba(0, 0, 0, 0.28)", "rgba(0, 0, 0, 0.7)"]}
+						start={[0.8, 0]}
+						end={[0.1, 1]}
+						style={tw`rounded-3xl w-[100%] h-[100%] flex flex-col justify-center`}
+					>
+						<Text style={tw`font-bold text-lg ml-4 text-white`}>{title}</Text>
+
+						<Text style={tw`font-bold text-white ml-4 mb-2`}>{text}</Text>
+					</LinearGradient>
+				</ImageBackground>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -48,4 +52,3 @@ const styles = StyleSheet.create({
 		fontFamily: "RubikMonoOne",
 	},
 });
-

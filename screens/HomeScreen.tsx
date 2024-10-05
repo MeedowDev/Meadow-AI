@@ -16,6 +16,8 @@ import StackedVerticalCard from "../components/stackedVerticalCard";
 import WeatherCard from "../components/weatherCard";
 import { SPACER } from "../constants/ContainersStyling";
 import VerticalCard from "../components/verticalCard";
+import AiResponse from "../components/aiRespose";
+import { LinearGradient } from "expo-linear-gradient";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
@@ -48,17 +50,16 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
 	return (
 		<View style={tw`flex-1 `}>
-
-				<ScrollView contentContainerStyle={tw`items-center`}>
-					{/* <LandingWidget
+			<ScrollView contentContainerStyle={tw`items-center`}>
+				{/* <LandingWidget
 						temperature={temperature ?? "NAN"}
 						weather={weatherCondition ?? "NaN"}
 						season="Open Metero Response"
 						humidity={humidity ?? "NaN"}
 					></LandingWidget> */}
 
-					{/* Adding this Block. From here */}
-					{/* <View style={tw`mt-[5rem] h-[10rem] mt-[2.5rem] space-y-3`}>
+				{/* Adding this Block. From here */}
+				{/* <View style={tw`mt-[5rem] h-[10rem] mt-[2.5rem] space-y-3`}>
 						<ScrollView
 							horizontal={true}
 							contentContainerStyle={{ paddingHorizontal: 15 }}
@@ -96,54 +97,61 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 							</View>
 						</ScrollView>
 					</View> */}
-					{/* All the way to here */}
+				{/* All the way to here */}
 
-					{/* Makes this block of code disappear. From here */}
+				{/* Makes this block of code disappear. From here */}
 
-					<View style={tw`mt-[5rem] mb-4`}>
-						<WeatherCard
-							temperature={temperature ?? "NAN"}
-							weather={weatherCondition ?? "NaN"}
-							season="Open Metero Response"
-							humidity={humidity ?? "NaN"}
-							windSpeed={windSpeed ?? 0} // Pass wind speed
-							pressure={pressure ?? 0} // Pass pressure
+				<View style={tw`mt-[5rem] mb-4`}>
+					<WeatherCard
+						temperature={temperature ?? "NAN"}
+						weather={weatherCondition ?? "NaN"}
+						season="Open Metero Response"
+						humidity={humidity ?? "NaN"}
+						windSpeed={windSpeed ?? 0} // Pass wind speed
+						pressure={pressure ?? 0} // Pass pressure
+					/>
+				</View>
+				<View style={tw`flex  h-[15rem] mx-4 flex-row`}>
+					<View style={tw`p-1 flex w-[50%]`}>
+						<VerticalCard
+							image="aibg4"
+							title="Your AI Advisor"
+							smallerTitle=""
+							text="Get immediate expert advice on what to plant this season for free!"
+							onPress={() => navigation.navigate("AdvisorScreen")}
 						/>
 					</View>
-					<View style={tw`flex  h-[15rem] mx-4 flex-row`}>
-						<View style={tw`p-1 flex w-[50%]`}>
-							<VerticalCard
-								image="grey"
-								title="Farming Advisor"
+					<View style={tw`flex flex-col w-[50%] p-1`}>
+						<View style={tw`h-[50%] pb-1`}>
+							<StackedVerticalCard
+								image="redTomatoes"
+								title="Farming Insight"
 								smallerTitle=""
-								text="Get immediate expert advice on what to plant this season for free!"
-								onPress={() => navigation.navigate("AdvisorScreen")}
+								text="Learn how to make a quick compost pit with these steps"
+								onPress={() => navigation.navigate("Insights")}
 							/>
 						</View>
-						<View style={tw`flex flex-col w-[50%] p-1`}>
-							<View style={tw`h-[50%] pb-1`}>
-								<StackedVerticalCard
-									image="grey"
-									title="Farming Insight"
-									smallerTitle=""
-									text="Learn how to make a quick compost pit with these steps"
-									onPress={() => navigation.navigate("Insights")}
-								/>
-							</View>
 
-							<View style={tw`h-[50%] pt-1`}>
-								<StackedVerticalCard
-									image="grey"
-									title="Farming Advisor"
-									smallerTitle=""
-									text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
-									onPress={() => navigation.navigate("NewsScreen")}
-								/>
-							</View>
+						<View style={tw`h-[50%] pt-1`}>
+							<StackedVerticalCard
+								image="coffeeBerries"
+								title="Farming News"
+								smallerTitle=""
+								text="Keep up with the latest trends in the farming industry"
+								onPress={() => navigation.navigate("NewsScreen")}
+							/>
 						</View>
 					</View>
-					{/* to here */}
-				</ScrollView>
+				</View>
+				{/* to here */}
+				<View style={tw`mx-4 w-80 mt-4 min-h-[5rem] bg-gray-200 p-4 rounded-3xl `}>
+					<Text style={tw`font-bold text-lg`}>Daily crop advisor (for a lack of a better name)</Text>
+					<AiResponse
+						aiTextParam="We use Artificial  to understand your location and the best crops suiting the region"
+						color="black"
+					/>
+				</View>
+			</ScrollView>
 		</View>
 	);
 }

@@ -9,8 +9,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
+import { generateText } from "../api/languageModelAPI";
 import { cropImageMap } from "../utils/localpaths";
-import { updateLocationData } from "../db/update";
 import { fetchLocationData } from "../db/fetch";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -74,9 +74,9 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					<FilterButton
 						label="Success Rate"
 						onPress={() => {
-							if (userLocation?.coords.latitude && userLocation?.coords.longitude) {
-								fetchLocationData();
-							}
+							generateText("hello Meta!").then((data) => {
+								console.log(data);
+							});
 						}}
 					/>
 					<FilterButton label="Price" onPress={() => {}} />

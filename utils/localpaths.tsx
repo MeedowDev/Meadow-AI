@@ -45,6 +45,10 @@ const homeImageMap: { [key: string]: any } = {
 	farmerInTeaFarm: require("../assets/images/farmerInTeaFarm.png"),
 	redTomatoes: require("../assets/images/redTomatoes.png"),
     grey: require("../assets/images/grey.png"),
+    aibg1: require("../assets/images/aibg1.png"),
+    aibg2: require("../assets/images/aibg2.jpeg"),
+    aibg3: require("../assets/images/aibg3.png"),
+    aibg4: require("../assets/images/aibg4.png"),
 };
 
 export { cropImageMap, homeImageMap };
