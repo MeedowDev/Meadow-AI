@@ -11,7 +11,8 @@ import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { generateText } from "../api/languageModelAPI";
 import { cropImageMap } from "../utils/localpaths";
-import { fetchLocationData } from "../db/fetch";
+import PulsingComponent from "../components/pulsingComponent";
+import AiResponse from "../components/aiRespose";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -41,6 +42,13 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 
 	const date = formatedDate(new Date());
 
+	const loadingTexts = [
+		"Analyzing the upcoming season's weather...",
+		"Assessing your location's weather and climate...",
+		"Checking the soil quality of your location...",
+		"Generating crop recommendations...",
+	];
+
 	useEffect(() => {
 		const fetchCropData = async () => {
 			if (userLocation) {
@@ -58,9 +66,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		fetchCropData();
 	}, [userLocation]);
 
-	if (loading) {
-		return <Text style={tw`text-center`}>Loading crop data...</Text>;
-	}
+
 
 	return (
 		<View style={tw`flex-1`}>
@@ -87,30 +93,48 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 				</View>
 
 				{/* Dynamically render SideImageWithOverlay components */}
-				<View style={tw`p-1 mb-4`}>
-					{cropData && cropData.length > 0 ? (
-						cropData.map((crop, index) => {
-							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
-							const confidence = crop.confidence;
-
-							// Use require to dynamically set the image path
-							const imageUrl = cropImageMap[cropName];
-
-							return (
-								<SideImageWithOverlay
-									key={index} // Use index as the key
-									imageSource={imageUrl}
-									title={cropName}
-									smallerTitle={cropName}
-									text={`Suitability: ${
-										confidence * 100
-									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
-									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index, cropName })}
-								/>
-							);
-						})
+				<View style={tw`mx-4 my-5`}>
+					{loading ? (
+						<>
+							<View>
+								<AiResponse aiTextParam={loadingTexts} color="black" />
+							</View>
+						</>
 					) : (
-						<Text>No crops available.</Text> // Fallback if no crops are found
+						<>
+							<View style={tw`px-1`}>
+								{cropData && cropData.length > 0 ? (
+									cropData.map((crop, index) => {
+										const cropName =
+											crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
+										const confidence = crop.confidence;
+
+										// Use require to dynamically set the image path
+										const imageUrl = cropImageMap[cropName];
+
+										return (
+											<SideImageWithOverlay
+												key={index} // Use index as the key
+												imageSource={imageUrl}
+												title={cropName}
+												smallerTitle={cropName}
+												text={`Suitability: ${
+													confidence * 100
+												}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
+												onPress={() =>
+													navigation.navigate("SpecificsScreen", {
+														cropIndex: index,
+														cropName,
+													})
+												}
+											/>
+										);
+									})
+								) : (
+									<Text>No crops available.</Text> // Fallback if no crops are found
+								)}
+							</View>
+						</>
 					)}
 				</View>
 			</ScrollView>

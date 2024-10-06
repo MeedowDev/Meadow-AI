@@ -1,5 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import * as SecureStore from "expo-secure-store";
+import setupDatabase from "./dbSetup";
 
 interface userData {
 	Email: string;
@@ -7,15 +8,9 @@ interface userData {
 	Name: string;
 	id: number;
 }
-/**
- * Retrieves all location data from the database.
- *
- * @postcondition All location data is logged to the console.
- *
- * @throws {Error} If the database operation fails.
- */
+
 async function fetchLocationData() {
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
 		const results = await db.getAllAsync("SELECT * FROM locationData");
@@ -26,11 +21,10 @@ async function fetchLocationData() {
 }
 
 async function fetchUserData() {
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
 		const results = await db.getAllAsync("SELECT * FROM userData");
-
 		return results as Array<object>;
 	} catch (error) {
 		console.error("Error retrieving data:", error);
@@ -38,41 +32,31 @@ async function fetchUserData() {
 }
 
 async function fetchFarmData() {
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
 		const results = await db.getAllAsync("SELECT * FROM farmData");
-
 		console.log("All data:", results);
 	} catch (error) {
 		console.error("Error retrieving data:", error);
 	}
 }
-/**
- * Fetches user data from the database for a specific email.
- *
- * @param {string} Email - Email of the user to be fetched.
- *
- * @returns {object | null} - User data if found, otherwise null.
- *
- * @throws {Error} If the database operation fails.
- */
+
 async function fetchUserDataByEmail(Email: string): Promise<object | null> {
 	if (!Email) {
 		throw new Error("Email must be provided.");
 	}
 
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
 		const results: any = await db.getAllAsync("SELECT * FROM userData WHERE Email = ?", [Email]);
-
 		console.log("User data:", results);
 
 		if (results.length > 0) {
-			return results[0]; // Return the first user found
+			return results[0];
 		} else {
-			return null; // Return null if no user found
+			return null;
 		}
 	} catch (error) {
 		console.error("Error fetching user data:", error);
@@ -80,21 +64,12 @@ async function fetchUserDataByEmail(Email: string): Promise<object | null> {
 	}
 }
 
-/**
- * Fetches all user data from the database.
- *
- * @returns {Array<object>} - An array of user data objects.
- *
- * @throws {Error} If the database operation fails.
- */
 async function fetchAllUserData(): Promise<Array<object>> {
-	const db = await SQLite.openDatabaseAsync("db.db");
-
+	const db = await setupDatabase();
+	console.log("db", db);
 	try {
 		const results = await db.getAllAsync("SELECT * FROM userData");
-
 		console.log("All users:", results);
-
 		return results as Array<object>;
 	} catch (error) {
 		console.error("Error fetching users:", error);
@@ -103,220 +78,149 @@ async function fetchAllUserData(): Promise<Array<object>> {
 }
 
 /**
- * Checks if an email is already associated with another user in the database.
+ * Checks if the given email is already taken by any user in the database.
  *
- * @param {string} email - The email to check for existence in the user table.
- * @returns {boolean} - Returns true if the email is already taken, false otherwise.
- *
- * @throws {Error} If the database operation fails.
+ * @param email - The email address to check.
+ * @returns A promise that resolves to a boolean indicating whether the email is taken.
+ * @throws Will throw an error if the email is not provided or if there is an issue querying the database.
  */
 async function isEmailTaken(email: string): Promise<boolean> {
-    // Preconditions
-    if (!email) {
-        throw new Error("Email must be provided.");
-    }
+	if (!email) {
+		throw new Error("Email must be provided.");
+	}
 
-    const db = await SQLite.openDatabaseAsync("db.db");
-
-    try {
-        // Fetch all user data
-        const users = await db.getAllAsync("SELECT * FROM userData");
-
-        // Check if any user has the provided email
-		const isTaken = users.some((user: any) => user.Email === email);
-
-        return isTaken;
-    } catch (error) {
-        console.error("Error checking if email is taken:", error);
-        throw error; // Re-throw the error for further handling
-    }
-}
-
-
-
-
-/**
- * Fetches the current user's data from the database based on their email.
- *
- * This function retrieves the email of the currently logged-in user
- * and uses it to fetch their corresponding data from the `userData` table.
- *
- * @returns {Promise<object | null>} - A promise that resolves to the user data if found,
- *                                      or null if no user is logged in or if no data is found.
- *
- * @throws {Error} If there is an error during the database operation.
- */
-async function fetchCurrentUserData(): Promise<object | null> {
-    console.log("fetchCurrentUserData");
-    const getEmail = async () => {
-        try {
-            const email = await SecureStore.getItemAsync("userEmail");
-            // const sessionID = await SecureStore.getItemAsync("userSession");
-            // console.log(email);
-            // console.log("SEssion ID", sessionID);
-            return email;
-        } catch (error) {
-            console.error("Error getting user email:", error);
-            return null;
-        }
-    };
+	const db = await setupDatabase();
 
 	try {
-		const email = await getEmail(); // Get the email of the currently logged-in user
+		const users = await db.getAllAsync("SELECT * FROM userData");
+		const isTaken = users.some((user: any) => user.Email === email);
+		return isTaken;
+	} catch (error) {
+		console.error("Error checking if email is taken:", error);
+		throw error;
+	}
+}
+
+/**
+ * Fetches the current user's data from the database.
+ *
+ * This function retrieves the user's email from secure storage and then queries the database
+ * to fetch the user's data based on the email. If the user is not logged in or if there is an error
+ * during the process, it returns `null`.
+ *
+ * @returns {Promise<object | null>} A promise that resolves to an object containing the user's data
+ * (name, location, email, and id) if the user is found, or `null` if the user is not found or an error occurs.
+ *
+ * @throws Will log an error message if there is an issue retrieving the email or querying the database.
+ */
+async function fetchCurrentUserData(): Promise<object | null> {
+	console.log("fetchCurrentUserData");
+	const getEmail = async () => {
+		try {
+			const email = await SecureStore.getItemAsync("userEmail");
+			return email;
+		} catch (error) {
+			console.error("Error getting user email:", error);
+			return null;
+		}
+	};
+
+	try {
+		const email = await getEmail();
 
 		if (!email) {
 			console.error("No user is logged in.");
-			return null; // Return null if no user is logged in
+			return null;
 		}
 
-		const db = await SQLite.openDatabaseAsync("db.db");
-
-		// Fetch user data by email
+		const db = await setupDatabase();
 		const results: any = await db.getAllAsync("SELECT * FROM userData WHERE Email = ?", [email]);
 
 		if (results.length > 0) {
-            const data = results[0] as userData
-            const dataObj = {
-                name: data.Name,
-                location: data.Location,
-                email: data.Email,
-                id: data.id
-            }
-			return dataObj; // Return user data
+			const data = results[0] as userData;
+			const dataObj = {
+				name: data.Name,
+				location: data.Location,
+				email: data.Email,
+				id: data.id,
+			};
+			return dataObj;
 		} else {
-			return null; // No user found
+			return null;
 		}
 	} catch (error) {
 		console.error("Error fetching current user data:", error);
-		return null; // Return null in case of error
+		return null;
 	}
 }
 
-/**
- * Fetches all booked seeds for the currently logged-in user.
- *
- * @param {number} userId - The ID of the user to fetch booked seeds for.
- * @returns {Array<object>} - An array of booked seeds.
- *
- * @throws {Error} If the database operation fails.
- */
 async function fetchBookedSeedsForUser(userId: number): Promise<Array<object>> {
-    // Preconditions
-    if (!userId) {
-        throw new Error("User ID must be provided.");
-    }
+	if (!userId) {
+		throw new Error("User ID must be provided.");
+	}
 
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
-		// Fetch booked seeds where the userId matches the current user
-		const results = await db.getAllAsync(
-			"SELECT * FROM bookedSeeds WHERE userId = ?",
-			[userId]
-		);
+		const results = await db.getAllAsync("SELECT * FROM bookedSeeds WHERE userId = ?", [userId]);
 
 		console.log("Booked seeds fetched successfully:", results);
-		return results as Array<object> || []; // Return results or an empty array
+		return (results as Array<object>) || [];
 	} catch (error) {
 		console.error("Error fetching booked seeds:", error);
-		throw error; // Re-throw the error for further handling
+		throw error;
 	}
 }
 
-/**
- * Checks if a specific seed is already booked by the user.
- *
- * @param {number} userId - The ID of the user to check against.
- * @param {string} cropName - The name of the seed (crop) to check.
- * @returns {Promise<boolean>} - Returns true if the seed is booked, otherwise false.
- *
- * @throws {Error} If the database operation fails.
- */
 async function isSeedBookedByUser(userId: number, cropName: string): Promise<boolean> {
-    // Preconditions
-    if (!userId || !cropName) {
-        throw new Error("User ID and crop name must be provided.");
-    }
+	if (!userId || !cropName) {
+		throw new Error("User ID and crop name must be provided.");
+	}
 
-    const db = await SQLite.openDatabaseAsync("db.db");
-
-    try {
-        // Query the booked seeds for the specified user and crop name
-        const results = await db.getAllAsync(
-            "SELECT * FROM bookedSeeds WHERE userId = ? AND SeedName = ?",
-            [userId, cropName]
-        );
-
-        // Return true if there are any results (seed is booked), otherwise false
-        return results.length > 0;
-    } catch (error) {
-        console.error("Error checking booked seed:", error);
-        throw error; // Re-throw the error for further handling
-    }
-}
-
-
-
-/**
- * Fetches all crops grown by the currently logged-in user.
- *
- * @param {number} userId - The ID of the user to fetch booked seeds for.
- * @returns {Array<object>} - An array of crops grown by the user.
- *
- * @throws {Error} If the database operation fails.
- */
-async function fetchGrowingCropsForUser(userId: number): Promise<Array<object>> {
-    // Preconditions
-    if (!userId) {
-        throw new Error("User ID must be provided.");
-    }
-
-	const db = await SQLite.openDatabaseAsync("db.db");
+	const db = await setupDatabase();
 
 	try {
-		// Fetch grown crops where the userId matches the current user
-		const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ?", [userId]);
+		const results = await db.getAllAsync("SELECT * FROM bookedSeeds WHERE userId = ? AND SeedName = ?", [userId, cropName]);
 
-		console.log("Grown crops fetched successfully:", results);
-		return results as Array<object> || []; // Return results or an empty array
+		return results.length > 0;
 	} catch (error) {
-		console.error("Error fetching grown crops:", error);
-		throw error; // Re-throw the error for further handling
+		console.error("Error checking booked seed:", error);
+		throw error;
 	}
 }
 
+async function fetchGrowingCropsForUser(userId: number): Promise<Array<object>> {
+	if (!userId) {
+		throw new Error("User ID must be provided.");
+	}
 
-/**
- * Checks if a specific crops is already grown by the user.
- *
- * @param {number} userId - The ID of the user to check against.
- * @param {string} cropName - The name of the crop to check.
- * @returns {Promise<boolean>} - Returns true if the seed is booked, otherwise false.
- *
- * @throws {Error} If the database operation fails.
- */
-async function isCropGrowByUser(userId: number, cropName: string): Promise<boolean> {
-    // Preconditions
-    if (!userId || !cropName) {
-        throw new Error("User ID and crop name must be provided.");
-    }
+	const db = await setupDatabase();
 
-    const db = await SQLite.openDatabaseAsync("db.db");
-
-    try {
-        // Query the booked seeds for the specified user and crop name
-        const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ? AND cropName = ?", [userId, cropName]);
-
-        // Return true if there are any results (seed is booked), otherwise false
-        return results.length > 0;
-    } catch (error) {
-        console.error("Error checking booked seed:", error);
-        throw error; // Re-throw the error for further handling
-    }
+	try {
+		const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ?", [userId]);
+		console.log("Grown crops fetched successfully:", results);
+		return (results as Array<object>) || [];
+	} catch (error) {
+		console.error("Error fetching grown crops:", error);
+		throw error;
+	}
 }
 
+async function isCropGrowByUser(userId: number, cropName: string): Promise<boolean> {
+	if (!userId || !cropName) {
+		throw new Error("User ID and crop name must be provided.");
+	}
 
+	const db = await setupDatabase();
 
+	try {
+		const results = await db.getAllAsync("SELECT * FROM growingCrop WHERE userId = ? AND cropName = ?", [userId, cropName]);
+		return results.length > 0;
+	} catch (error) {
+		console.error("Error checking grown crop:", error);
+		throw error;
+	}
+}
 
 export {
 	fetchLocationData,

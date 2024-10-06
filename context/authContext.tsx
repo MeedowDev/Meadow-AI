@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { updateUserData } from "../db/update";
 import { fetchUserDataByEmail, fetchBookedSeedsForUser, fetchGrowingCropsForUser } from "../db/fetch";
+import { deleteGrowingCropById, deleteBookedSeedById } from "../db/delete";
 import * as SecureStore from "expo-secure-store";
 // Define a User Data Type
 interface UserData {
@@ -20,6 +21,9 @@ interface AuthContextType {
 	logout: () => Promise<void>;
 	signup: (Name: string, Email: string, Location: string) => Promise<void>;
 	signin: (Email: string) => Promise<boolean>;
+	forceLogin: () => Promise<void>;
+	deleteCrop: (cropId: number, userId: number) => Promise<void>;
+	deleteSeed: (seedId: number, userId: number) => Promise<void>;
 	updateBookedSeedsContext: () => Promise<void>;
 	updateGrowingCropsContext: () => Promise<void>;
 	checkLoginStatus: () => Promise<void>;
@@ -38,6 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		const sessionId = await SecureStore.getItemAsync("userSession");
 		setIsLoggedIn(!!sessionId); // Set isLoggedIn based on whether sessionId exists
 	};
+
+	const forceLogin = async () => {
+		console.warn("Forced login, user context may be lost!");
+		setIsLoggedIn(true);
+	}
 
 	const updateBookedSeedsContext = async () => {
 		if (user) {
@@ -65,18 +74,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	};
 
 	const startSession = async (email: string) => {
+		email = email.trim().toLowerCase(); 
 		const sessionId = generateSessionId();
 		await SecureStore.setItemAsync("userSession", sessionId);
 		await SecureStore.setItemAsync("userEmail", email);
 	};
 
 	const fetchAndSetUser = async (email: string) => {
+		email = email.trim().toLowerCase(); 
 		const userData = await fetchUserDataByEmail(email);
 		if (userData && typeof userData === "object" && "Email" in userData && "Name" in userData && "Location" in userData && "id" in userData) {
 			console.log("Fetched and set user data:", userData);
 			setUser(userData as UserData); // Store user data in state
 		}
 	};
+
+	const deleteCrop = async (cropId: number, userId: number) => {
+		if (!cropId || !userId) {
+			throw new Error("Both Crop ID and User ID must be provided.");
+		}
+
+		try {
+			await deleteGrowingCropById(cropId, userId);
+			await updateGrowingCropsContext();
+			console.log("Crop deleted successfully!");
+		} catch (error) {
+			console.error("Error deleting crop:", error);
+		}
+	};
+	const deleteSeed = async (seedId: number, userId: number) => {
+		if (!seedId || !userId) {
+			throw new Error("Both Seed ID and User ID must be provided.");
+		}
+
+		try {
+			await deleteBookedSeedById(seedId, userId);
+			await updateBookedSeedsContext();
+			console.log("Seed deleted successfully!");
+		} catch (error) {
+			console.error("Error deleting seed:", error);
+		}
+	}
 
 	const attemptResumeSession = async () => {
 		try {
@@ -95,6 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 					console.log("Session resumed successfully!");
 				} else {
 					console.error("No user found for stored email.");
+					setIsLoggedIn(false);
 				}
 			} else {
 				console.log("No saved session found.");
@@ -109,11 +148,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
 	const signin = async (Email: string): Promise<boolean> => {
+		Email = Email.trim().toLowerCase(); 
 		try {
 			const userData = await fetchUserDataByEmail(Email); // Fetch user data directly
 
 			if (!userData) {
-				console.error("Signin failed: User not found!");
+				console.warn("Signin failed: User not found!");
 				return false; // Stop further execution if user doesn't exist
 			}
 			const seeds = await fetchBookedSeedsForUser((userData as UserData).id); // Fetch booked seeds for the user
@@ -134,6 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	};
 
 	const signup = async (Name: string, Email: string, Location: string) => {
+		Email = Email.trim().toLowerCase();
 		try {
 			await updateUserData(Name, Email, Location);
 			await startSession(Email);
@@ -168,9 +209,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 				logout,
 				signup,
 				signin,
+				forceLogin,
 				checkLoginStatus,
 				bookedSeeds,
 				crops,
+				deleteCrop,
+				deleteSeed,
 				updateBookedSeedsContext,
 				updateGrowingCropsContext,
 			}}

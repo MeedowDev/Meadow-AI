@@ -1,15 +1,14 @@
 import * as SQLite from "expo-sqlite";
 
-async function setupDatabase() {
+let dbInstance: SQLite.SQLiteDatabase | null = null;
 
-    const checkList = {
+async function createTables(db: SQLite.SQLiteDatabase) {
+	const checkList = {
 		locationData: false,
 		userData: false,
 		bookedSeeds: false,
 		growingCrop: false,
-    };
-
-	const db = await SQLite.openDatabaseAsync("db.db");
+	};
 
 	try {
 		// Run table creation concurrently
@@ -93,4 +92,14 @@ async function setupDatabase() {
 	}
 }
 
-export default setupDatabase;
+export default async function setupDatabase() {
+	// If dbInstance doesn't exist, create it
+	if (!dbInstance) {
+		dbInstance = await SQLite.openDatabaseAsync("db.db");
+		console.log("Database opened successfully.");
+
+		// Create tables after the database is opened
+		await createTables(dbInstance);
+	}
+	return dbInstance; // Return the single instance of the database
+}
