@@ -22,7 +22,7 @@ export async function getCurrentWeather(location: LocationObject) {
 			throw new Error("Failed to fetch current weather data");
 		}
 		const weatherData = await response.json();
-
+		//this is my real time api
         console.log("Weather Data:", weatherData);
 		return weatherData;
 	} catch (error) {
@@ -56,7 +56,6 @@ export async function getWeatherForecastByCoords(latitude: number, longitude: nu
 		}
 
 		const weatherData = await response.json();
-		console.log(weatherData);
 		return JSON.stringify(weatherData); // Return the actual weather data
 	} catch (error) {
 		console.error("Error fetching weather forecast: ", error);

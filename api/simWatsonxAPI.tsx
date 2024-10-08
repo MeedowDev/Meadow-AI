@@ -24,20 +24,20 @@ const cropWeights: { [key: string]: number } = {
 	HAY: 0.1,
 	HAYLAGE: 0.1,
 };
-
+//!please consider variety. It is key
 const related_crops: { [key: string]: string[] } = {
-	WHEAT: ["WHEAT", "OATS", "RYE", "BARLEY", "MILLET"],
-	LEGUMES: ["KIDNEY BEANS", "LENTILS", "PEAS", "FABA BEANS", "ALFALFA"],
-	CORN: ["CORN", "MILLET", "SORGHUM", "SUNFLOWER", "SWEET POTATO"],
-	HAYLAGE: ["HAYLAGE", "ALFALFA", "CLOVER", "RYEGRASS", "ORCHARDGRASS"],
-	HAY: ["HAY", "ALFALFA", "TIMOTHY HAY", "BERMUDA GRASS", "FESCUE"],
+	WHEAT: ["WHEAT", "OATS", "RYE", "BARLEY", "MILLET"], //!rye , barley , barley
+	LEGUMES: ["KIDNEY BEANS", "LENTILS", "PEAS", "FABA BEANS", "ALFALFA"], 
+	CORN: ["CORN", "MILLET", "SORGHUM", "SUNFLOWER", "SWEET POTATO"], //!sunflower,
+	HAYLAGE: ["HAYLAGE", "ALFALFA", "CLOVER", "RYEGRASS", "ORCHARDGRASS"],//!haylage
+	HAY: ["HAY", "ALFALFA", "TIMOTHY HAY", "BERMUDA GRASS", "FESCUE"],//!remove these whole class
 	BARLEY: ["BARLEY", "OATS", "RYE", "TRITICALE", "MILLET"],
 	COTTON: ["COTTON", "SOYBEANS", "PEANUTS", "SUNFLOWER", "SESAME"],
 	SORGHUM: ["SORGHUM", "MILLET", "MAIZE", "SUNFLOWER", "TEFF"],
-	HEMP: ["HEMP", "FLAX", "KENAF", "JUTE", "SOYBEANS"],
-	CHICKPEAS: ["CHICKPEAS", "LENTILS", "PEAS", "FABA BEANS", "LUPINS"],
+	HEMP: ["HEMP", "FLAX", "KENAF", "JUTE", "SOYBEANS"],//!may be illegal
+	CHICKPEAS: ["CHICKPEAS", "LENTILS", "PEAS", "FABA BEANS", "LUPINS"], //!lupis 
 	SOYBEANS: ["SOYBEANS", "PEANUTS", "LENTILS", "MUNG BEANS", "PEAS"],
-	RICE: ["RICE", "SUGARCANE", "WETLAND TARO", "WATER CHESTNUT", "LOTUS"],
+	RICE: ["RICE", "SUGARCANE", "WETLAND TARO", "WATER CHESTNUT", "LOTUS"], //!remove the  
 };
 
 const mockApiResponse = (data: number[]) => {

@@ -31,6 +31,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const [windSpeed, setWindSpeed] = useState<number | null>(null); // New state for wind speed
 	const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
 	const [humidity, setHumidity] = useState<string | null>(null); // New state for humidity
+	const [quarterlyData, setQuarterlyData] = useState<{ season: string } | null>(null); // State for quarterly data
 
 	// Fetch weather data when location is available
 	useEffect(() => {
@@ -105,7 +106,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<WeatherCard
 						temperature={temperature ?? "NAN"}
 						weather={weatherCondition ?? "NaN"}
-						season="Open Metero Response"
+						season={quarterlyData?.season || "Unknown Season"} // Ensure the correct value is passed
 						humidity={humidity ?? "NaN"}
 						windSpeed={windSpeed ?? 0} // Pass wind speed
 						pressure={pressure ?? 0} // Pass pressure
@@ -118,7 +119,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 							title="Your AI Advisor"
 							smallerTitle=""
 							text="Get immediate expert advice on what to plant this season for free!"
-							onPress={() => navigation.navigate("AdvisorScreen")}
+							onPress={() => navigation.navigate("AdvisorTab")}
 						/>
 					</View>
 					<View style={tw`flex flex-col w-[50%] p-1`}>

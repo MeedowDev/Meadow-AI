@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import tw from 'twrnc';
-import ImageWithOverlay from '../components/ImageCard';
+import { useState,useEffect } from 'react';
 import JustText from '../components/JustText';
 import ImageAndTextOnSide from '../components/ImageAndTextOnSide';
-import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
+import StackedVerticalCard from "../components/stackedVerticalCard";
+
 
 type NewsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -15,21 +16,56 @@ interface NewsScreenProps {
 }
 
 export default function NewsScreen({ navigation }: NewsScreenProps) {
+
+  const [newsData, setNewsData] = useState([]);
+
+  
+  const fetchNews = async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+  
+    try {
+      const response = await fetch('https://newsapi.org/v2/top-headlines?country=us', {
+        headers: {
+          'Authorization': 'Bearer a33888f8b5194c279ece347e5faa2c66',
+        },
+        signal: controller.signal
+      });
+  
+      clearTimeout(timeoutId);
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log("Data Response",data)
+      setNewsData(data.articles);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchNews();
+  }, []);
+  
+
   return (
     <View style={tw`flex-1`}>
       <ScrollView contentContainerStyle={tw`bg-white `}>
-        <View style={tw`mb--45 mt-40 ml-3 p-4`}>
-          <ImageWithOverlay
-            imageUrl='https://media.istockphoto.com/id/1391769960/photo/happy-and-positive-african-farmer-on-his-banana-plantain-does-the-thumbs-up-with-his-hand.jpg?s=1024x1024&w=is&k=20&c=kZ4Yj6KnHk6gHM4JJ-a0RUQMO5mTPPJRIqsho0V0xpg='
-            title='Stakeholders training'
-            smallerTitle=''
-            text='Stakeholders undergo training on reducing post-harvest losses at Kaguru Agricultural center'
-        onPress={() => navigation.navigate('NewsScreen')}
-          />
-        </View>
-
-
-        <View style={tw`mb-4  ml--2 p-4`}>
+      <View style={tw`h-[15rem] mx-4 flex-row`}>
+      <View style={tw`w-full h-[110%]`}>
+						<StackedVerticalCard
+							image="farmerInTeaFarm"
+							title="Stakeholders training"
+							smallerTitle=""
+							text="Stakeholders undergo training on reducing post harvest loses at Kaguru Agricultural center"
+							onPress={() => navigation.navigate("NewsScreen")}
+						/>
+					</View>
+      </View>
+        <View style={tw`ml--2 p-4`}>
           <JustText
             title=''
             text='A stakeholders meeting was held at Kaguru, a small town located in the heart of the country. The meeting was attended by representatives from various organizations, including local government officials, business leaders, and community members. The purpose of the meeting was to discuss the development of the town and to address any concerns or issues that the stakeholders may have.
@@ -41,35 +77,17 @@ Overall, the stakeholders meeting at Kaguru was a success, with all parties comi
 
         <View style={tw`space-y-1 > * mb-4 p-4`}>
           <JustText
-            title='Happening in Kiambu'
+            title='Top Headlines'
             text=''
           />
+          {newsData.slice(0, 3).map((article, index) => (
           <ImageAndTextOnSide
-            imageUrl='https://media.istockphoto.com/id/1215107363/photo/close-up-of-beautiful-young-smiling-professional-black-african-business-woman-coworkers-hold.jpg?s=1024x1024&w=is&k=20&c=nDtlGNzXLs-ZU3GUlCUj6SCkt_c3hUyl37pJeskZS7A='
-            title='Governor promises to uplift education in the county'
-            date='12-06-23 - Sunday'
+            key={index}
+            imageUrl={article.urlToImage}
+            title={article.title}
+            date={new Date(article.publishedAt).toLocaleDateString()}
           />
-          <ImageAndTextOnSide
-            imageUrl='https://media.istockphoto.com/id/1464421361/photo/portrait-diversity-and-healthcare-team-smile-in-hospital-for-collaboration-support-and.jpg?s=1024x1024&w=is&k=20&c=92k1BSLzqL6WrLeTjwroj01pNoPYWW01-xjj8bM00LY='
-            title='Cancer taskforce to begin public hearings in Kiambu county'
-            date='12-06-23 - Sunday'
-          />
-          <ImageAndTextOnSide
-            imageUrl='https://www.nairobileo.co.ke/storage/uploads/2023/04/FtM_9aZWcAE5Nso-1681012293.jpg'
-            title='Coffee reforms take priority as DP Gachagua visits farms in Juja Farm'
-            date='11-06-23 - Sunday'
-          />
-        </View>
-        <View style={tw`space-y-1 >  mb-4 p-4`}>
-          <JustText
-            title='Happening today'
-            text=''
-          />
-          <ImageAndTextOnSide
-            imageUrl='https://media.istockphoto.com/id/532226067/photo/burning-van-with-large-flames-and-black-smoke.webp?s=1024x1024&w=is&k=20&c=W2CSduXegabke37a4pSDsR5cL1-fbIbjee2ISiwf-DE='
-            title='Explosions rock Nairobi Hotel Kenya. Attack claimed by Al Shabab'
-            date='11-06-23 - Sunday'
-          />
+        ))}
         </View>
       </ScrollView>
     </View>
