@@ -4,24 +4,34 @@ import { LocationProvider } from "./context/locationContext";
 import { AuthProvider } from "./context/authContext";
 import setupDatabase from "./db/dbSetup";
 import "react-native-gesture-handler";
+import * as SQLite from "expo-sqlite";
 import * as Font from "expo-font";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
-	const [fontsLoaded, setFontsLoaded] = useState(false);
+	const [isReady, setIsReady] = useState(false);
+	let dbInstance: SQLite.SQLiteDatabase | null = null;
 
 	//? Load fonts
 	useEffect(() => {
-		async function loadResources() {
-			await Font.loadAsync({
-				RubikMonoOne: require("./assets/fonts/RubikMonoOne.ttf"),
-			});
-			await setupDatabase();
-			setFontsLoaded(true);
+		async function initializeApp() {
+			try {
+				await setupDatabase(); 
+				await Font.loadAsync({
+					RubikMonoOne: require("./assets/fonts/RubikMonoOne.ttf"),
+				});
+				dbInstance = await SQLite.openDatabaseAsync("db.db"); 
+				setIsReady(true); 
+			} catch (error) {
+				console.error("App initialization failed:", error);
+				// Handle the initialization failure (e.g., show an error screen)
+			}
 		}
-		loadResources();
+
+		initializeApp();
 	}, []);
-	if (!fontsLoaded) {
+
+	if (!isReady) {
 		return <ActivityIndicator />;
 	}
 	return (

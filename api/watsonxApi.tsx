@@ -1,5 +1,6 @@
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import { getSeasonBasedOnWeather } from "./setSeasons";
+import { getWeatherIcon } from "../components/weatherCard";
 
 const Key = "OnRFCsfVfzrUsXZiItV1lkPFbDPbJbqJ4UfSWFpYj0fL";
 
@@ -17,8 +18,20 @@ export default async function handleScoreModel(latitude: number, longitude: numb
         console.log("Fetched Weather Data: ", JSON.stringify(rawWeatherData, null, 2));
 
         const dailyData = rawWeatherData.daily;
+        const currentWeatherCondition = rawWeatherData?.current?.weather?.[0]?.description 
+        || rawWeatherData?.daily?.weather?.condition 
+                || null;
 
-        // Check if each of the required fields exists
+        if (!currentWeatherCondition) {
+        console.error("Current weather condition is not available.");
+        } else {
+        console.log("Current Weather:", currentWeatherCondition);
+        // Normalize and fetch the appropriate weather icon
+        const normalizedCondition = currentWeatherCondition.toLowerCase();
+        const weatherIcon = getWeatherIcon(normalizedCondition);
+        console.log("Rendered Weather Icon:", weatherIcon);
+        }
+// Check if each of the required fields exists
         const hasValidDailyData = dailyData.temperature_2m_max &&
                                   dailyData.temperature_2m_min &&
                                   dailyData.wind_speed_10m_mean &&
@@ -63,6 +76,7 @@ function getQuarterMeans(data: any, start: number, end: number) {
 
         const daily = data.daily;
 
+    
         // Ensure that the slice operation is valid by checking arrays exist and have data
         const maxTemps: number[] = daily.temperature_2m_max?.slice(start, end) || [];
         const minTemps: number[] = daily.temperature_2m_min?.slice(start, end) || [];
@@ -87,12 +101,13 @@ function getQuarterMeans(data: any, start: number, end: number) {
         return null;
     }
 }
-
 const getWeatherInfo = async (latitude: number, longitude: number) => {
     const weatherData = await getWeatherForecastByCoords(latitude, longitude);
-    console.log("Get the openmeteo data", weatherData);
+    console.log("Get the openmeteo data", JSON.stringify(weatherData, null, 2)); // Log the full response
     return weatherData;
 };
+
+
 
 const scoreModel = async () => {
     console.log("Scoring model");

@@ -1,9 +1,6 @@
-import ImageWithOverlay from "../components/ImageCard";
 // import CardWithText from "../components/CardWithText";
 // import EmptyCard from "../components/EmptyCard";
 // import Freebuttons from "../components/Freebuttons";
-import JustText from "../components/JustText";
-import LandingWidget from "../components/landingWidget";
 import { View, ScrollView, TouchableOpacity, StyleSheet, Text, ImageBackground, Image } from "react-native";
 import tw from "twrnc";
 import { LocationContext } from "../context/locationContext";
@@ -14,10 +11,8 @@ import { RootStackParamList } from "../types";
 import { useState, useEffect, useContext } from "react";
 import StackedVerticalCard from "../components/stackedVerticalCard";
 import WeatherCard from "../components/weatherCard";
-import { SPACER } from "../constants/ContainersStyling";
 import VerticalCard from "../components/verticalCard";
 import AiResponse from "../components/aiRespose";
-import { LinearGradient } from "expo-linear-gradient";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {

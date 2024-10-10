@@ -5,11 +5,12 @@ import tw from "twrnc"; // Tailwind CSS import
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useAuth } from "../context/authContext";
-import { fetchBookedSeedsForUser } from "../db/fetch";
+import { fetchBookedSeedsForUser, fetchAllUserData } from "../db/fetch";
 import { ScissorsIcon } from "react-native-heroicons/outline";
 import { COLORS } from "../constants/Colors";
 import { Snackbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { addColumn } from "../db/dbOperations";
 
 type AccountScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -18,7 +19,7 @@ interface AccountScreenProps {
 }
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-	const { isLoggedIn, login, logout, checkLoginStatus, signup, signin, bookedSeeds, crops } = useAuth();
+	const { isLoggedIn, logout, checkLoginStatus, forceLogin, signup, signin, deleteCrop, deleteSeed, bookedSeeds, crops } = useAuth();
 	const [name, setName] = useState("");
 	const [contact, setContact] = useState("");
 	const [location, setLocation] = useState("");
@@ -72,18 +73,55 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		}
 	};
 
-	const handleCancelCrop = () => {};
-	const handleCancelSeed = () => {};
+	const handleCancelCrop = (cropId: number) => {
+		const userId = user?.id;
+		if (!userId) {
+			return;
+		}
+		Alert.alert("Cancel Crop", "Are you sure you want to cancel this crop?", [
+			{ text: "No", style: "cancel" },
+			{
+				text: "Yes",
+				onPress: async () => {
+					try {
+						await deleteCrop(cropId, userId);
+						ToastAndroid.show("Crop cancelled successfully", ToastAndroid.LONG);
+					} catch (error) {
+						console.error("Error cancelling crop:", error);
+						ToastAndroid.show("Failed to cancel crop", ToastAndroid.LONG);
+					}
+				},
+			},
+		]);
+	};
+	const handleCancelSeed = (seedId: number) => {
+		const userId = user?.id;
+		if (!userId) {
+			return;
+		}
+		Alert.alert("Cancel Seed", "Are you sure you want to cancel this seed?", [
+			{ text: "No", style: "cancel" },
+			{
+				text: "Yes",
+				onPress: async () => {
+					try {
+						await deleteSeed(seedId, userId);
+						ToastAndroid.show("Seed cancelled successfully", ToastAndroid.LONG);
+					} catch (error) {
+						console.error("Error cancelling seed:", error);
+						ToastAndroid.show("Failed to cancel seed", ToastAndroid.LONG);
+					}
+				},
+			},
+		]);
+	};
 
 	const testFunction = () => {
-		console.log("Seeds:", bookedSeeds);
-		console.log("Crops:", crops);
-		// try {
-		// 	await fetchCurrentUserData();
-		// 	console.log("User data fetched successfully!");
-		// } catch (error) {
-		// 	console.error("Error fetching users:", error);
-		// }
+		// fetchAllUserData().then((data) => {
+		// 	console.log(data);
+		// });
+		//! addColumn("db.db", "growingCrop", "timeStamp TEXT");
+		console.log(new Date().toISOString().split("T")[0]);
 	};
 
 	const handleDeleteAccount = () => {
@@ -123,7 +161,12 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 										>
 											<Text style={tw`text-white`}>Acquire Seeds</Text>
 										</TouchableOpacity>
-										<TouchableOpacity style={tw`px-3`}>
+										<TouchableOpacity
+											style={tw`px-3`}
+											onPress={() => {
+												handleCancelSeed(seed?.id);
+											}}
+										>
 											<Ionicons name="trash-outline" size={20} color="red" />
 										</TouchableOpacity>
 									</View>
@@ -135,7 +178,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 					{/* Saved crops */}
 					<View style={tw`mb-5 p-5 bg-white rounded-lg shadow`}>
 						<Text style={tw`text-xl font-semibold mb-3`}>Crops in your farm this season</Text>
-						{bookedSeeds && bookedSeeds.length === 0 ? (
+						{crops && crops.length === 0 ? (
 							<Text style={tw`text-gray-500`}>Once you bookmark crops, they will appear here.</Text>
 						) : (
 							(crops ?? []).map((crop, index) => (
@@ -144,7 +187,12 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 									style={tw`flex flex-row justify-between items-center py-2 border-b border-gray-200`}
 								>
 									<Text style={tw`text-lg`}>{crop.cropName}</Text>
-									<TouchableOpacity style={tw`px-3`}>
+									<TouchableOpacity
+										style={tw`px-3`}
+										onPress={() => {
+											handleCancelCrop(crop.id);
+										}}
+									>
 										<Ionicons name="trash-outline" size={20} color="red" />
 									</TouchableOpacity>
 								</View>
@@ -209,6 +257,12 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 			) : (
 				<View style={tw`flex-1 items-center w-full h-full justify-center p-5 bg-white`}>
 					<Text style={tw`text-2xl font-semibold text-center mb-[6rem]`}>Welcome to ClevaEnergy</Text>
+					<TouchableOpacity onPress={forceLogin}>
+						<Text>Force Login? REMOVE IN PRODUCTION</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={testFunction}>
+						<Text>Run test function? REMOVE IN PRODUCTION</Text>
+					</TouchableOpacity>
 					<View style={tw`flex w-full justify-center items-center`}>
 						{!singingIn ? (
 							<View style={tw`w-full`}>

@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import setupDatabase from "./dbSetup";
 import { isSeedBookedByUser } from "./fetch";
 import { isCropGrowByUser } from "./fetch";
 
@@ -26,8 +27,9 @@ async function updateLocationData(Longitude: string, Latitude: string, Date: str
 		console.log("date", Date);
 		throw new Error("Date must be in the format YYYY-MM-DD.");
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
-	console.log("db opened");
+
+	const db = await setupDatabase(); // Get the db instance
+
 	try {
 		// Database operation
 		const result = await db.runAsync(
@@ -66,7 +68,8 @@ async function updateUserData(Name: string, Email: string, Location: string) {
 	if (!Name || !Email || !Location) {
 		throw new Error("Name, Email and Location must be provided.");
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
+
+	const db = await setupDatabase(); // Get the db instance
 
 	try {
 		const result = await db.runAsync("INSERT INTO userData (Name, Email, Location) VALUES (?, ?, ?)", [Name, Email, Location]);
@@ -89,7 +92,8 @@ async function updateBookedSeeds(SeedName: string, userId: number) {
 	if (!SeedName) {
 		throw new Error("SeedName must be provided.");
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
+
+	const db = await setupDatabase(); // Get the db instance
 
 	try {
 		const result = await db.runAsync("INSERT INTO bookedSeeds (SeedName, userId) VALUES (?, ?)", [SeedName, userId]);
@@ -112,7 +116,8 @@ async function updateGrowingCrop(cropName: string, userId: number) {
 	if (!cropName) {
 		throw new Error("CropName must be provided.");
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
+
+	const db = await setupDatabase(); // Get the db instance
 
 	try {
 		const result = await db.runAsync("INSERT INTO growingCrop (cropName, userId) VALUES (?, ?)", [cropName, userId]);
@@ -140,7 +145,8 @@ async function bookSeed(seedName: string, userId: number): Promise<string> {
 	if (seedBooked) {
 		return "You have already booked this seed.";
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
+
+	const db = await setupDatabase(); // Get the db instance
 
 	try {
 		// Insert the seed booking record into the database
@@ -171,12 +177,13 @@ async function saveCrop(cropName: string, userId: number): Promise<string> {
 	if (cropGrown) {
 		return "You are already growing this crop.";
 	}
-	const db = await SQLite.openDatabaseAsync("db.db");
 
+	const db = await setupDatabase(); // Get the db instance
+	const timeStamp = new Date().toISOString().split("T")[0];
 	try {
 		// Insert the seed booking record into the database
-		const result = await db.runAsync("INSERT INTO growingCrop (cropName, userId) VALUES (?, ?)", [cropName, userId]);
-		console.log("We've registered youll be growing this crop! You will be receiving updates on how to grow it.");
+		const result = await db.runAsync("INSERT INTO growingCrop (cropName, userId, timeStamp) VALUES (?, ?, ?)", [cropName, userId, timeStamp]);
+		console.log("We've registered you'll be growing this crop! You will be receiving updates on how to grow it.");
 		return "success";
 	} catch (error) {
 		console.error("Error booking seed:", error);

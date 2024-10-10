@@ -43,6 +43,13 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 
 	const date = formatedDate(new Date());
 
+	const loadingTexts = [
+		"Analyzing the upcoming season's weather...",
+		"Assessing your location's weather and climate...",
+		"Checking the soil quality of your location...",
+		"Generating crop recommendations...",
+	];
+
 	useEffect(() => {
 		const fetchCropData = async () => {
 			if (userLocation) {

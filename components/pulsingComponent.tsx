@@ -22,7 +22,7 @@ const PulsingComponent = () => {
         transform: [{ scale: glowAnim.interpolate({ inputRange: [0, 1], outputRange: [1, 1.2] }) }],
     };
 
-    return <Animated.View style={[tw`bg-[#52734D] p-2 rounded-full`, glowStyle]}></Animated.View>;
+    return <Animated.View style={[tw`bg-[#52734D] h-4 w-4 p-2 rounded-full`, glowStyle]}></Animated.View>;
 };
 
 export default PulsingComponent;
