@@ -24,7 +24,7 @@ const cropWeights: { [key: string]: number } = {
 	HAY: 0.1,
 	HAYLAGE: 0.1,
 };
-
+//!please consider variety. It is key
 const related_crops: { [key: string]: string[] } = {
 	WHEAT: ["WHEAT", "OATS", "RYE", "BARLEY", "MILLET"], //! wheat, Barley, Rye
 	LEGUMES: ["KIDNEY BEANS", "LENTILS", "PEAS", "FABA BEANS", "ALFALFA"],
@@ -37,7 +37,7 @@ const related_crops: { [key: string]: string[] } = {
 	HEMP: ["HEMP", "FLAX", "KENAF", "JUTE", "SOYBEANS"], //! Might be illegal!!
 	CHICKPEAS: ["CHICKPEAS", "LENTILS", "PEAS", "FABA BEANS", "LUPINS"], //!Kenaf
 	SOYBEANS: ["SOYBEANS", "PEANUTS", "LENTILS", "MUNG BEANS", "PEAS"],
-	RICE: ["RICE", "SUGARCANE", "WETLAND TARO", "WATER CHESTNUT", "LOTUS"],
+	RICE: ["RICE", "SUGARCANE", "WETLAND TARO", "WATER CHESTNUT", "LOTUS"], //!remove the  
 };
 
 const mockApiResponse = (data: number[]) => {

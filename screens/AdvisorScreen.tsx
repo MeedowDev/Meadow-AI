@@ -9,13 +9,14 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
-import { generateText } from "../api/languageModelAPI";
 import { cropImageMap } from "../utils/localpaths";
-import PulsingComponent from "../components/pulsingComponent";
-import AiResponse from "../components/aiRespose";
+import { getWeatherForecastByCoords } from "../api/openmeteoApi";
+import handleScoreModel from "../api/watsonxApi";
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 
+//!consider the seed instead of images of crops instead
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+
 
 interface AdvisorScreenProps {
 	navigation: AdvisorScreenNavigationProp;
@@ -67,8 +68,9 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		fetchCropData();
 	}, [userLocation]);
 
-
-
+	if (loading) {
+		return <Text style={tw`text-center`}>Loading crop data...</Text>;
+	}
 	return (
 		<View style={tw`flex-1`}>
 			<ScrollView contentContainerStyle={tw`mb-4`}>
@@ -86,7 +88,24 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 							});
 						}}
 					/>
-					<FilterButton label="Price" onPress={() => {}} />
+	<FilterButton
+    label="Output Seasons"
+    onPress={async () => {
+        console.log("Output Seasons button pressed");
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); // Log coordinates
+
+        const quarterlyData = await handleScoreModel(Number(latitude), Number(longitude));
+        
+        // Check if quarterlyData includes a season and log it
+        if (quarterlyData && quarterlyData.season) {
+			console.log("Quarterly Data Received: ", quarterlyData); // Log the entire response
+			const season = quarterlyData.season;
+
+        } else {
+            console.log("No quarterly data or seasons found");
+        }
+    }}
+/>
 				</View>
 				<View style={tw`flex-row`}>
 					<FilterButton label="Output" onPress={() => {}} />
@@ -94,48 +113,28 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 				</View>
 
 				{/* Dynamically render SideImageWithOverlay components */}
-				<View style={tw`mx-4 my-5`}>
-					{loading ? (
-						<>
-							<View>
-								<AiResponse aiTextParam={loadingTexts} color="black" />
-							</View>
-						</>
+				<View style={tw`p-1 mb-4`}>
+					{cropData && cropData.length > 0 ? (
+						cropData.map((crop, index) => {
+							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
+							const confidence = crop.confidence;
+							// Use require to dynamically set the image path
+							const imageUrl = cropImageMap[cropName];
+							return (
+								<SideImageWithOverlay
+									key={index} // Use index as the key
+									imageSource={imageUrl}
+									title={cropName}
+									smallerTitle={cropName}
+									text={`Suitability: ${
+										confidence * 100
+									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
+									onPress={() => navigation.navigate("SpecificsScreen", { cropIndex: index, cropName })}
+								/>
+							);
+						})
 					) : (
-						<>
-							<View style={tw`px-1`}>
-								{cropData && cropData.length > 0 ? (
-									cropData.map((crop, index) => {
-										const cropName =
-											crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
-										const confidence = crop.confidence;
-
-										// Use require to dynamically set the image path
-										const imageUrl = cropImageMap[cropName];
-
-										return (
-											<SideImageWithOverlay
-												key={index} // Use index as the key
-												imageSource={imageUrl}
-												title={cropName}
-												smallerTitle={cropName}
-												text={`Suitability: ${
-													confidence * 100
-												}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
-												onPress={() =>
-													navigation.navigate("SpecificsScreen", {
-														cropIndex: index,
-														cropName,
-													})
-												}
-											/>
-										);
-									})
-								) : (
-									<Text>No crops available.</Text> // Fallback if no crops are found
-								)}
-							</View>
-						</>
+						<Text>No crops available.</Text> // Fallback if no crops are found
 					)}
 				</View>
 			</ScrollView>

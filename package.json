@@ -15,6 +15,7 @@
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "expo": "~51.0.2",
+    "expo-constants": "~16.0.2",
     "expo-linear-gradient": "~13.0.2",
     "expo-location": "~17.0.1",
     "expo-secure-store": "~13.0.2",
@@ -22,6 +23,7 @@
     "expo-status-bar": "~1.12.1",
     "express": "^4.21.0",
     "geolib": "^3.3.4",
+    "markdown-it": "^10.0.0",
     "react": "^18.2.0",
     "react-native": "0.74.1",
     "react-native-geolocation-service": "^5.3.1",
@@ -41,8 +43,7 @@
     "react-native-vector-icons": "^10.1.0",
     "react-native-webview": "^13.12.2",
     "twrnc": "^4.2.0",
-    "whatwg-url": "^14.0.0",
-    "expo-constants": "~16.0.2"
+    "whatwg-url": "^14.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

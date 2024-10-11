@@ -11,12 +11,14 @@ export async function getWeatherForecast(location: LocationObject) {
 			throw new Error("Failed to fetch weather data");
 		}
 		const weatherData = await response.json();
+		console.log("Weather Forecast:", weatherData); // Log the weather data here
 		return weatherData;
 	} catch (error) {
 		console.error("Error fetching weather data: ", error);
 		throw error;
 	}
 }
+
 export async function getWeatherForecastByCoords(latitude: number, longitude: number) {
 	// Get today's date and calculate the end date (6 months in the future)
 
@@ -43,6 +45,7 @@ export async function getWeatherForecastByCoords(latitude: number, longitude: nu
 		}
 
 		const weatherData = await response.json();
+		console.log("Open meteo api",weatherData)
 		return weatherData; // Return the actual weather data
 	} catch (error) {
 		console.error("Error fetching weather data: ", error);
