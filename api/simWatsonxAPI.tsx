@@ -26,16 +26,16 @@ const cropWeights: { [key: string]: number } = {
 };
 
 const related_crops: { [key: string]: string[] } = {
-	WHEAT: ["WHEAT", "OATS", "RYE", "BARLEY", "MILLET"],
+	WHEAT: ["WHEAT", "OATS", "RYE", "BARLEY", "MILLET"], //! wheat, Barley, Rye
 	LEGUMES: ["KIDNEY BEANS", "LENTILS", "PEAS", "FABA BEANS", "ALFALFA"],
-	CORN: ["CORN", "MILLET", "SORGHUM", "SUNFLOWER", "SWEET POTATO"],
-	HAYLAGE: ["HAYLAGE", "ALFALFA", "CLOVER", "RYEGRASS", "ORCHARDGRASS"],
-	HAY: ["HAY", "ALFALFA", "TIMOTHY HAY", "BERMUDA GRASS", "FESCUE"],
-	BARLEY: ["BARLEY", "OATS", "RYE", "TRITICALE", "MILLET"],
-	COTTON: ["COTTON", "SOYBEANS", "PEANUTS", "SUNFLOWER", "SESAME"],
+	CORN: ["CORN", "MILLET", "SORGHUM", "SUNFLOWER", "SWEET POTATO"], //! Sweet potatoe,sunflower
+	HAYLAGE: ["HAYLAGE", "ALFALFA", "CLOVER", "RYEGRASS", "ORCHARDGRASS"], //! HayLage, Clover, Alfafa, Timonth
+	HAY: ["HAY", "ALFALFA", "TIMOTHY HAY", "BERMUDA GRASS", "FESCUE"], //! Unsastainable
+	BARLEY: ["BARLEY", "OATS", "RYE", "TRITICALE", "MILLET"], //! Not economically viable
+	COTTON: ["COTTON", "SOYBEANS", "PEANUTS", "SUNFLOWER", "SESAME"], //! Cotton
 	SORGHUM: ["SORGHUM", "MILLET", "MAIZE", "SUNFLOWER", "TEFF"],
-	HEMP: ["HEMP", "FLAX", "KENAF", "JUTE", "SOYBEANS"],
-	CHICKPEAS: ["CHICKPEAS", "LENTILS", "PEAS", "FABA BEANS", "LUPINS"],
+	HEMP: ["HEMP", "FLAX", "KENAF", "JUTE", "SOYBEANS"], //! Might be illegal!!
+	CHICKPEAS: ["CHICKPEAS", "LENTILS", "PEAS", "FABA BEANS", "LUPINS"], //!Kenaf
 	SOYBEANS: ["SOYBEANS", "PEANUTS", "LENTILS", "MUNG BEANS", "PEAS"],
 	RICE: ["RICE", "SUGARCANE", "WETLAND TARO", "WATER CHESTNUT", "LOTUS"],
 };

@@ -13,6 +13,7 @@ import { useAuth } from "../context/authContext";
 import SignInSignUpModal from "../components/accountModal";
 import AiResponse from "../components/aiRespose";
 
+
 type SpecificsScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface SpecificsScreenProps {
@@ -50,6 +51,10 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 		const booked = await bookSeed(cropName, user.id);
 		if (booked === "success") {
 			await updateBookedSeedsContext();
+			ToastAndroid.show(
+				"Success! We've bookmarked this crop for you! You'll easily find it in your account.",
+				ToastAndroid.LONG
+			);
 		} else {
 			ToastAndroid.show(booked, ToastAndroid.SHORT);
 		}
@@ -86,7 +91,7 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 				</View>
 					<View style={tw`p-4 w-[100%]`}>
 						<AiResponse
-						aiTextParam="## Field Selection
+						aiTextParam="## Hello Nyakach!!
 Consider the previous planted crop and **observe at least a 3-season break** from **tomato, pepper, potato** or any other crop from the **solanaceous family** to avoid disease cycles. Check the **irrigation water quality** and availability, particularly if you intend to use irrigation. The land should be **gently sloping** to facilitate drainage.
 
 ## Soil Environment

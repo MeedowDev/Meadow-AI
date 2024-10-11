@@ -19,7 +19,7 @@ const AiResponse: React.FC<AiResponseProps> = ({ aiTextParam, color }) => {
 	// Split the text into word packets (groups of 1 to 3 words)
 	const createWordPackets = (text: string) => {
 		const words = text.split(" ");
-		let packets: string[] = [];
+		let packets: string[] = [] ;
 
 		let i = 0;
 		while (i < words.length) {

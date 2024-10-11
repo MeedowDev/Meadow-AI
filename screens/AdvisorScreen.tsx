@@ -13,6 +13,7 @@ import { generateText } from "../api/languageModelAPI";
 import { cropImageMap } from "../utils/localpaths";
 import PulsingComponent from "../components/pulsingComponent";
 import AiResponse from "../components/aiRespose";
+import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -80,8 +81,8 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					<FilterButton
 						label="Success Rate"
 						onPress={() => {
-							generateText("hello Meta!").then((data) => {
-								console.log(data);
+							getWeatherForecastByCoords(Number(longitude), Number(latitude)).then((data) => {
+								console.log("Weather Data: ", data);
 							});
 						}}
 					/>

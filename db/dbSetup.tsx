@@ -8,6 +8,7 @@ async function createTables(db: SQLite.SQLiteDatabase) {
 		userData: false,
 		bookedSeeds: false,
 		growingCrop: false,
+		predictionCache: false,
 	};
 
 	try {
@@ -77,6 +78,27 @@ async function createTables(db: SQLite.SQLiteDatabase) {
 				)
 				.then(() => {
 					checkList.growingCrop = true;
+				}),
+			// Create predictionCache table
+			db
+				.execAsync(
+					`
+				CREATE TABLE IF NOT EXISTS dataCache (
+					id INTEGER PRIMARY KEY AUTOINCREMENT,
+					userId INTEGER,
+					type TEXT NOT NULL,
+					timeStamp TEXT NOT NULL,
+					validityPeriod TEXT NOT NULL,
+					longitude TEXT NOT NULL,
+					latitude TEXT NOT NULL,
+					subject TEXT NOT NULL,
+					data TEXT NOT NULL,
+					FOREIGN KEY (userId) REFERENCES userData(id) ON DELETE CASCADE
+				);
+			`
+				)
+				.then(() => {
+					checkList.predictionCache = true;
 				}),
 		]);
 

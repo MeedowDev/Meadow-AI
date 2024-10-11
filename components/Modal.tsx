@@ -39,9 +39,7 @@ const NotificationPanel = ({ isVisible, cropName, onClose }: NotificationPanelPr
 	};
 
 	const handleCropSave = async (navigate: boolean) => {
-		if (navigate) {
-			navigation.navigate("MapScreen", { crop: cropName });
-		}
+
 		await checkLoginStatus();
 		if (!user?.id) {
 			console.log("User id", user?.id);

@@ -32,6 +32,24 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 	const onToggleSnackBar = () => setVisible(!visible);
 	const onDismissSnackBar = () => setVisible(false);
 
+	const handleCropSave = async (navigate: boolean) => {
+		await checkLoginStatus();
+
+		const registerCrop = await saveCrop(cropName, user.id);
+		if (registerCrop === "success") {
+			await updateGrowingCropsContext();
+			ToastAndroid.show(
+				"Success! We've registered youll be growing this crop! You will be receiving updates on how to grow it.",
+				ToastAndroid.LONG
+			);
+			if (navigate) {
+				navigation.navigate("MapScreen", { crop: cropName });
+			}
+		} else {
+			ToastAndroid.show(registerCrop, ToastAndroid.SHORT);
+		}
+	};
+
 	const handleUpdateDetails = () => {
 		// Handle updating user details logic here
 		console.log("Updated Details:", { name, email });

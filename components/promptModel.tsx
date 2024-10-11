@@ -29,7 +29,7 @@ function getQuarterMeans(data: any, start: number, end: number) {
 }
 
 // Function to handle weather data and comparison
-export default async function promptHandled(location: LocationObject, idealConditions: { minTemp: number; maxTemp: number; humidity: number }) {
+export default async function promptHandled(location: LocationObject) {
 
     if (!location) {
         console.error("Location is not defined");
@@ -46,7 +46,6 @@ export default async function promptHandled(location: LocationObject, idealCondi
         let totalMinTemp = 0;
         let totalHumidity = 0;
 
-        console.log("Ideal Conditions:", idealConditions);
 
         for (let i = 0; i < 4; i++) {
             const quarterData = getQuarterMeans(weatherData, quarter * i, quarter * (i + 1) - 1);
