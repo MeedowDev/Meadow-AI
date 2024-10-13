@@ -1,16 +1,18 @@
 import SQLite, { SQLiteDatabase, ResultSet } from "react-native-sqlite-storage";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet, ToastAndroid } from "react-native";
 import tw from "twrnc"; // Tailwind CSS import
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { useAuth } from "../context/authContext";
-import { fetchBookedSeedsForUser, fetchAllUserData } from "../db/fetch";
+import { fetchBookedSeedsForUser, fetchAllUserData, fetchAllDataCache } from "../db/fetch";
 import { ScissorsIcon } from "react-native-heroicons/outline";
 import { COLORS } from "../constants/Colors";
 import { Snackbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { addColumn } from "../db/dbOperations";
+import { addColumn, removeColumn } from "../db/dbOperations";
+import { saveCrop, updateDataCache } from "../db/update";
+import { LocationContext } from "../context/locationContext";
 
 type AccountScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
@@ -31,23 +33,35 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
 	const onToggleSnackBar = () => setVisible(!visible);
 	const onDismissSnackBar = () => setVisible(false);
+	const { userLocation, errorMsg } = useContext(LocationContext);
 
-	const handleCropSave = async (navigate: boolean) => {
+	const handleCropSave = async (cropId: number, cropName: string) => {
 		await checkLoginStatus();
 
-		const registerCrop = await saveCrop(cropName, user.id);
-		if (registerCrop === "success") {
-			await updateGrowingCropsContext();
-			ToastAndroid.show(
-				"Success! We've registered youll be growing this crop! You will be receiving updates on how to grow it.",
-				ToastAndroid.LONG
-			);
-			if (navigate) {
-				navigation.navigate("MapScreen", { crop: cropName });
-			}
-		} else {
-			ToastAndroid.show(registerCrop, ToastAndroid.SHORT);
-		}
+		Alert.alert(
+			`Will you be planting ${cropName}?`,
+			`This will allow us to give you advice on how to plant this crop in your homescreen throughout the plant's growing`,
+			[
+				{ text: "No", style: "cancel" },
+				{
+					text: "Yes",
+					onPress: async () => {
+						const registerCrop = await saveCrop(cropName, user.id);
+						if (registerCrop === "success") {
+							await updateGrowingCropsContext();
+							ToastAndroid.show(
+								"Success! We've registered youll be growing this crop! You will be receiving updates on how to grow it.",
+								ToastAndroid.LONG
+							);
+							handleCancelSeed(cropId, false);
+							navigation.navigate("MapScreen", { crop: cropName });
+						} else {
+							ToastAndroid.show(registerCrop, ToastAndroid.SHORT);
+						}
+					},
+				},
+			]
+		);
 	};
 
 	const handleUpdateDetails = () => {
@@ -91,9 +105,13 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		}
 	};
 
-	const handleCancelCrop = (cropId: number) => {
+	const handleCancelCrop = (cropId: number, alert: boolean) => {
 		const userId = user?.id;
 		if (!userId) {
+			return;
+		}
+		if (!alert) {
+			deleteCrop(cropId, userId);
 			return;
 		}
 		Alert.alert("Cancel Crop", "Are you sure you want to cancel this crop?", [
@@ -112,12 +130,17 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 			},
 		]);
 	};
-	const handleCancelSeed = (seedId: number) => {
+	const handleCancelSeed = async (seedId: number, alert: boolean) => {
 		const userId = user?.id;
 		if (!userId) {
 			return;
 		}
-		Alert.alert("Cancel Seed", "Are you sure you want to cancel this seed?", [
+		if (!alert) {
+			await deleteSeed(seedId, userId);
+			return;
+		}
+
+		Alert.alert("Cancel This?", "Are you sure you want to cancel this seed?", [
 			{ text: "No", style: "cancel" },
 			{
 				text: "Yes",
@@ -134,12 +157,31 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 		]);
 	};
 
-	const testFunction = () => {
+	const testFunction = async () => {
+		console.warn("This button is currently running a test function. Please remember to restore its functionality during production.");
+		//  if (userLocation?.coords.latitude !== undefined && userLocation?.coords.longitude !== undefined && user) {
+		//  	await updateDataCache(
+		// 		user.id,
+		// 		"HomeAdvisor",
+		// 		"3",
+		// 		String(userLocation.coords.latitude),
+		// 		String(userLocation.coords.longitude),
+		// 		"Beans_Rosecoco",
+		// 		"Hello Mark   **You’ve been planting beans**, specifically the Rosecoco variety, for the last 3 days! Given that you're currently in a rainy season, here are some suggestions on what to do today:",
+		// 		1
+		// 	);
+		//  } else {
+		//  	console.error("Latitude or Longitude is undefined");
+		//  }
+		 fetchAllDataCache().then((data) => {
+		 	console.log(data);
+		 });
+
+		// removeColumn("db.db", "dataCache", "version");
 		// fetchAllUserData().then((data) => {
 		// 	console.log(data);
 		// });
-		//! addColumn("db.db", "growingCrop", "timeStamp TEXT");
-		console.log(new Date().toISOString().split("T")[0]);
+		// addColumn("db.db", "dataCache", "z REAL");
 	};
 
 	const handleDeleteAccount = () => {
@@ -176,6 +218,9 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 												tw`px-4 py-2 rounded-lg`,
 												{ backgroundColor: COLORS.ACCENT_COLOR },
 											]}
+											onPress={() => {
+												handleCropSave(seed.id, seed.SeedName);
+											}}
 										>
 											<Text style={tw`text-white`}>Acquire Seeds</Text>
 										</TouchableOpacity>
@@ -208,7 +253,7 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 									<TouchableOpacity
 										style={tw`px-3`}
 										onPress={() => {
-											handleCancelCrop(crop.id);
+											handleCancelCrop(crop.id, true);
 										}}
 									>
 										<Ionicons name="trash-outline" size={20} color="red" />
@@ -369,3 +414,6 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 });
+function updateGrowingCropsContext() {
+	throw new Error("Function not implemented.");
+}

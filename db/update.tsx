@@ -3,6 +3,18 @@ import setupDatabase from "./dbSetup";
 import { isSeedBookedByUser } from "./fetch";
 import { isCropGrowByUser } from "./fetch";
 
+function calculateCartesianCoordinates(lat: number, lon: number) {
+	const R = 6371; // Radius of the Earth in kilometers
+	const latRad = lat * (Math.PI / 180);
+	const lonRad = lon * (Math.PI / 180);
+
+	const x = R * Math.cos(latRad) * Math.cos(lonRad);
+	const y = R * Math.cos(latRad) * Math.sin(lonRad);
+	const z = R * Math.sin(latRad);
+
+	return { x, y, z };
+}
+
 /**
  * Inserts location data into the database.
  *
@@ -51,7 +63,7 @@ async function updateLocationData(Longitude: string, Latitude: string, Date: str
 
 //TODO: Ensure that no two users can have the same email
 /**
- * Inserts user data into the database.
+ * ? Inserts user data into the database.
  *
  * @param {string} Name - Name of the user
  * @param {string} Email - Email of the user
@@ -78,6 +90,48 @@ async function updateUserData(Name: string, Email: string, Location: string) {
 		console.error("Error adding user data:", error);
 	}
 }
+
+/**
+ * Inserts a new record into the dataCache table, calculating the Cartesian coordinates (x, y, z)
+ * based on the given latitude and longitude, and generating the current timestamp.
+ *
+ * @param {number} userId - The ID of the user to whom the data belongs (foreign key).
+ * @param {string} type - The type/category of the cached data.
+ * @param {string} validityPeriod - The validity period for the cached data (e.g., "1 day").
+ * @param {string} longitude - The longitude of the location where the data is relevant.
+ * @param {string} latitude - The latitude of the location where the data is relevant.
+ * @param {string} subject - The subject or context of the cached data (e.g., "weather", "crop").
+ * @param {string} data - The actual data to be cached, usually in JSON format.
+ * @param {number} version - The version of the data (for managing updates and compatibility).
+ *
+ * @returns {Promise<void>} - A promise that resolves when the insertion is complete.
+ */
+async function updateDataCache(
+	userId: number,
+	type: string,
+	validityPeriod: string,
+	longitude: string,
+	latitude: string,
+	subject: string,
+	data: string,
+	version: number
+) {
+	// Calculate x, y, z Cartesian coordinates
+	const { x, y, z } = calculateCartesianCoordinates(parseFloat(latitude), parseFloat(longitude));
+	const db = await setupDatabase();
+	const timeStamp = new Date().toISOString();
+
+	// Insert into dataCache table
+	return db.runAsync(
+		`
+      INSERT INTO dataCache 
+      (userId, type, timeStamp, validityPeriod, longitude, latitude, subject, data, version, x, y, z)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+		[userId, type, timeStamp, validityPeriod, longitude, latitude, subject, data, version, x, y, z]
+	);
+}
+
 
 /**
  *
@@ -191,4 +245,4 @@ async function saveCrop(cropName: string, userId: number): Promise<string> {
 	}
 }
 
-export { updateLocationData, updateUserData, updateBookedSeeds, updateGrowingCrop, bookSeed, saveCrop };
+export { updateLocationData, updateUserData, updateBookedSeeds, updateGrowingCrop, updateDataCache, bookSeed, saveCrop };

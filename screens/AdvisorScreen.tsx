@@ -12,7 +12,6 @@ import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import handleScoreModel from "../api/watsonxApi";
-import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 
 //!consider the seed instead of images of crops instead
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;

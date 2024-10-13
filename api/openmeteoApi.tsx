@@ -45,7 +45,7 @@ export async function getWeatherForecastByCoords(latitude: number, longitude: nu
 		}
 
 		const weatherData = await response.json();
-		console.log("Open meteo api",weatherData)
+		// console.log("Open meteo api",weatherData)
 		return weatherData; // Return the actual weather data
 	} catch (error) {
 		console.error("Error fetching weather data: ", error);

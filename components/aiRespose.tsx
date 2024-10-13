@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Text } from "react-native";
 import Markdown from "react-native-markdown-display";
 import tw from "twrnc";
 import PulsingComponent from "./pulsingComponent";
@@ -16,10 +16,11 @@ const AiResponse: React.FC<AiResponseProps> = ({ aiTextParam, color }) => {
 	const [isTyping, setIsTyping] = useState(true);
 	const [showPulsing, setShowPulsing] = useState(true);
 
+
 	// Split the text into word packets (groups of 1 to 3 words)
 	const createWordPackets = (text: string) => {
 		const words = text.split(" ");
-		let packets: string[] = [] ;
+		let packets: string[] = [];
 
 		let i = 0;
 		while (i < words.length) {
@@ -82,6 +83,7 @@ const AiResponse: React.FC<AiResponseProps> = ({ aiTextParam, color }) => {
 
 		// Start the typing process based on whether `aiTextParam` is a string or an array
 		if (typeof aiTextParam === "string") {
+			console.log(aiTextParam)
 			const wordPackets = createWordPackets(aiTextParam);
 			typeStringsSequentially([aiTextParam]); // Treat it as a single string array
 		} else if (Array.isArray(aiTextParam)) {
@@ -97,7 +99,7 @@ const AiResponse: React.FC<AiResponseProps> = ({ aiTextParam, color }) => {
 
 	return (
 		<View style={tw`flex-col items-start min-h-[3rem]`}>
-			<Markdown style={{ body: { color: color } }}>{response}</Markdown>
+			<Text >{response}</Text>
 			{showPulsing && <PulsingComponent />}
 		</View>
 	);

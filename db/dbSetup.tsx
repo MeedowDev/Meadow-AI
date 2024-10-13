@@ -23,7 +23,7 @@ async function createTables(db: SQLite.SQLiteDatabase) {
                     Longitude TEXT NOT NULL,
                     Latitude TEXT NOT NULL,
                     Date TEXT NOT NULL,
-                    ClimatePrediction TEXT NOT NULL,
+                    ClimatePrediction TEXT NOT NULL, 
                     CropPrediction TEXT NOT NULL
                 );
             `
@@ -93,6 +93,10 @@ async function createTables(db: SQLite.SQLiteDatabase) {
 					latitude TEXT NOT NULL,
 					subject TEXT NOT NULL,
 					data TEXT NOT NULL,
+					version INTEGER NOT NULL,
+					x REAL NOT NULL,
+					y REAL NOT NULL,
+					z REAL NOT NULL,
 					FOREIGN KEY (userId) REFERENCES userData(id) ON DELETE CASCADE
 				);
 			`

@@ -13,6 +13,8 @@ import StackedVerticalCard from "../components/stackedVerticalCard";
 import WeatherCard from "../components/weatherCard";
 import VerticalCard from "../components/verticalCard";
 import AiResponse from "../components/aiRespose";
+import { fetchLlmData } from "../services/aiRecommendation";
+import { useAuth } from "../context/authContext";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
@@ -27,8 +29,30 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
 	const [humidity, setHumidity] = useState<string | null>(null); // New state for humidity
 	const [quarterlyData, setQuarterlyData] = useState<{ season: string } | null>(null); // State for quarterly data
+	const [llmResponse, setLlmResponse] = useState<string | null>('null');
 
-	// Fetch weather data when location is available
+	const { user } = useAuth();
+
+	useEffect(() => {
+		const fetchLlmRecommendation = async () => {
+			try {
+				const data = await fetchLlmData(
+					user.id,
+					String(userLocation?.coords.longitude),
+					String(userLocation?.coords.latitude),
+					"HomeAdvisor",
+					"Beans_Rosecoco",
+					1
+				);
+				setLlmResponse(data); // Store the fetched LLM response
+			} catch (error) {
+				console.error("Error fetching LLM data:", error);
+			}
+		};
+
+		fetchLlmRecommendation();
+	}, [user, userLocation]); // Empty dependency array to run once when component mounts
+
 	useEffect(() => {
 		if (userLocation) {
 			getCurrentWeather(userLocation)
@@ -47,56 +71,6 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	return (
 		<View style={tw`flex-1 `}>
 			<ScrollView contentContainerStyle={tw`items-center`}>
-				{/* <LandingWidget
-						temperature={temperature ?? "NAN"}
-						weather={weatherCondition ?? "NaN"}
-						season="Open Metero Response"
-						humidity={humidity ?? "NaN"}
-					></LandingWidget> */}
-
-				{/* Adding this Block. From here */}
-				{/* <View style={tw`mt-[5rem] h-[10rem] mt-[2.5rem] space-y-3`}>
-						<ScrollView
-							horizontal={true}
-							contentContainerStyle={{ paddingHorizontal: 15 }}
-							showsHorizontalScrollIndicator={false}
-						>
-							<View
-								style={[
-									tw`flex justify-center flex-row items-center py-4 p-3 mr-4 rounded-3xl border border-gray-300 h-13`,
-								]}
-							>
-								<Image source={require("../assets/icons/heavyrain.png")} style={tw`h-9 w-9 mr-1`} />
-								<Text style={tw`text-black text-opacity-80 mr-1`}>Probability of Precipitation</Text>
-								<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>17&#176;</Text>
-							</View>
-							<View
-								style={tw`flex justify-center flex-row items-center border p-3 border-gray-300 rounded-3xl py-4 mr-4 h-13`}
-							>
-								<Image source={require("../assets/icons/moderaterain.png")} style={tw`h-9 w-9 mr-1`} />
-								<Text style={tw`text-black text-opacity-80 mr-1`}>Average Humidity</Text>
-								<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>20&#176;</Text>
-							</View>
-							<View
-								style={tw`flex justify-center flex-row items-center border p-3 border-gray-300 rounded-3xl py-4 mr-4 h-13`}
-							>
-								<Image source={require("../assets/icons/cloud.png")} style={tw`h-9 w-9 mr-1`} />
-								<Text style={tw`text-black text-opacity-80 mr-1`}>Wind Speed</Text>
-								<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>23&#176;</Text>
-							</View>
-							<View
-								style={tw`flex justify-center flex-row items-center border p-3 border-gray-300 rounded-3xl py-4 mr-4 h-13`}
-							>
-								<Image source={require("../assets/icons/partlycloudy.png")} style={tw`h-9 w-9 mr-1`} />
-								<Text style={tw`text-black text-opacity-80 mr-1`}>UV</Text>
-								<Text style={tw`text-black text-opacity-80 text-xl font-semibold`}>23&#176;</Text>
-							</View>
-						</ScrollView>
-					</View> */}
-				{/* All the way to here */}
-
-				{/* Makes this block of code disappear. From here */}
-
 				<View style={tw`mt-[5rem] mb-4`}>
 					<WeatherCard
 						temperature={temperature ?? "NAN"}
@@ -140,12 +114,9 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					</View>
 				</View>
 				{/* to here */}
-				<View style={tw`mx-4 w-80 mt-4 min-h-[5rem] bg-gray-200 p-4 rounded-3xl `}>
-					<Text style={tw`font-bold text-lg`}>Daily crop advisor (for a lack of a better name)</Text>
-					<AiResponse
-						aiTextParam="We use Artificial  to understand your location and the best crops suiting the region"
-						color="black"
-					/>
+				<View style={tw`mx-4 w-80 mt-4 mb-4 min-h-[5rem] bg-gray-200 p-4 rounded-3xl `}>
+					<Text style={tw`font-bold text-lg`}>What should you do to your beans today?</Text>
+					<AiResponse aiTextParam={llmResponse ?? "loading..."} color="black" />
 				</View>
 			</ScrollView>
 		</View>

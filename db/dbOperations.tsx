@@ -110,4 +110,23 @@ async function createTable(dbName: string, tableDefinition: string): Promise<voi
 	}
 }
 
-export { openDatabase, addColumn, renameTable, removeColumn, createTable };
+/**
+ * Drops a table from the database.
+ *
+ * @param {string} dbName - The name of the database file.
+ * @param {string} tableName - The name of the table to drop.
+ * @throws {Error} If the database operation fails.
+ */
+async function dropTable(dbName: string, tableName: string): Promise<void> {
+	const db = await openDatabase(dbName);
+	try {
+		const sql = `DROP TABLE IF EXISTS ${tableName};`;
+		await db.execAsync(sql);
+		console.log(`Table ${tableName} dropped successfully.`);
+	} catch (error) {
+		console.error(`Error dropping table ${tableName}:`, error);
+		throw new Error(`Failed to drop table: ${error.message}`);
+	}
+}
+
+export { openDatabase, addColumn, renameTable, removeColumn, createTable, dropTable };

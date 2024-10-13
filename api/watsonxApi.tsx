@@ -15,7 +15,6 @@ export default async function handleScoreModel(latitude: number, longitude: numb
             return null; // Return null if no valid data
         }
 
-        console.log("Fetched Weather Data: ", JSON.stringify(rawWeatherData, null, 2));
 
         const dailyData = rawWeatherData.daily;
         const currentWeatherCondition = rawWeatherData?.current?.weather?.[0]?.description 
@@ -103,7 +102,6 @@ function getQuarterMeans(data: any, start: number, end: number) {
 }
 const getWeatherInfo = async (latitude: number, longitude: number) => {
     const weatherData = await getWeatherForecastByCoords(latitude, longitude);
-    console.log("Get the openmeteo data", JSON.stringify(weatherData, null, 2)); // Log the full response
     return weatherData;
 };
 
