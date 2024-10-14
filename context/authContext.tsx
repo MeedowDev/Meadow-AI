@@ -1,5 +1,6 @@
 // AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import React = require("react");
 import { updateUserData } from "../db/update";
 import { fetchUserDataByEmail, fetchBookedSeedsForUser, fetchGrowingCropsForUser } from "../db/fetch";
 import { deleteGrowingCropById, deleteBookedSeedById } from "../db/delete";
