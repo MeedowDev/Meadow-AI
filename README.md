@@ -1,12 +1,12 @@
-🌱 Meedow
-📜 Project Overview
-🌍 The Issue We Are Hoping to Solve
+
+🌱 Meedow Project Overview
+**##** The Issue We Are Hoping to Solve
 Many small-scale farmers in Africa remain below the poverty line due to unequal access to agricultural information. This knowledge gap leads to uniform crop planting, causing market saturation and driving prices down. By addressing this issue, we can empower farmers to diversify their crops and enhance their livelihoods.
 
-💡 How Our Technology Solution Can Help
+**##**💡 How Our Technology Solution Can Help
 Our solution leverages IBM's machine learning model to empower farmers with tailored crop guidance.
 
-🌿 Our Idea
+**##🌿** Our Idea
 We are leveraging IBM's machine learning model to provide farmers with tailored crop recommendations based on their location. Our innovative application offers step-by-step guidance for effectively cultivating selected crops.
 
 This solution addresses the issue of market saturation caused when small-scale farmers plant the same crops simultaneously, leading to a market glut that drives prices down and diminishes profits.
@@ -25,8 +25,8 @@ Ultimately, our goal is to bridge the gap in agricultural knowledge and resource
 
 Our application stands out by offering unique, location-specific recommendations tailored to the current conditions of small-scale farmers, directly addressing the limitations of existing small-scale agricultural solutions in Africa.
 
-⚙️ Technology Implementation
-🛠️ IBM Watsonx Products Used
+**##**⚙️ Technology Implementation
+**##**🛠️ IBM Watsonx Products Used
 IBM Watsonx.ai: Provides tailored crop recommendations based on data analysis.
 Granite 13_B_V2_CHAT LLM: Used for personalized recommendations catering to individual farmer needs.
 📊 Other IBM Technology Used
