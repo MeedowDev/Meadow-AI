@@ -1,4 +1,7 @@
+
 🌱 Meedow
+
+
 📜 Project Overview
 🌍 The Issue We Are Hoping to Solve
 Many small-scale farmers in Africa remain below the poverty line due to unequal access to agricultural information. This knowledge gap leads to uniform crop planting, causing market saturation and driving prices down. By addressing this issue, we can empower farmers to diversify their crops and enhance their livelihoods.
