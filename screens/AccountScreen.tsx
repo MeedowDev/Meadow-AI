@@ -159,23 +159,50 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
 
 	const testFunction = async () => {
 		console.warn("This button is currently running a test function. Please remember to restore its functionality during production.");
-		//  if (userLocation?.coords.latitude !== undefined && userLocation?.coords.longitude !== undefined && user) {
-		//  	await updateDataCache(
-		// 		user.id,
-		// 		"HomeAdvisor",
-		// 		"3",
-		// 		String(userLocation.coords.latitude),
-		// 		String(userLocation.coords.longitude),
-		// 		"Beans_Rosecoco",
-		// 		"Hello Mark   **You’ve been planting beans**, specifically the Rosecoco variety, for the last 3 days! Given that you're currently in a rainy season, here are some suggestions on what to do today:",
-		// 		1
-		// 	);
-		//  } else {
-		//  	console.error("Latitude or Longitude is undefined");
-		//  }
-		 fetchAllDataCache().then((data) => {
-		 	console.log(data);
-		 });
+		if (userLocation?.coords.latitude !== undefined && userLocation?.coords.longitude !== undefined && user) {
+			await updateDataCache(
+				user.id,
+				"HomeAdvisor",
+				"3",
+				String(userLocation.coords.latitude),
+				String(userLocation.coords.longitude),
+				"Cabbage_Gloria F1",
+				`Hello Mark!  
+You’ve been growing **Gloria F1 cabbage**, and with the current rainy season, today’s tasks can help maximize your yield. Here are some suggestions on what to do:
+
+### 1. **Inspect for Waterlogging**
+   - Cabbage prefers well-drained soil. Excess water during the rainy season can lead to root rot or other diseases. Ensure there’s no standing water around the plants, and improve drainage if necessary.
+
+### 2. **Monitor for Pests**
+   - Cabbage is prone to pests such as aphids, caterpillars, and root maggots. After heavy rains, check the underside of leaves and stems for pests and remove them by hand or use organic pest control if necessary.
+
+### 3. **Weeding**
+   - Weeds thrive in the rainy season and can compete for nutrients with your cabbage plants. Hand weed or use shallow cultivation to keep the weeds in check, as Gloria F1 cabbage requires sufficient nutrients to grow properly.
+
+### 4. **Apply Organic Mulch**
+   - Mulching with materials such as straw or dried grass can help retain soil moisture, suppress weeds, and keep the roots cool. This is especially useful during periods of alternating rain and heat.
+
+### 5. **Top Dress with Fertilizer**
+   - If it's been a few weeks since transplanting, consider top-dressing your cabbage with nitrogen-rich fertilizer to encourage leafy growth. Rain can sometimes wash nutrients away from the topsoil, so replenish as needed.
+
+### 6. **Disease Prevention**
+   - Rainy weather can encourage fungal diseases like black rot or downy mildew. Inspect leaves for yellowing or dark spots, and remove any affected plants to prevent the spread of disease.
+
+### 7. **Tie Leaves Together (Optional)**
+   - As the cabbage heads begin to form, some farmers tie the outer leaves to protect the developing head from too much moisture or sun exposure.
+
+Keep monitoring your Gloria F1 cabbage regularly during this rainy season for any signs of stress or disease, and adjust your care as needed.
+
+For more in-depth guidance, consider checking resources from local agricultural experts or trusted organizations such as [FAO](http://www.fao.org).
+.`,
+				1
+			);
+		} else {
+			console.error("Latitude or Longitude is undefined");
+		}
+		fetchAllDataCache().then((data) => {
+			console.log(data);
+		});
 
 		// removeColumn("db.db", "dataCache", "version");
 		// fetchAllUserData().then((data) => {

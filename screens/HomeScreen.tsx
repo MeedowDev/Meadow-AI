@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const [pressure, setPressure] = useState<number | null>(null); // New state for pressure
 	const [humidity, setHumidity] = useState<string | null>(null); // New state for humidity
 	const [quarterlyData, setQuarterlyData] = useState<{ season: string } | null>(null); // State for quarterly data
-	const [llmResponse, setLlmResponse] = useState<string | null>('null');
+	const [llmResponse, setLlmResponse] = useState<string | null>("null");
 
 	const { user } = useAuth();
 
@@ -41,7 +41,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					String(userLocation?.coords.longitude),
 					String(userLocation?.coords.latitude),
 					"HomeAdvisor",
-					"Beans_Rosecoco",
+					"Cabbage_Gloria F1",
 					1
 				);
 				setLlmResponse(data); // Store the fetched LLM response
@@ -85,9 +85,9 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<View style={tw`p-1 flex w-[50%]`}>
 						<VerticalCard
 							image="aibg4"
-							title="Your AI Advisor"
+							title="Your SMART Advisor"
 							smallerTitle=""
-							text="Get immediate expert advice on what to plant this season for free!"
+							text="Get immediate expert advice on what to plant this season!"
 							onPress={() => navigation.navigate("AdvisorTab")}
 						/>
 					</View>
@@ -115,7 +115,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				</View>
 				{/* to here */}
 				<View style={tw`mx-4 w-80 mt-4 mb-4 min-h-[5rem] bg-gray-200 p-4 rounded-3xl `}>
-					<Text style={tw`font-bold text-lg`}>What should you do to your beans today?</Text>
+					<Text style={tw`font-bold text-lg`}>What should you do to your Gloria F1 Cabbages today?</Text>
 					<AiResponse aiTextParam={llmResponse ?? "loading..."} color="black" />
 				</View>
 			</ScrollView>

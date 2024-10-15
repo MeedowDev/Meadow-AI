@@ -24,11 +24,13 @@ export async function fetchLlmData(userId: number, longitude: string, latitude: 
 	const dataCachedId = await isDataCached(userId, type, subject, version, longitude, latitude);
 
 	if (dataCachedId == null) {
-		return "Data not cached, score model and return data";
+		return "Our Ai model is trained on hundreds of crops across East Africa. Use our **AI Advisor** to see what you can plant in your region!";
 	}
 	
 	//Use id stored in dataCached to fetch the data from the database
 	const data = await fetchCachedLlmResponse(dataCachedId)
-	console.log("Data fetched from cache ", data);
+	console.log("Data fetche d from cache", data);
 	return data;
 }
+
+

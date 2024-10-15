@@ -99,7 +99,7 @@ const AiResponse: React.FC<AiResponseProps> = ({ aiTextParam, color }) => {
 
 	return (
 		<View style={tw`flex-col items-start min-h-[3rem]`}>
-			<Text >{response}</Text>
+			<Markdown >{response}</Markdown>
 			{showPulsing && <PulsingComponent />}
 		</View>
 	);

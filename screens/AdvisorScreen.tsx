@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
 import SideImageWithOverlay from "../components/SideImageOverlay";
@@ -10,12 +10,12 @@ import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
+import { COLORS } from "../constants/Colors";
 import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import handleScoreModel from "../api/watsonxApi";
 
 //!consider the seed instead of images of crops instead
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
-
 
 interface AdvisorScreenProps {
 	navigation: AdvisorScreenNavigationProp;
@@ -68,7 +68,12 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	}, [userLocation]);
 
 	if (loading) {
-		return <Text style={tw`text-center`}>Loading crop data...</Text>;
+		return (
+			<View style={tw`items-center`}>
+				<AdvisorCardWithText text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results." />
+				<Text style={tw`text-center`}>Loading crop data...</Text>
+			</View>
+		);
 	}
 	return (
 		<View style={tw`flex-1`}>
@@ -76,8 +81,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 				<View style={tw`items-center`}>
 					<AdvisorCardWithText text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results." />
 				</View>
-				<View style={tw`flex-row`}>
-					{/* Filter buttons, Currently test buttons 😅😅 */}
+				{/* <View style={tw`flex-row`}>
 					<FilterButton label="A-Z" onPress={async () => {}} />
 					<FilterButton
 						label="Success Rate"
@@ -87,28 +91,47 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 							});
 						}}
 					/>
-	<FilterButton
-    label="Output Seasons"
-    onPress={async () => {
-        console.log("Output Seasons button pressed");
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); // Log coordinates
+					<FilterButton
+						label="Output Seasons"
+						onPress={async () => {
+							console.log("Output Seasons button pressed");
+							console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); // Log coordinates
 
-        const quarterlyData = await handleScoreModel(Number(latitude), Number(longitude));
-        
-        // Check if quarterlyData includes a season and log it
-        if (quarterlyData && quarterlyData.season) {
-			console.log("Quarterly Data Received: ", quarterlyData); // Log the entire response
-			const season = quarterlyData.season;
+							const quarterlyData = await handleScoreModel(Number(latitude), Number(longitude));
 
-        } else {
-            console.log("No quarterly data or seasons found");
-        }
-    }}
-/>
-				</View>
-				<View style={tw`flex-row`}>
-					<FilterButton label="Output" onPress={() => {}} />
-					<FilterButton label="Complexity" onPress={() => {}} />
+							// Check if quarterlyData includes a season and log it
+							if (quarterlyData && quarterlyData.season) {
+								console.log("Quarterly Data Received: ", quarterlyData); // Log the entire response
+								const season = quarterlyData.season;
+							} else {
+								console.log("No quarterly data or seasons found");
+							}
+						}}
+					/>
+				</View> */}
+				<View style={tw`flex-row align-center items-center justify-between w-[94%] h-15 m-auto`}>
+					<TouchableOpacity
+						style={[
+							tw`flex items-center justify-center h-[60%] px-3 rounded-xl w-[55%]`,
+							{ backgroundColor: COLORS.ACCENT_COLOR },
+						]}
+					>
+						<Text style={tw`text-white text-center`}>See new options</Text>
+					</TouchableOpacity>
+					<View style={tw`flex flex-row items-center justify-around h-[60%]`}>
+						<TouchableOpacity
+							style={tw`min-w-[3rem] rounded-xl border border-gray-500 mx-[2px] h-[100%] justify-center items-center`}
+						>
+							<MaterialCommunityIcons name="chevron-left" size={20} style={tw`text-gray-500`} />
+						</TouchableOpacity>
+						<Text style={tw`text-center mx-1`}>1/1</Text>
+
+						<TouchableOpacity
+							style={tw`min-w-[3rem] rounded-xl border border-gray-500 mx-[2px] h-[100%] justify-center items-center`}
+						>
+							<MaterialCommunityIcons name="chevron-right" size={20} style={tw`text-gray-500`} />
+						</TouchableOpacity>
+					</View>
 				</View>
 
 				{/* Dynamically render SideImageWithOverlay components */}

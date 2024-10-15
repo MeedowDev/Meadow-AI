@@ -13,7 +13,7 @@ export const LARGE_CONTAINER_STYLING = {
 	IMAGE_IN_LARGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`w-[75%] h-{50%}`],
 	LARGE_ROUNDED_STYLING: [tw`my-3 w-[80%] h-[200px] rounded-[40px] justify-center items-center`, { borderWidth: 1, borderColor: COLORS.ACCENT_COLOR }],
 
-	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING: [tw`my-5 flex-col left-2 w-[95%] h-35 bg-white-100 rounded-[30px] `, {borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
+	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING: [tw`my-5 flex-col w-[95%] mx-2 h-35 bg-white-100 rounded-[30px] `, {borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 	SMALL_ROUNDED_iMAGE_CONTAINER_STYLING_IMAGEANDTEXT: [tw`my-6 flex-col w-[300px] h-[180px] bg-white-100 `, {borderWidth: 0, overflow: "hidden",  borderColor: COLORS.LIGHT_GRAY }],
 	IMAGE_IN_SMALL_CONTAINER_STYLING_FARMERSPOINT:  [tw`my-3 justify-start left-5 w-1/5 h-1/4 rounded-[25px]`,{borderWidth: 1, overflow: "hidden",  borderColor: COLORS.ACCENT_COLOR }],
 
