@@ -15,7 +15,7 @@ This solution addresses the issue of market saturation caused when small-scale f
 
 By analyzing data such as temperature, humidity, and rainfall, our application helps farmers make informed decisions about what to plant and when, enabling effective planning. We assist farmers in acquiring the right seeds by collaborating with reputable suppliers, ensuring they have access to the best seeds for their specific environmental conditions, which is crucial for achieving optimal crop performance. 
 
-Our platform covers every aspect of the cultivation process—from soil preparation to land management—providing tailored advice essential for nurturing healthy crops. The integration of IBM's Granite V LLM in our application allows us to provide personalized recommendations that cater to the unique circumstances of each farmer. This continuous support is vital for helping farmers adapt to changing conditions and improve their overall agricultural practices.
+Our platform covers every aspect of the cultivation process—from soil preparation to land management—providing tailored advice essential for nurturing healthy crops. The integration of IBM's Granite-13B-V2-CHAT-LLM in our application allows us to provide personalized recommendations that cater to the unique circumstances of each farmer. This continuous support is vital for helping farmers adapt to changing conditions and improve their overall agricultural practices.
 
 Additionally, our application enables farmers to explore a variety of crop options based on their preferences and market demand. This flexibility is essential in a dynamic agricultural landscape where market conditions and consumer preferences can shift rapidly. 
 
@@ -33,7 +33,7 @@ Our application stands out by offering unique, location-specific recommendations
 
 ### 🛠️ IBM Watsonx Products Used
 - **IBM Watsonx.ai**: Provides tailored crop recommendations based on data analysis.
-- **Granite V LLM**: Used for personalized recommendations catering to individual farmer needs.
+- **Granite-13B-V2-CHAT-LLM**: Used for personalized recommendations catering to individual farmer needs.
 
 ### 📊 Other IBM Technology Used
 - **Watson Machine Learning**: Analyzes environmental data to determine crop suitability.
