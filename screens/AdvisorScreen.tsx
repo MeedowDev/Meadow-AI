@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import React = require("react");
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";
@@ -11,7 +12,6 @@ import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
 import { COLORS } from "../constants/Colors";
-import { getWeatherForecastByCoords } from "../api/openmeteoApi";
 import handleScoreModel from "../api/watsonxApi";
 
 //!consider the seed instead of images of crops instead
