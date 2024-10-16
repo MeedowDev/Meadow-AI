@@ -6,9 +6,9 @@ const fetchAccessToken = async (apiKey: string) => {
 	const headers = {
 		"Content-Type": "application/x-www-form-urlencoded",
 	};
-	console.log("Headers", headers);
+	console.log("***********Headers", headers);
 	const body = `apikey=${encodeURIComponent(apiKey)}&grant_type=urn:ibm:params:oauth:grant-type:apikey`;
-	console.log("Body", body);
+	console.log("***********Body", body);
 
 	const response = await fetch(tokenUrl, {
 		method: "POST",
@@ -21,14 +21,14 @@ const fetchAccessToken = async (apiKey: string) => {
 	}
 
 	const data = await response.json();
-	console.log("Data", data);
+	console.log("***********Data", data);
 	return data.access_token;
 };
 
 // Function to generate text using the fetched access token
 export const generateText = async (input: string) => {
 	try {
-		console.log("Fetching access token...");
+		console.log("***********Fetching access token...");
 		const accessToken = await fetchAccessToken(apiKey).catch((err) => {
 			throw new Error(`Failed to fetch access token: ${err.message}`);
 		});
@@ -49,7 +49,7 @@ export const generateText = async (input: string) => {
 				stop_sequences: [],
 				repetition_penalty: 1,
 			},
-			model_id: "meta-llama/llama-3-8b-instruct",
+			model_id: "ibm/granite-13b-chat-v2",
 			project_id: "84df1d5b-973b-4e70-ba98-411dec5f5d25",
 			moderations: {
 				hap: {
@@ -70,7 +70,7 @@ export const generateText = async (input: string) => {
 				},
 			},
 		};
-		console.log("Body", body);
+		console.log("***********Body", body);
 
 		// Send request to IBM Cloud API
 		const response = await fetch(url, {

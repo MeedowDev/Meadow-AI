@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import React = require("react");
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";

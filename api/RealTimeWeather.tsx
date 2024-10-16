@@ -25,7 +25,6 @@ try {
     }
     
     const weatherData = await response.json();
-    console.log("Weather Data:", weatherData);
 
     // Extract condition text
     const conditionText = weatherData?.current?.condition?.text || "No Weather Data"; // Correct access

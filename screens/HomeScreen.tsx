@@ -15,6 +15,7 @@ import VerticalCard from "../components/verticalCard";
 import AiResponse from "../components/aiRespose";
 import { fetchLlmData } from "../services/aiRecommendation";
 import { useAuth } from "../context/authContext";
+import { fetchBookedSeedsForUser, fetchAllUserData, fetchAllDataCache } from "../db/fetch";
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface HomeScreenProps {
@@ -30,18 +31,38 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const [humidity, setHumidity] = useState<string | null>(null); // New state for humidity
 	const [quarterlyData, setQuarterlyData] = useState<{ season: string } | null>(null); // State for quarterly data
 	const [llmResponse, setLlmResponse] = useState<string | null>("null");
+	const [selectedCrop, setSelectedCrop] = useState<string>("");
+	const [selectedCropVariety, setSelectedCropVariety] = useState<string>("");
 
-	const { user } = useAuth();
+	const { user, crops } = useAuth();
+	const aiResponseLocation = "HomeAdvisor"; //just for easier data cache retrival
+
+	const defaultAIResponse =
+		"Our Ai model is trained on hundreds of crops across East Africa. Use our **AI Advisor** to see what you can plant in your region!";
 
 	useEffect(() => {
 		const fetchLlmRecommendation = async () => {
+			if (!user || !userLocation) return;
+			const cropNames = crops?.map((crop) => crop.cropName);
+
+			// TODO: let the farmer choose the crop they want to get recommendations for
 			try {
+				if (!cropNames || cropNames.length === 0) {
+					throw new Error("No crops found");
+				}
+				console.log("Crops", cropNames[0]);
+
+				setSelectedCrop(cropNames[0].includes("_") ? cropNames[0].split("_")[0] : cropNames[0]);
+				setSelectedCropVariety(cropNames[0].includes("_") ? cropNames[0].split("_")[1] : "");
+
 				const data = await fetchLlmData(
 					user.id,
 					String(userLocation?.coords.longitude),
 					String(userLocation?.coords.latitude),
-					"HomeAdvisor",
-					"Cabbage_Gloria F1",
+					userLocation,
+					aiResponseLocation,
+					{selectedCrop, selectedCropVariety},
+
 					1
 				);
 				setLlmResponse(data); // Store the fetched LLM response
@@ -51,7 +72,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 		};
 
 		fetchLlmRecommendation();
-	}, [user, userLocation]); // Empty dependency array to run once when component mounts
+	}, [user, userLocation, crops]); // Empty dependency array to run once when component mounts
 
 	useEffect(() => {
 		if (userLocation) {
@@ -64,7 +85,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					setPressure(data.current.pressure_mb); // Set pressure
 					setHumidity(data.current.humidity); // Set humidity
 				})
-				.catch((err) => console.log("Error fetching weather data: ", err));
+				.catch((err) => console.log("***********Error fetching weather data: ", err));
 		}
 	}, [userLocation]);
 
@@ -85,7 +106,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 					<View style={tw`p-1 flex w-[50%]`}>
 						<VerticalCard
 							image="aibg4"
-							title="Your SMART Advisor"
+							title="Your AI Advisor"
 							smallerTitle=""
 							text="Get immediate expert advice on what to plant this season!"
 							onPress={() => navigation.navigate("AdvisorTab")}
@@ -115,8 +136,10 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 				</View>
 				{/* to here */}
 				<View style={tw`mx-4 w-80 mt-4 mb-4 min-h-[5rem] bg-gray-200 p-4 rounded-3xl `}>
-					<Text style={tw`font-bold text-lg`}>What should you do to your Gloria F1 Cabbages today?</Text>
-					<AiResponse aiTextParam={llmResponse ?? "loading..."} color="black" />
+					<Text style={tw`font-bold text-lg`}>
+						What should you do to your {selectedCropVariety} {selectedCrop} today?
+					</Text>
+					<AiResponse aiTextParam={llmResponse == null ? defaultAIResponse : (llmResponse ?? "loading...")} color="black" />
 				</View>
 			</ScrollView>
 		</View>

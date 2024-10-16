@@ -89,7 +89,7 @@ export const getWeatherIcon = (condition) => {
         
             // Check if the correct fields exist in the result
             if (result && result.current) {
-              console.log("Current weather data:", result.current); // Log the current weather data
+              console.log("***********Current weather data:", result.current); // Log the current weather data
         
               // Depending on API structure, check the path
               const weatherCondition = result.current.condition?.text || result.current.weather?.[0]?.main || null;

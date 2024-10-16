@@ -1,5 +1,5 @@
 
-🌱 Meedow
+🌱 Meadow
 
 
 📜 Project Overview
