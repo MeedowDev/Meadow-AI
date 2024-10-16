@@ -1,6 +1,6 @@
 <p align="left">
   <img src="https://github.com/user-attachments/assets/55f3ecd6-5540-423a-a083-d7f8c4b94d5d" alt="meadow logo" width="80" style="border-radius: 100%;"/> <!-- Adjust width as needed -->
- <span style="font-size: 88px; margin-left: 10px;">Meadow Project Overview</span>
+ <span style="font-size: 88px; margin-left: 40px;">Meadow Project Overview</span>
 </p>
 
 ## 🌍 The Issue We Are Hoping to Solve
