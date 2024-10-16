@@ -48,8 +48,7 @@ Diagram and step-by-step description of the flow of our solution:
   
 - Finally, the application acts as a facilitator by connecting the farmer with trusted seed suppliers
 
-###  🎥 Presentation materials
-
+##  🎥 Presentation materials
 ### 🤖 Solution demo video
 
 
@@ -69,8 +68,11 @@ The project currently does the following things.
 
 ### How to run the project
 -Node 14 or newer versions required
+
 -Expo CLI: Installed globally
+
 -required packages npm 
+
 -Access the application using expo
 
 ##  🔥 Live demo
