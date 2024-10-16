@@ -1,4 +1,6 @@
-# 🌱 Meedow Project Overview
+#  ![meadow logo](https://github.com/user-attachments/assets/55f3ecd6-5540-423a-a083-d7f8c4b94d5d)
+![meadow logo](https://github.com/user-attachments/assets/cdeb9b12-a80a-4d53-802e-d98b4a78afeb)
+Meedow Project Overview
 
 ## 🌍 The Issue We Are Hoping to Solve
 Many small-scale farmers in Africa remain below the poverty line due to unequal access to agricultural information. This knowledge gap leads to uniform crop planting, causing market saturation and driving prices down. By addressing this issue, we can empower farmers to diversify their crops and enhance their livelihoods.
