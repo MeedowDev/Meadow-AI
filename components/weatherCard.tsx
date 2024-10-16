@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../constants/Colors";
 import tw from "twrnc";
-import handleScoreModel from "../api/watsonxApi";
+import handleFetchSeason from "../api/fetchClimateForecast";
 import { getCurrentWeather } from "../api/RealTimeWeather";
 
 // Utility function to normalize and fetch the correct weather icon
@@ -69,7 +69,7 @@ export const getWeatherIcon = (condition) => {
     useEffect(() => {
         const fetchSeason = async () => {
           try {
-            const result = await handleScoreModel(latitude, longitude);
+            const result = await handleFetchSeason(latitude, longitude);
             console.log("Full result from handleScoreModel:", result);
             if (result && result.season) {
               setSeason(result.season);

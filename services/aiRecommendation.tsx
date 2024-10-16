@@ -7,7 +7,6 @@ import { LocationObject } from "expo-location";
 export async function fetchLlmData(userId: number, longitude: string, latitude: string, userLocation: LocationObject, type: string, subject: object, version: number) {
 	//const dataCachedId = 1;
 	var validityPeriod;
-	//const { userLocation } = useContext(LocationContext);
 	switch (type) {
 		case "HomeAdvisor":
 			validityPeriod = "1";
@@ -26,20 +25,17 @@ export async function fetchLlmData(userId: number, longitude: string, latitude: 
 	const around1500mLongitude = "47.014472";
 	const around1500mLatitude = "-2.090543";
 
-
 	const cacheSubject = `${subject.selectedCrop}`;
 
 	const dataCachedId = await isDataCached(userId, type, cacheSubject, version, longitude, latitude);
-	console.log("!!!!Is data cached values", userId, type, cacheSubject, version, longitude, latitude);
+	console.log("Is data cached values", userId, type, cacheSubject, version, longitude, latitude);
 	if (dataCachedId == null) {
 		const data = await promptHandled(userLocation, `${subject.selectedCrop}, of variety${subject.cropVariety}`);
-		console.log("!!!!!!!!!!!!!!!!Data fetched from prompt generator", data);
 		return data;
 	}
 
 	//Use id stored in dataCached to fetch the data from the database
 	const data = await fetchCachedLlmResponse(dataCachedId);
-	console.log("!!!!!!!!!!!!Data fetched from cache", data);
 
 	//Store the data in the cache so the farmer doesnt have to always be online
 	if (data) await storeResponse(userId, type, subject, data, version, longitude, latitude);

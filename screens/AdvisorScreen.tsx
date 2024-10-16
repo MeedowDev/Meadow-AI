@@ -4,14 +4,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";
 import AdvisorCardWithText from "../components/AdvisorCardWithText";
 import SideImageWithOverlay from "../components/SideImageOverlay";
-import FilterButton from "../components/FilterButtons";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import { LocationContext } from "../context/locationContext";
 import { getMockScoreModel } from "../api/simWatsonxAPI";
 import { cropImageMap } from "../utils/localpaths";
 import { COLORS } from "../constants/Colors";
-import handleScoreModel from "../api/watsonxApi";
+import handleFetchSeason from "../api/fetchClimateForecast";
+import { scoreModel } from "../api/watsonxApi";
 
 //!consider the seed instead of images of crops instead
 type AdvisorScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
@@ -23,7 +23,7 @@ interface AdvisorScreenProps {
 export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const { userLocation, errorMsg } = useContext(LocationContext);
 	const [weather, setWeather] = useState<string | null>(null);
-
+	const [watsonCropData, setWatsonCropData] = useState<any | null>(null);
 	const [cropData, setCropData] = useState<Array<{ crop: string; confidence: number; relatedCrops: Array<{ crop: string; confidence: number }> }> | null>(
 		null
 	);
@@ -32,7 +32,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 	const latitude = String(userLocation?.coords.latitude);
 
 	const formatedDate = (date: Date | string): string => {
-		const d = typeof date === "string" ? new Date(date) : date; // Convert string to Date object if needed
+		const d = typeof date === "string" ? new Date(date) : date; 
 		const year = d.getFullYear();
 		const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
 		const day = String(d.getDate()).padStart(2, "0");
@@ -53,11 +53,18 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		const fetchCropData = async () => {
 			if (userLocation) {
 				const { latitude, longitude } = userLocation.coords;
+				//! Simulated response to save on CUH
 				const response = await getMockScoreModel(latitude, longitude);
 				if (response) {
-					// Assuming response.predictions is an array of crops
 					setCropData(response.predictions);
-					console.log(JSON.stringify(response.predictions, null, 2)); // Log fetched data
+					console.log(JSON.stringify(response.predictions, null, 2));
+				}
+
+				//! Uncomment this to use the IBM
+				const watsonResponse = await handleFetchSeason(Number(latitude), Number(longitude));
+				if (watsonResponse) {
+					setWatsonCropData(watsonResponse);
+					console.log("Watson Response: ", watsonResponse);
 				}
 			}
 			setLoading(false);
@@ -80,34 +87,6 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 				<View style={tw`items-center`}>
 					<AdvisorCardWithText text="Based on your location, we recommend the following crops for you to grow. These crops have been selected based on the upcoming season. Checking with the local agricultural office is recommended for more accurate results." />
 				</View>
-				{/* <View style={tw`flex-row`}>
-					<FilterButton label="A-Z" onPress={async () => {}} />
-					<FilterButton
-						label="Success Rate"
-						onPress={() => {
-							getWeatherForecastByCoords(Number(longitude), Number(latitude)).then((data) => {
-								console.log("Weather Data: ", data);
-							});
-						}}
-					/>
-					<FilterButton
-						label="Output Seasons"
-						onPress={async () => {
-							console.log("Output Seasons button pressed");
-							console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); // Log coordinates
-
-							const quarterlyData = await handleScoreModel(Number(latitude), Number(longitude));
-
-							// Check if quarterlyData includes a season and log it
-							if (quarterlyData && quarterlyData.season) {
-								console.log("Quarterly Data Received: ", quarterlyData); // Log the entire response
-								const season = quarterlyData.season;
-							} else {
-								console.log("No quarterly data or seasons found");
-							}
-						}}
-					/>
-				</View> */}
 				<View style={tw`flex-row align-center items-center justify-between w-[94%] h-15 m-auto`}>
 					<TouchableOpacity
 						style={[
@@ -124,7 +103,6 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 							<MaterialCommunityIcons name="chevron-left" size={20} style={tw`text-gray-500`} />
 						</TouchableOpacity>
 						<Text style={tw`text-center mx-1`}>1/1</Text>
-
 						<TouchableOpacity
 							style={tw`min-w-[3rem] rounded-xl border border-gray-500 mx-[2px] h-[100%] justify-center items-center`}
 						>
@@ -133,8 +111,8 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					</View>
 				</View>
 
-				{/* Dynamically render SideImageWithOverlay components */}
 				<View style={tw`p-1 mb-4`}>
+					{/* TODO: Please change cropData to  watsonCropData to get access the IBM's response*/}
 					{cropData && cropData.length > 0 ? (
 						cropData.map((crop, index) => {
 							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
@@ -162,3 +140,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 		</View>
 	);
 }
+function mockApiResponse(latitude: number, longitude: number) {
+	throw new Error("Function not implemented.");
+}
+
