@@ -15,7 +15,7 @@ We are leveraging `IBM's machine learning model` to provide farmers with tailore
 
 This solution addresses the issue of market saturation caused when small-scale farmers plant the same crops simultaneously, leading to a market glut that drives prices down and diminishes profits. 
 
-By using `IBM's machine learning model` to analyze data such as temperature, humidity, and rainfall, our application helps farmers make informed decisions about what to plant and when, enabling effective planning. We assist farmers in acquiring the right seeds by collaborating with reputable suppliers, ensuring they have access to the best seeds for their specific environmental conditions, which is crucial for achieving optimal crop performance. 
+By using `IBM's machine learning model` to analyze data such as temperature, humidity, and rainfall, windspeed, precipitation our application helps farmers make informed decisions about what to plant and when, enabling effective planning. We assist farmers in acquiring the right seeds by collaborating with reputable suppliers, ensuring they have access to the best seeds for their specific environmental conditions, which is crucial for achieving optimal crop performance. 
 
 Our platform covers every aspect of the cultivation process—from soil preparation to land management—providing tailored advice essential for nurturing healthy crops. The integration of  `IBM's Granite-13b-chat-v2_LLM` in our application allows us to provide personalized recommendations that cater to the unique circumstances of each farmer. This continuous support is vital for helping farmers adapt to changing conditions and improve their overall agricultural practices.
 
@@ -94,7 +94,6 @@ The project currently does the following things.
 
 -`Kim`: For constant feedback during app reviews and tech advice.
 
--`Neno`: For suggestions on UI to make the app more appealing.
+-`Nenoo`: For suggestions on UI to make the app more appealing.
 
 -`Wahome`: For always being available when an extra hand was needed.
-
