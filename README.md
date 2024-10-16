@@ -28,8 +28,7 @@ Our application stands out by offering unique, location-specific recommendations
 ## ⚙️ Technology Implementation
 
 ### 🛠️ IBM Watsonx Products Used
-- **`IBM Watsonx.ai`**: Provides tailored crop recommendations based on data analysis.
-- **`IBM's Granite-13b-chat-v2_LLM`**: Used for personalized recommendations catering to individual farmer needs.
+- **`IBM's Granite-13b-chat-v2_LLM`**: Has been used in our `/api/languageModelAPI.tsx` :  Used to enhance user interactions by generating text responses based on weather data. It fetches weather information using the OpenMeteo API, based on the user's location. Then calculates key metrics and once the weather data is obtained in the `api/promptModel.tsx`, the application then calls the `IBM Granite LLM` in the `/api/languageModelAPI.tsx` to generate a contextual response. This LLM uses the weather information combined with the user's input to create meaningful, tailored text.
 
 ### 📊 Other IBM Technology Used
-- **`Watson Machine Learning`**: Analyzes environmental data to determine crop suitability.
+- **`Watson Machine Learning`**: Has been used in our `screens/AdvisorScreen.tsx` The IBM machine learning model provides tailored crop recommendations for farmers by analyzing various factors, including local soil conditions, climate data, and historical crop success rates. Based on this analysis, the model scores and displays specific crops to the farmer, highlighting their potential success and cultivation complexity. This ensures that the recommendations are not only suitable for the farmer's location but also relevant to their specific circumstances. By using this data-driven approach, farmers can make informed decisions
