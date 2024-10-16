@@ -65,6 +65,17 @@ The project currently does the following things.
 - Assist farmers in acquiring the right seeds
 
 
-### Additional details
+## Additional details
 
-## How to run the project
+### How to run the project
+-Node 14 or newer versions required
+-Expo CLI: Installed globally
+-required packages npm 
+-Access the application using expo
+
+##  🔥 Live demo
+
+
+
+## Acknowledgments
+
