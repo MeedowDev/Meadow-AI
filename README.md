@@ -61,5 +61,5 @@ The project currently does the following things.
 
 - Provides tailored crop recommendations based on their location
 - Provides continuous guidance on effective cultivation practices throughout the growing season
-- Assist farmers in acquiring the right seeds
 - Offers the option to save the crop selected
+- Assist farmers in acquiring the right seeds
