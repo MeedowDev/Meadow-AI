@@ -40,9 +40,9 @@ Diagram and step-by-step description of the flow of our solution:
 
 - The farmer accesses the application interface. Here, they are presented with a user-friendly dashboard that allows them to select a crop they are interested in planting from a curated list.
 
-- Upon selecting a crop, the application leverages a machine learning model that analyzes various parameters relevant to the farmer's location. 
+- Upon selecting a crop, the application leverages a IBM AutoAI machine learning model that analyzes various parameters relevant to the farmer's location. 
 
-- The farmer then engage with an IBM Granite-powered chatbot integrated into the application. This chatbot serves as a virtual assistant, answering any questions the farmer may have about the recommended practices
+- The farmer then engage with an IBM Granite-13-b-v-2-Chat LLM powered chatbot integrated into the application. This chatbot serves as a virtual assistant, answering any questions the farmer may have about the recommended practices
 
 - The farmer has the option to save their crop selection and planning details in their account. This requires them to sign up or log in,.
   
@@ -59,7 +59,7 @@ Diagram and step-by-step description of the flow of our solution:
 
 The project currently does the following things.
 
-- Provide tailored crop recommendations based on their location
+- Provides tailored crop recommendations based on their location
 - Provides continuous guidance on effective cultivation practices throughout the growing season
-- assist farmers in acquiring the right seeds
+- Assist farmers in acquiring the right seeds
 - Offers the option to save the crop selected
