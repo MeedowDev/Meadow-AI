@@ -30,7 +30,7 @@ Our application stands out by offering unique, location-specific recommendations
 ### 🛠️ IBM Watsonx Products Used
 - **`IBM's Granite-13b-chat-v2_LLM`**: Has been used in our `/api/languageModelAPI.tsx` :  Used to enhance user interactions by generating text responses based on weather data. It fetches weather information using the OpenMeteo API, based on the user's location. Then calculates key metrics and once the weather data is obtained in the `api/promptModel.tsx`, the application then calls the `IBM Granite LLM` in the `/api/languageModelAPI.tsx` to generate a contextual response. This LLM uses the weather information combined with the user's input to create meaningful, tailored text.
 
-### 📊 Other IBM Technology Used
+### Other IBM Technology Used
 - **`Watson Machine Learning`**: Has been used in our `screens/AdvisorScreen.tsx` The IBM machine learning model provides tailored crop recommendations for farmers by analyzing various factors, including local soil conditions, climate data, and historical crop success rates. Based on this analysis, the model scores and displays specific crops to the farmer, highlighting their potential success and cultivation complexity. This ensures that the recommendations are not only suitable for the farmer's location but also relevant to their specific circumstances. By using this data-driven approach, farmers can make informed decisions
   
 ### 📦 Solution architecture
@@ -48,7 +48,7 @@ Diagram and step-by-step description of the flow of our solution:
 
 - If the farmer decides to proceed, they can plan to plant the crop for the upcoming season.
 
-- The farmer is given the option to save their crop selection and receive continuous guidance on effective cultivation practices throughout the growing season.
+- The farmer is given the option to save their crop selection where they are required to sign up to their account and receive continuous guidance on effective cultivation practices throughout the growing season.
 
 - The application connects the farmer to trusted seed suppliers, facilitating the acquisition of quality seeds for planting.
 
