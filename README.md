@@ -67,4 +67,4 @@ The project currently does the following things.
 
 ### Additional details
 
-##How to run the project
+## How to run the project
