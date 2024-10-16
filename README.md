@@ -28,7 +28,6 @@ Moreover, our application allows farmers to manage different crops simultaneousl
 Ultimately, our goal is to bridge the gap in agricultural knowledge and resources, enabling farmers to improve their yields, enhance their livelihoods, and contribute to food security in their communities. By fostering a more informed and resourceful farming community, we believe we can make a meaningful impact on agriculture. 
 
 Our application stands out by offering unique, location-specific recommendations tailored to the current conditions of small-scale farmers, directly addressing the limitations of existing small-scale agricultural solutions in Africa.As highlighted in the analysis on smallholder agriculture, addressing the unique challenges faced by these farmers is crucial for food security: "[Smallholder Agriculture and the Challenge of Feeding Ourselves.](https://www.theelephant.info/analysis/2023/05/09/smallholder-agriculture-and-the-challenge-of-feeding-ourselves/#:~:text=Most%20farms%2C%20they%20say%20up,some%20parts%20of%20the%20country.)"
-
 ## ⚙️ Technology Implementation
 
 ### 🛠️ IBM Watsonx Products Used
