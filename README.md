@@ -39,16 +39,10 @@ Diagram and step-by-step description of the flow of our solution:
 ![Meadow Architecture-1](https://github.com/user-attachments/assets/54217a80-3d2c-4dbd-be77-1e67f31297a0)
 
 1.The farmer is presented with an option to select a crop they wish to plant.
-
 2.Crops are arranged based on their suitability for the farmer’s specific location and their predicted success rates.
-
 3.After selecting a crop, the farmer receives tailored recommendations on best practices and considerations for that crop.
-
 4.The farmer assesses whether they truly want to plant the recommended crop based on the information provided.
-
 5.If the farmer decides to proceed, they can plan to plant the crop for the upcoming season.
-
 6.The farmer is given the option to save their crop selection and receive continuous guidance on effective cultivation practices throughout the growing season.
-
 7.The application connects the farmer to trusted seed suppliers, facilitating the acquisition of quality seeds for planting.
 
