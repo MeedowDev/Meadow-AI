@@ -32,3 +32,5 @@ Our application stands out by offering unique, location-specific recommendations
 
 ### 📊 Other IBM Technology Used
 - **`Watson Machine Learning`**: Has been used in our `screens/AdvisorScreen.tsx` The IBM machine learning model provides tailored crop recommendations for farmers by analyzing various factors, including local soil conditions, climate data, and historical crop success rates. Based on this analysis, the model scores and displays specific crops to the farmer, highlighting their potential success and cultivation complexity. This ensures that the recommendations are not only suitable for the farmer's location but also relevant to their specific circumstances. By using this data-driven approach, farmers can make informed decisions
+
+![Meadow Architecture-1](https://github.com/user-attachments/assets/54217a80-3d2c-4dbd-be77-1e67f31297a0)
