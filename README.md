@@ -49,10 +49,11 @@ Diagram and step-by-step description of the flow of our solution:
 - Finally, the application acts as a facilitator by connecting the farmer with trusted seed suppliers
 
 ##  🎥 Presentation materials
-### 🤖 Solution demo video
+### 🤖 Solution video
 
 
-###  🗺️ Project development roadmap
+
+##  🗺️ Project development roadmap
 
 ![Meadow app roadmap-1](https://github.com/user-attachments/assets/643b4718-92c6-4270-ae5c-eda5be4f790a)
 
@@ -79,5 +80,13 @@ The project currently does the following things.
 
 
 
-## Acknowledgments
+
+### Acknowledgments
+### I want to thank the following people for their support in making this application great:
+
+-`Nyakach`: For advice on solidifying the app and solving real problems.
+-`Lyenton`: For technical assistance and resources that helped make it happen.
+-`Kim`: For constant feedback during app reviews and tech advice.
+-`Neno`: For suggestions on UI to make the app more appealing.
+-`Wahome`: For always being available when an extra hand was needed.
 
