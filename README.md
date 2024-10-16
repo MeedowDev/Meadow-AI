@@ -38,19 +38,15 @@ Diagram and step-by-step description of the flow of our solution:
 
 ![Meadow Architecture-1](https://github.com/user-attachments/assets/54217a80-3d2c-4dbd-be77-1e67f31297a0)
 
-- The farmer is presented with an option to select a crop they wish to plant.
+- The farmer accesses the application interface. Here, they are presented with a user-friendly dashboard that allows them to select a crop they are interested in planting from a curated list.
 
-- Crops are arranged based on their suitability for the farmer’s specific location and their predicted success rates.
+- Upon selecting a crop, the application leverages a machine learning model that analyzes various parameters relevant to the farmer's location. 
 
-- After selecting a crop, the farmer receives tailored recommendations on best practices and considerations for that crop.
+- The farmer then engage with an IBM Granite-powered chatbot integrated into the application. This chatbot serves as a virtual assistant, answering any questions the farmer may have about the recommended practices
 
-- The farmer assesses whether they truly want to plant the recommended crop based on the information provided.
-
-- If the farmer decides to proceed, they can plan to plant the crop for the upcoming season.
-
-- The farmer is given the option to save their crop selection where they are required to sign up to their account and receive continuous guidance on effective cultivation practices throughout the growing season.
-
-- The application connects the farmer to trusted seed suppliers, facilitating the acquisition of quality seeds for planting.
+- The farmer has the option to save their crop selection and planning details in their account. This requires them to sign up or log in,.
+  
+- Finally, the application acts as a facilitator by connecting the farmer with trusted seed suppliers
 
 ###  🎥 Presentation materials
 
