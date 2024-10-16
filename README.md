@@ -38,8 +38,8 @@ Diagram and step-by-step description of the flow of our solution:
 
 ![Meadow Architecture-1](https://github.com/user-attachments/assets/54217a80-3d2c-4dbd-be77-1e67f31297a0)
 
--The farmer uses a user-friendly dashboard to select a crop for planting..
-
+- The farmer accesses a user-friendly dashboard to select a crop for planting..
+  
 - Upon selection, the IBM AutoAI machine learning model analyzes various parameters relevant to the farmer's location. 
 
 - The farmer then engage with IBM Granite-13-b-v-2-Chat LLM, which answers questions and provides assistance..
