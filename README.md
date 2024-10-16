@@ -63,3 +63,8 @@ The project currently does the following things.
 - Provides continuous guidance on effective cultivation practices throughout the growing season
 - Offers the option to save the crop selected
 - Assist farmers in acquiring the right seeds
+
+
+### Additional details
+
+##How to run the project
