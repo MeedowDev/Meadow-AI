@@ -31,10 +31,13 @@ Our application stands out by offering unique, location-specific recommendations
 ## ⚙️ Technology Implementation
 
 ### 🛠️ IBM Watsonx Products Used
-- **`IBM's Granite-13b-chat-v2_LLM`**: Has been used in our `/api/languageModelAPI.tsx` :  Used to enhance user interactions by generating text responses based on weather data. It fetches weather information using the OpenMeteo API, based on the user's location. Then calculates key metrics and once the weather data is obtained in the `api/promptModel.tsx`, the application then calls the `IBM Granite LLM` in the `/api/languageModelAPI.tsx` to generate a contextual response. This LLM uses the weather information combined with the user's input to create meaningful, tailored text.
+ **`Wasonx.ai`**:
+ - Weather and Climate Data Analysis: Watsonx.ai has been used to analyze large sets of weather and climate data to predict optimal planting times and crop varieties for specific regions. By using historical and real-time data. This is implemented in `/api/watsonxAPI`
+ - Daily customized instructions on crop growing: watsonx.ai has been implemented in `/api/languageModelAPI.tsx` to provide the farmer with customized instructions on what to do to their crops in the `/screens/homeScreen` page for easy access.
 
 ### Other IBM Technology Used
 - **`Watson Machine Learning`**: Has been used in our `screens/AdvisorScreen.tsx` The IBM machine learning model provides tailored crop recommendations for farmers by analyzing various factors, including local soil conditions, climate data, and historical crop success rates. Based on this analysis, the model scores and displays specific crops to the farmer, highlighting their potential success and cultivation complexity. This ensures that the recommendations are not only suitable for the farmer's location but also relevant to their specific circumstances. By using this data-driven approach, farmers can make informed decisions
+- **`IBM's Granite-13b-chat-v2_LLM`**: Has been used in our `/api/languageModelAPI.tsx` :  Used to enhance user interactions by generating text responses based on weather data. It fetches weather information using the OpenMeteo API, based on the user's location. Then calculates key metrics and once the weather data is obtained in the `api/promptModel.tsx`, the application then calls the `IBM Granite LLM` in the `/api/languageModelAPI.tsx` to generate a contextual response. This LLM uses the weather information combined with the user's input to create meaningful, tailored text.
   
 ## 📦 Solution architecture
 Diagram and step-by-step description of the flow of our solution:
