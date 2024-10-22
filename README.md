@@ -1,5 +1,6 @@
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/55f3ecd6-5540-423a-a083-d7f8c4b94d5d" alt="meadow logo" width="150" style="border-radius: 50%;"/> <!-- Adjust width as needed -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e77de4c7-3492-4267-99af-024d2c723202" alt="Meadow AI project header" style="border-radius: 13;"/>
+
 </p>
 
 ## Meadow Project Overview
