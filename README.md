@@ -1,4 +1,4 @@
-<p align="center">
+  <p align="center">
   <img src="https://github.com/user-attachments/assets/e77de4c7-3492-4267-99af-024d2c723202" alt="Meadow AI project header" style="border-radius: 13;"/>
 
 </p>
@@ -39,6 +39,9 @@ Our application stands out by offering unique, location-specific recommendations
 ### Other IBM Technology Used
 - **`Watson Machine Learning`**: Has been used in our `screens/AdvisorScreen.tsx` The IBM machine learning model provides tailored crop recommendations for farmers by analyzing various factors, including local soil conditions, climate data, and historical crop success rates. Based on this analysis, the model scores and displays specific crops to the farmer, highlighting their potential success and cultivation complexity. This ensures that the recommendations are not only suitable for the farmer's location but also relevant to their specific circumstances. By using this data-driven approach, farmers can make informed decisions
 - **`IBM's Granite-13b-chat-v2_LLM`**: Has been used in our `/api/languageModelAPI.tsx` :  Used to enhance user interactions by generating text responses based on weather data. It fetches weather information using the OpenMeteo API, based on the user's location. Then calculates key metrics and once the weather data is obtained in the `api/promptModel.tsx`, the application then calls the `IBM Granite LLM` in the `/api/languageModelAPI.tsx` to generate a contextual response. This LLM uses the weather information combined with the user's input to create meaningful, tailored text.
+
+### Other Technology Used  
+- **`Open Meteo Climate API`**: Has been used to get several years of daily weather forecast which is used by the application for estimate upcoming seasons to keep the farmer informed
   
 ## 📦 Solution architecture
 Diagram and step-by-step description of the flow of our solution:
