@@ -6,29 +6,25 @@
 # Meadow Project Overview
 
 ## 🌍 The Issue We Are Hoping to Solve
-Many small-scale farmers in Africa remain below the poverty line due to unequal access to agricultural information. This knowledge gap leads to uniform crop planting, causing market saturation and driving prices down. By addressing this issue, we can empower farmers to diversify their crops and enhance their livelihoods.
+In underprivileged communities worldwide, small-scale farmers face inequitable access to crucial agricultural information, leading them to plant the same crops simultaneously. This oversaturation every harvest season drives prices down, and traps farmers in a cycle of poverty.
 
-### 💡 How Our Technology Solution Can Help
-Our solution leverages `IBM's machine learning model` to empower farmers with tailored crop guidance.
+### 💡 How our technology solution can help
+Our solution utilizies AI to ensure equitable access to vital agricultural information
 
 ## 🌿 Our Idea
-We are leveraging `IBM's machine learning model` to provide farmers with tailored crop recommendations based on their location. Our innovative application offers step-by-step guidance for effectively cultivating selected crops. 
+Meadow AI focuses on the `equitable access to agricultural information` — a critical need for sustainable farming and economic resilience. Meadow AI directly addresses the equitability disparity by offering smallholder farmers personalized, real-time agricultural insights tailored to their specific locations.  
 
-This solution addresses the issue of market saturation caused when small-scale farmers plant the same crops simultaneously, leading to a market glut that drives prices down and diminishes profits. 
+In addressing the equitable access theme of this year's Call for Code challenge, Meadow AI pioneers a solution to the information gap in agriculture, an area often overlooked in favour of broader sustainability and climate-focused initiatives. By democratizing agricultural information, we ensure that farmers have the tools they need to make informed decisions about what to plant, when to plant, and how to cultivate effectively, regardless of their financial status or geographic isolation.`This equitable access is essential to empowering farmers and helping them break free from the recurring cycle of market oversupply and food wastage`.   
 
-By using `IBM's machine learning model` to analyze data such as temperature, humidity, and rainfall, windspeed, precipitation our application helps farmers make informed decisions about what to plant and when, enabling effective planning. We assist farmers in acquiring the right seeds by collaborating with reputable suppliers, ensuring they have access to the best seeds for their specific environmental conditions, which is crucial for achieving optimal crop performance. 
+Built using IBM's advanced machine learning models, `Meadow AI provides tailored crop recommendations based on localized data—such` as weather forecasts, soil conditions, and regional patterns—that underprivileged farmers might otherwise lack. This levels the playing field, allowing them to diversify their crops, make smarter decisions, and avoid market saturation that has long kept them at an economic disadvantage.   
 
-Our platform covers every aspect of the cultivation process—from soil preparation to land management—providing tailored advice essential for nurturing healthy crops. The integration of  `IBM's Granite-13b-chat-v2_LLM` in our application allows us to provide personalized recommendations that cater to the unique circumstances of each farmer. This continuous support is vital for helping farmers adapt to changing conditions and improve their overall agricultural practices.
+Our solution goes beyond addressing the challenges of food production; `it tackles the systemic inequities that prevent smallholder farmers from improving their livelihoods`. With step-by-step guidance on cultivating crops, Meadow AI ensures that farmers maximize their yields without falling prey to the unpredictability of market conditions. By providing this crucial information, we bridge the gap between opportunity and action, giving farmers control over their own outcomes.   
 
-Additionally, our application enables farmers to explore a variety of crop options based on their preferences and market demand. This flexibility is essential in a dynamic agricultural landscape where market conditions and consumer preferences can shift rapidly. 
+`Meadow AI isn't just a technological solution—it’s an equalizer`. By granting access to information that was previously unavailable or inaccessible, our platform empowers farmers to improve both their economic status and food security. In doing so, we introduce a new dimension to the ongoing conversation around sustainability and climate resilience. Our solution highlights that sustainable development must also address the critical need for information access, especially for those who have been historically marginalized.   
 
-Farmers can inquire about the sustainability of different crops and receive recommendations based on current and upcoming seasons. This not only helps them maximize their profits but also promotes environmentally friendly practices. 
+Ultimately, `Meadow AI ensures equitable access to the same essential agricultural information enjoyed by larger, more resource-rich farms`, providing a vital tool to smallholder farmers. This focus on equity, combined with advanced technology, positions Meadow AI as a unique and powerful solution to a longstanding problem, empowering farmers to lift themselves out of poverty and contribute meaningfully to global food systems.   
 
-Moreover, our application allows farmers to manage different crops simultaneously, ensuring they can efficiently track the progress of each one. This functionality aids in monitoring growth, identifying potential issues early on, and making necessary adjustments to cultivation practices. 
-
-Ultimately, our goal is to bridge the gap in agricultural knowledge and resources, enabling farmers to improve their yields, enhance their livelihoods, and contribute to food security in their communities. By fostering a more informed and resourceful farming community, we believe we can make a meaningful impact on agriculture. 
-
-Our application stands out by offering unique, location-specific recommendations tailored to the current conditions of small-scale farmers, directly addressing the limitations of existing small-scale agricultural solutions in Africa.As highlighted in the analysis on smallholder agriculture, addressing the unique challenges faced by these farmers is crucial for food security: "[Smallholder Agriculture and the Challenge of Feeding Ourselves.](https://www.theelephant.info/analysis/2023/05/09/smallholder-agriculture-and-the-challenge-of-feeding-ourselves/#:~:text=Most%20farms%2C%20they%20say%20up,some%20parts%20of%20the%20country.)"
+By integrating Meadow AI into agricultural systems, we empower smallholder farmers to take charge of their farming decisions, transforming their ability to predict and respond to market dynamics. This increased access to personalized insights not only improves crop diversification but also strengthens food security, mitigating the risk of crop failures and price drops that often plague these communities. Meadow AI's data-driven approach delivers actionable intelligence that was previously inaccessible, bridging the gap between traditional farming practices and modern technology. In doing so, we enhance farmers' resilience against external shocks like fluctuating weather conditions and volatile markets, offering them a sustainable pathway to economic stability. By leveling the playing field, Meadow AI is fundamentally reshaping the future of agriculture for underprivileged farmers, ensuring that they can fully participate in—and benefit from—global agricultural advancements. This transformative impact positions Meadow AI as a catalyst for both individual empowerment and broader agricultural equity.
 ## ⚙️ Technology Implementation
 
 ### 🛠️ IBM Watsonx Products Used
@@ -48,18 +44,22 @@ Diagram and step-by-step description of the flow of our solution:
 
 ![Meadow Architecture-1](https://github.com/user-attachments/assets/54217a80-3d2c-4dbd-be77-1e67f31297a0)
 
-- The farmer accesses a user-friendly dashboard to select a crop for planting..
+- 1. User accesses Meadow AI and is greeted by a user-friendly app interface.
   
-- Upon selection, the IBM AutoAI machine learning model analyzes various parameters relevant to the farmer's location. 
+- 2. The app provides crop suggestions tailored to the climatic conditions of the user’s area, powered by IBM’s AutoAI machine learning model
 
-- The farmer then engage with IBM Granite-13-b-v-2-Chat LLM, which answers questions and provides assistance..
+- 3. After selecting a crop, the app explains why it's suitable for their region and gives important tips to consider before buying seeds, using IBM's Granite Large Language Model.
 
-- The farmer has the option to save their crop selection and planning details in their account. This requires sign up or log in,.
+- 4. The farmer has the option to save their crop selection and planning details in their account. This requires sign up or log in.
+  
+- 5. Once a crop is marked, the farmer receives daily tips on how to care for the crop, displayed on their home screen.
   
 - Finally, the application acts as a facilitator by connecting the farmer with trusted seed suppliers
 
 ##  🎥 Presentation materials
 ### 🤖 Solution video
+[![Watch the video](https://img.youtube.com/vi/ffZvrM6tmkM/0.jpg)](https://www.youtube.com/watch?v=ffZvrM6tmkM)
+
 
 
 
@@ -75,16 +75,48 @@ The project currently does the following things.
 - Assist farmers in acquiring the right seeds
 
 
-## Additional details
+## Running the project
 
-### How to run the project
--Node 14 or newer versions required
+### Prerequisites
 
--Expo CLI: Installed globally
+Ensure you have the following installed on your machine:  
+- [Node.js](https://nodejs.org/) (version 12.x or higher)  
+- [Expo CLI](https://docs.expo.dev/get-started/installation/) (for running the React Native app)  
+- [Git](https://git-scm.com/)
 
--required packages npm 
+### Cloning the Repository
 
--Access the application using expo
+1. Open your terminal or command prompt.
+2. Clone the repository:
+
+    ```bash
+    git clone https://github.com/MeedowDev/Meadow-AI.git
+    ```
+
+3. Navigate into the project directory:
+
+    ```bash
+    cd Meadow-AI
+    ```
+### Installing Dependencies
+
+Run the following command to install the necessary dependencies:
+
+```bash
+npm install
+```
+
+### Running the application 
+
+1. Start the Expo development server:
+
+```bash
+npm run start
+```
+2. Expo will open a browser window with a QR code.
+3. Install the Expo Go app on your mobile device from app store or play store
+4. Open the Expo Go app on your device and scan the QR code from your browser to load the app on your mobile device.
+
 
 ##  🔥 Live demo
 
