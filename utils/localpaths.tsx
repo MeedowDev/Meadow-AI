@@ -38,6 +38,13 @@ const cropImageMap : { [key: string]: any } = {
     Triticale: require("../assets/crops/Triticale.png"),
     Waterchestnut: require("../assets/crops/Water Chestnut.png"),
     Wetlandtaro: require("../assets/crops/Wetland Taro.png"),
+    Groundnuts: require("../assets/crops/groundnuts.webp"),
+    Beans: require("../assets/crops/katumani.png"),
+    Cucumber: require("../assets/crops/cucumber.png"),
+    Eggplant: require("../assets/crops/eggplant.png"),
+    Chillies: require("../assets/crops/chillies.png"),
+    Butternut: require("../assets/crops/Butternut.png"),
+    gloria: require("../assets/crops/gloria f1.jpeg"),
 };
 
 const homeImageMap: { [key: string]: any } = {

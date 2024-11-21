@@ -33,6 +33,34 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const [llmResponse, setLlmResponse] = useState<string | null>("null");
 	const [selectedCrop, setSelectedCrop] = useState<string>("");
 	const [selectedCropVariety, setSelectedCropVariety] = useState<string>("");
+	const sampleLlmResponse = `Hello Mark!  
+You’ve been growing **Gloria F1 cabbage**, and with the current rainy season, today’s tasks can help maximize your yield. Here are some suggestions on what to do:
+
+### 1. **Inspect for Waterlogging**
+   - Cabbage prefers well-drained soil. Excess water during the rainy season can lead to root rot or other diseases. Ensure there’s no standing water around the plants, and improve drainage if necessary.
+
+### 2. **Monitor for Pests**
+   - Cabbage is prone to pests such as aphids, caterpillars, and root maggots. After heavy rains, check the underside of leaves and stems for pests and remove them by hand or use organic pest control if necessary.
+
+### 3. **Weeding**
+   - Weeds thrive in the rainy season and can compete for nutrients with your cabbage plants. Hand weed or use shallow cultivation to keep the weeds in check, as Gloria F1 cabbage requires sufficient nutrients to grow properly.
+
+### 4. **Apply Organic Mulch**
+   - Mulching with materials such as straw or dried grass can help retain soil moisture, suppress weeds, and keep the roots cool. This is especially useful during periods of alternating rain and heat.
+
+### 5. **Top Dress with Fertilizer**
+   - If it's been a few weeks since transplanting, consider top-dressing your cabbage with nitrogen-rich fertilizer to encourage leafy growth. Rain can sometimes wash nutrients away from the topsoil, so replenish as needed.
+
+### 6. **Disease Prevention**
+   - Rainy weather can encourage fungal diseases like black rot or downy mildew. Inspect leaves for yellowing or dark spots, and remove any affected plants to prevent the spread of disease.
+
+### 7. **Tie Leaves Together (Optional)**
+   - As the cabbage heads begin to form, some farmers tie the outer leaves to protect the developing head from too much moisture or sun exposure.
+
+Keep monitoring your Gloria F1 cabbage regularly during this rainy season for any signs of stress or disease, and adjust your care as needed.
+
+For more in-depth guidance, consider checking resources from local agricultural experts or trusted organizations such as [FAO](http://www.fao.org).
+`;
 
 	const { user, crops } = useAuth();
 	const aiResponseLocation = "HomeAdvisor"; //just for easier data cache retrival

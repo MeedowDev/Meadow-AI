@@ -13,7 +13,6 @@ import { useAuth } from "../context/authContext";
 import SignInSignUpModal from "../components/accountModal";
 import AiResponse from "../components/aiRespose";
 
-
 type SpecificsScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 interface SpecificsScreenProps {
@@ -51,10 +50,7 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 		const booked = await bookSeed(cropName, user.id);
 		if (booked === "success") {
 			await updateBookedSeedsContext();
-			ToastAndroid.show(
-				"Success! We've bookmarked this crop for you! You'll easily find it in your account.",
-				ToastAndroid.LONG
-			);
+			ToastAndroid.show("Success! We've bookmarked this crop for you! You'll easily find it in your account.", ToastAndroid.LONG);
 		} else {
 			ToastAndroid.show(booked, ToastAndroid.SHORT);
 		}
@@ -65,7 +61,7 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 				<View style={tw`w-100%`}>
 					<ImageWithOverlayNonclickable
 						image={cropName.replace(" ", "")}
-						title={cropName}
+						title={cropName.includes("_") ? cropName.split("_")[0] : cropName}
 						smallerTitle=""
 						text="A red fruit and vegetable currently doing very well in internal and external markets"
 					/>
@@ -78,7 +74,9 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 								{ backgroundColor: COLORS.ACCENT_COLOR },
 							]}
 						>
-							<Text style={tw`text-center text-white`}>Plant {cropName} this season?</Text>
+							<Text style={tw`text-center text-white`}>
+								Plant {cropName.includes("_") ? cropName.split("_")[0] : cropName} this season?
+							</Text>
 						</View>
 					</TouchableOpacity>
 
@@ -86,40 +84,47 @@ export default function SpecificsScreen({ navigation }: SpecificsScreenProps) {
 						onPress={handleBookSeed}
 						style={[tw`h-[40px] border justify-center p-3 w-[100%] m-1 rounded-3xl`, { borderColor: COLORS.ACCENT_COLOR }]}
 					>
-						<Text style={tw`text-center`}>Bookmark {cropName} for Another season</Text>
+						<Text style={tw`text-center`}>
+							Bookmark {cropName.includes("_") ? cropName.split("_")[0] : cropName} for Another season
+						</Text>
 					</TouchableOpacity>
 				</View>
-					<View style={tw`p-4 w-[100%]`}>
-						<AiResponse
-						aiTextParam="## Hello Nyakach!!
-Consider the previous planted crop and **observe at least a 3-season break** from **tomato, pepper, potato** or any other crop from the **solanaceous family** to avoid disease cycles. Check the **irrigation water quality** and availability, particularly if you intend to use irrigation. The land should be **gently sloping** to facilitate drainage.
+				<View style={tw`p-4 w-[100%]`}>
+					<AiResponse
+						aiTextParam="### Why Plant **JL24 Groundnuts** in Juja?
 
-## Soil Environment
-Tomatoes can grow in a variety of soil types but do best in **well-drained, deep, uniform clay or silty loams**. The soil should be **loose, deep, and of the correct structure** because **Anna F1** has a root system of more than **60 cm depth**. The optimum **pH for tomato production** is between **6-7.5**.
+1. **Short Growing Period**  
+   JL24 is known for its short maturity period (approximately 90-100 days), which makes it well-suited for regions with unpredictable weather patterns. Juja, with its moderate rainfall and warm temperatures, provides an ideal growing environment for quick-maturing crops like JL24.
 
-## Land Preparation
-Proper land preparation is necessary to **loosen soil** and **break hard pans** or compacted fields. During land preparation, **8 tons of farmyard manure** per acre can be incorporated into the soil to improve its structure.
+2. **Drought Resistance**  
+   Though Juja has a bimodal rainfall pattern, groundnuts like JL24 can tolerate periods of low rainfall. They thrive in areas with well-drained, sandy loam soils, which are common in Juja. This makes JL24 a good option for farmers wanting to reduce water stress risks.
 
-## Seed Requirement
-**Anna F1** is sold in seed counts and is available in leading stockists in all regions of the country. A **plant density of 3 plants per meter squared** is recommended for most regions.
+3. **High Yield Potential**  
+   JL24 is known for its high productivity under favorable conditions. When properly managed in Juja’s climate, this variety can yield a significant number of pods per plant, maximizing profitability per hectare.
 
-## Nursery Management
-**Anna F1 seeds** can be grown either in a seedbed or in trays. If using a seedbed, plant the seeds **1 cm deep** with **15 cm spacing** between the rows.
+4. **Good Market Demand**  
+   Groundnuts have a strong market demand in Kenya for both domestic consumption and export. JL24’s high oil content and attractive kernel size make it especially appealing for oil production and direct consumption, ensuring good sales potential for Juja farmers.
 
-## Germination
-**Anna F1 seeds** take around **8 days to sprout**.
+### Risks to Watch Out For
 
-## Transplanting
-Transplant the seedlings when they are around **28 days old**. For best results, transplant the seedlings in the evening when the weather is cool.
+1. **Aflatoxin Contamination**  
+   Groundnuts are prone to aflatoxin contamination, especially in humid conditions. To minimize this risk in Juja, ensure proper drying of the nuts after harvesting and store them in a cool, dry place to prevent fungal growth.
 
-## Spacing
-**Anna F1 tomatoes** require a spacing of between **45x60 cm** and **60x60 cm** depending on the number of stems/shoots you want your plant to have.
+2. **Pests and Diseases**  
+   JL24 groundnuts can be susceptible to pests like aphids and diseases such as groundnut rosette virus. Be vigilant for yellowing leaves and stunted growth. Regular inspection and timely application of organic pesticides can help keep these issues under control.
+
+3. **Excessive Rainfall**  
+   While JL24 is drought-tolerant, excessive moisture during flowering and pod development can lead to poor yields and fungal infections. In Juja, monitor the weather closely during these critical growth stages, and ensure proper drainage in the fields to avoid waterlogging.
+
+4. **Soil Nutrient Depletion**  
+   Groundnuts fix nitrogen in the soil, but they also deplete other important nutrients like phosphorus and potassium. Continuous cultivation without replenishing the soil can lead to lower yields over time. Use crop rotation strategies and organic compost to maintain soil fertility.
+
+Plant JL24 groundnuts in well-drained soil, with attention to these risks, and they will perform well in Juja's climate!
 "
 						color="black"
 					/>
-						
-					</View>
-					
+				</View>
+
 				<NotificationPanel isVisible={isPanelVisible} cropName={cropName} onClose={togglePanel} />
 				<SignInSignUpModal isVisible={isAccountModalVisible} onClose={toggleAccountModal} />
 			</ScrollView>

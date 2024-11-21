@@ -46,7 +46,7 @@ export default async function handleFetchSeason(latitude: number, longitude: num
 		if (length === 0) {
 			console.error("No daily data available.");
 			return null; // Exit if no data is available
-		}
+		}//comments here
 
 		const start = 0; // Example start index
 		const end = length; // Example end index

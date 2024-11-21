@@ -1,4 +1,4 @@
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, LogBox } from "react-native";
 import AppNavigation from "./navigation/appNavigation";
 import { LocationProvider } from "./context/locationContext";
 import { AuthProvider } from "./context/authContext";
@@ -9,6 +9,7 @@ import * as Font from "expo-font";
 import { useState, useEffect } from "react";
 
 export default function App() {
+	LogBox.ignoreAllLogs();
 	const [isReady, setIsReady] = useState(false);
 	let dbInstance: SQLite.SQLiteDatabase | null = null;
 

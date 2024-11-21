@@ -108,11 +108,52 @@ const weightedRandom = (weights) => {
 // 	console.log(response);
 // });
 
+
+const demoCrops = {
+	status: 200,
+	data: {
+		modelId: "model-demo123",
+		version: "2023-05-29",
+		predictions: [
+			{
+				crop: "Groundnuts_JL24",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2), // Random confidence close to 1
+			},
+			{
+				crop: "Beans_Katumani",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2),
+			},
+			{
+				crop: "Butternut_Squash_Honeynut",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2),
+			},
+			{
+				crop: "Chillies_Scotch_Bonnet",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2),
+			},
+			{
+				crop: "Cucumber_Marketmore_76",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2),
+			},
+			{
+				crop: "Eggplant_Florida_High_Bush",
+				confidence: (Math.random() * 0.15 + 0.85).toFixed(2),
+			},
+		],
+		metadata: {
+			timestamp: new Date().toISOString(),
+			executionTime: "0.5s",
+		},
+	},
+};
+
+
 export const getMockScoreModel = async (longitude: number, latitude: number) => {
 	try {
 		// const rawWeatherData = getWeatherInfo(latitude, longitude);
 		const response = await mockApiResponse([longitude, latitude]);
-		return (response as ApiResponse).data;
+		// return (response as ApiResponse).data;
+		return demoCrops.data;
 	} catch (error) {
 		console.error("Error in getScoreModel:", error);
 		return null;

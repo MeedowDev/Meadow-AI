@@ -60,12 +60,12 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					console.log(JSON.stringify(response.predictions, null, 2));
 				}
 
-				//! Uncomment this to use the IBM
-				const watsonResponse = await handleFetchSeason(Number(latitude), Number(longitude));
-				if (watsonResponse) {
-					setWatsonCropData(watsonResponse);
-					console.log("Watson Response: ", watsonResponse);
-				}
+				//! Uncomment this to use the IBM Watson API, Remember to change the eiterated result from cropData to watsonCropData!
+				 const watsonResponse = await handleFetchSeason(Number(latitude), Number(longitude));
+				 if (watsonResponse) {
+				 	setWatsonCropData(watsonResponse);
+				 	console.log("Watson Response: ", watsonResponse);
+				 }
 			}
 			setLoading(false);
 		};
@@ -115,7 +115,9 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 					{/* TODO: Please change cropData to  watsonCropData to get access the IBM's response*/}
 					{cropData && cropData.length > 0 ? (
 						cropData.map((crop, index) => {
-							const cropName = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase(); // Format the name
+							const name = crop.crop.charAt(0).toUpperCase() + crop.crop.slice(1).toLowerCase();
+							const cropName:string = name.includes("_") ? name.split("_")[0] : name;
+							const variety = name.includes("_") ? name.split("_")[1] : "";
 							const confidence = crop.confidence;
 							// Use require to dynamically set the image path
 							const imageUrl = cropImageMap[cropName];
@@ -124,7 +126,7 @@ export default function InsightsScreen({ navigation }: AdvisorScreenProps) {
 									key={index} // Use index as the key
 									imageSource={imageUrl}
 									title={cropName}
-									smallerTitle={cropName}
+									smallerTitle={variety}
 									text={`Suitability: ${
 										confidence * 100
 									}%\nComplexity: 3/10 *the lower the easier\nOutput per acre: 6000-10000 kg\nPrice per kg: 515.22 Ksh`}
